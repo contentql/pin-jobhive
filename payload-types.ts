@@ -80,7 +80,21 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout?: (HomeType | DetailsType | ListType | NewsletterType | FormType | DisqusCommentsType)[] | null;
+  layout?:
+    | (
+        | DetailsType
+        | ListType
+        | FormType
+        | HeroType
+        | BlogPostsType
+        | CompaniesType
+        | ContentType
+        | ImageBlockType
+        | TeamType
+        | ValuesType
+        | DisqusCommentsType
+      )[]
+    | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -113,64 +127,6 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HomeType".
- */
-export interface HomeType {
-  heading: string;
-  subHeading?: string | null;
-  image: number | Media;
-  subscribeField: boolean;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'Home';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    blogImageSize2?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    blogImageSize3?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "DetailsType".
  */
 export interface DetailsType {
@@ -195,15 +151,17 @@ export interface ListType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "NewsletterType".
+ * via the `definition` "FormType".
  */
-export interface NewsletterType {
-  heading: string;
-  description: string;
-  form?: (number | null) | Form;
+export interface FormType {
+  title: string;
+  form: {
+    relationTo: 'forms';
+    value: number | Form;
+  };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'Newsletter';
+  blockType: 'FormBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -341,17 +299,157 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormType".
+ * via the `definition` "HeroType".
  */
-export interface FormType {
-  title: string;
-  form: {
-    relationTo: 'forms';
-    value: number | Form;
-  };
+export interface HeroType {
+  heading: string;
+  description?: string | null;
+  heroSectionImages?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'FormBlock';
+  blockType: 'Hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    blogImageSize2?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    blogImageSize3?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogPostsType".
+ */
+export interface BlogPostsType {
+  heading: string;
+  description?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'BlogPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CompaniesType".
+ */
+export interface CompaniesType {
+  heading: string;
+  companyLogos?:
+    | {
+        companyLogo: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Companies';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentType".
+ */
+export interface ContentType {
+  heading: string;
+  description?: string | null;
+  contentDetails?:
+    | {
+        title: string;
+        subtitle: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlockType".
+ */
+export interface ImageBlockType {
+  image: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ImageBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamType".
+ */
+export interface TeamType {
+  heading: string;
+  description?: string | null;
+  team?:
+    | {
+        image: number | Media;
+        name?: string | null;
+        designation?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Team';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ValuesType".
+ */
+export interface ValuesType {
+  heading: string;
+  description?: string | null;
+  values?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Values';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -637,11 +735,16 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        Home?: T | HomeTypeSelect<T>;
         Details?: T | DetailsTypeSelect<T>;
         List?: T | ListTypeSelect<T>;
-        Newsletter?: T | NewsletterTypeSelect<T>;
         FormBlock?: T | FormTypeSelect<T>;
+        Hero?: T | HeroTypeSelect<T>;
+        BlogPosts?: T | BlogPostsTypeSelect<T>;
+        Companies?: T | CompaniesTypeSelect<T>;
+        Content?: T | ContentTypeSelect<T>;
+        ImageBlock?: T | ImageBlockTypeSelect<T>;
+        Team?: T | TeamTypeSelect<T>;
+        Values?: T | ValuesTypeSelect<T>;
         DisqusComments?: T | DisqusCommentsTypeSelect<T>;
       };
   meta?:
@@ -672,18 +775,6 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HomeType_select".
- */
-export interface HomeTypeSelect<T extends boolean = true> {
-  heading?: T;
-  subHeading?: T;
-  image?: T;
-  subscribeField?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "DetailsType_select".
  */
 export interface DetailsTypeSelect<T extends boolean = true> {
@@ -703,22 +794,113 @@ export interface ListTypeSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "NewsletterType_select".
+ * via the `definition` "FormType_select".
  */
-export interface NewsletterTypeSelect<T extends boolean = true> {
-  heading?: T;
-  description?: T;
+export interface FormTypeSelect<T extends boolean = true> {
+  title?: T;
   form?: T;
   id?: T;
   blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormType_select".
+ * via the `definition` "HeroType_select".
  */
-export interface FormTypeSelect<T extends boolean = true> {
-  title?: T;
-  form?: T;
+export interface HeroTypeSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  heroSectionImages?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogPostsType_select".
+ */
+export interface BlogPostsTypeSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CompaniesType_select".
+ */
+export interface CompaniesTypeSelect<T extends boolean = true> {
+  heading?: T;
+  companyLogos?:
+    | T
+    | {
+        companyLogo?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentType_select".
+ */
+export interface ContentTypeSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  contentDetails?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlockType_select".
+ */
+export interface ImageBlockTypeSelect<T extends boolean = true> {
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamType_select".
+ */
+export interface TeamTypeSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  team?:
+    | T
+    | {
+        image?: T;
+        name?: T;
+        designation?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ValuesType_select".
+ */
+export interface ValuesTypeSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  values?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
