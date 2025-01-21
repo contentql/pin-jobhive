@@ -1,11 +1,3 @@
-import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { CustomSlugModeField as CustomSlugModeField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
-import { CustomSlugField as CustomSlugField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
-import { CustomPathField as CustomPathField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
 import { RscEntrySlateCell as RscEntrySlateCell_0e78253914a550fdacd75626f1dabe17 } from '@payloadcms/richtext-slate/rsc'
 import { RscEntrySlateField as RscEntrySlateField_0e78253914a550fdacd75626f1dabe17 } from '@payloadcms/richtext-slate/rsc'
 import { BoldLeafButton as BoldLeafButton_0b388c087d9de8c4f011dd323a130cfb } from '@payloadcms/richtext-slate/client'
@@ -65,6 +57,14 @@ import { UnorderedListElement as UnorderedListElement_0b388c087d9de8c4f011dd323a
 import { UploadElementButton as UploadElementButton_0b388c087d9de8c4f011dd323a130cfb } from '@payloadcms/richtext-slate/client'
 import { UploadElement as UploadElement_0b388c087d9de8c4f011dd323a130cfb } from '@payloadcms/richtext-slate/client'
 import { WithUpload as WithUpload_0b388c087d9de8c4f011dd323a130cfb } from '@payloadcms/richtext-slate/client'
+import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { CustomSlugModeField as CustomSlugModeField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
+import { CustomSlugField as CustomSlugField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
+import { CustomPathField as CustomPathField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
 import { CustomPublishOnFieldLabel as CustomPublishOnFieldLabel_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
 import { CustomPublishOnField as CustomPublishOnField_6a7c9851ebd211fa288fcd19fbdf430e } from '@contentql/core/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
@@ -75,14 +75,6 @@ import { default as default_fe373fe27f1063cfe032cdbcc74c397a } from '/src/payloa
 import { default as default_d04d5322bc326e90e9d559df021a5610 } from '/src/payload/style/icons/Logo.tsx'
 
 export const importMap = {
-  "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@contentql/core/client#CustomSlugModeField": CustomSlugModeField_6a7c9851ebd211fa288fcd19fbdf430e,
-  "@contentql/core/client#CustomSlugField": CustomSlugField_6a7c9851ebd211fa288fcd19fbdf430e,
-  "@contentql/core/client#CustomPathField": CustomPathField_6a7c9851ebd211fa288fcd19fbdf430e,
   "@payloadcms/richtext-slate/rsc#RscEntrySlateCell": RscEntrySlateCell_0e78253914a550fdacd75626f1dabe17,
   "@payloadcms/richtext-slate/rsc#RscEntrySlateField": RscEntrySlateField_0e78253914a550fdacd75626f1dabe17,
   "@payloadcms/richtext-slate/client#BoldLeafButton": BoldLeafButton_0b388c087d9de8c4f011dd323a130cfb,
@@ -142,6 +134,14 @@ export const importMap = {
   "@payloadcms/richtext-slate/client#UploadElementButton": UploadElementButton_0b388c087d9de8c4f011dd323a130cfb,
   "@payloadcms/richtext-slate/client#UploadElement": UploadElement_0b388c087d9de8c4f011dd323a130cfb,
   "@payloadcms/richtext-slate/client#WithUpload": WithUpload_0b388c087d9de8c4f011dd323a130cfb,
+  "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@contentql/core/client#CustomSlugModeField": CustomSlugModeField_6a7c9851ebd211fa288fcd19fbdf430e,
+  "@contentql/core/client#CustomSlugField": CustomSlugField_6a7c9851ebd211fa288fcd19fbdf430e,
+  "@contentql/core/client#CustomPathField": CustomPathField_6a7c9851ebd211fa288fcd19fbdf430e,
   "@contentql/core/client#CustomPublishOnFieldLabel": CustomPublishOnFieldLabel_6a7c9851ebd211fa288fcd19fbdf430e,
   "@contentql/core/client#CustomPublishOnField": CustomPublishOnField_6a7c9851ebd211fa288fcd19fbdf430e,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,

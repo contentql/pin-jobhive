@@ -9,6 +9,7 @@ import { Hero } from './Hero'
 import { ImageBlock } from './ImageBlock'
 import List from './List/component'
 import { Team } from './Team'
+import { TermsOrPrivacy } from './TermsOrPrivacy'
 import { Values } from './Values'
 
 export const blocksJSX = {
@@ -23,4 +24,5 @@ export const blocksJSX = {
   ImageBlock,
   Team,
   Values,
+  TermsOrPrivacy,
 }

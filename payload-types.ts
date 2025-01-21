@@ -92,6 +92,7 @@ export interface Page {
         | ImageBlockType
         | TeamType
         | ValuesType
+        | TermsOrPrivacyType
         | DisqusCommentsType
       )[]
     | null;
@@ -453,6 +454,21 @@ export interface ValuesType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TermsOrPrivacyType".
+ */
+export interface TermsOrPrivacyType {
+  /**
+   * Main content of the page. Use the rich text editor for formatting.
+   */
+  content: {
+    [k: string]: unknown;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'TermsOrPrivacy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "DisqusCommentsType".
  */
 export interface DisqusCommentsType {
@@ -745,6 +761,7 @@ export interface PagesSelect<T extends boolean = true> {
         ImageBlock?: T | ImageBlockTypeSelect<T>;
         Team?: T | TeamTypeSelect<T>;
         Values?: T | ValuesTypeSelect<T>;
+        TermsOrPrivacy?: T | TermsOrPrivacyTypeSelect<T>;
         DisqusComments?: T | DisqusCommentsTypeSelect<T>;
       };
   meta?:
@@ -901,6 +918,15 @@ export interface ValuesTypeSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TermsOrPrivacyType_select".
+ */
+export interface TermsOrPrivacyTypeSelect<T extends boolean = true> {
+  content?: T;
   id?: T;
   blockName?: T;
 }

@@ -10,6 +10,7 @@ import { HeroConfig } from './Hero'
 import { ImageBlockConfig } from './ImageBlock'
 import { ListConfig } from './List'
 import { TeamConfig } from './Team'
+import { TermsOrPrivacyConfig } from './TermsOrPrivacy'
 import { ValuesConfig } from './Values'
 
 // Exporting an object that maps block names (as keys) to their corresponding JSX components (as values)
@@ -28,4 +29,5 @@ export const blocksConfig = [
   ImageBlockConfig,
   TeamConfig,
   ValuesConfig,
+  TermsOrPrivacyConfig,
 ]
