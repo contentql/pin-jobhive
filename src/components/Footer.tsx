@@ -1,3 +1,9 @@
+import { SiteSetting } from '@payload-types'
+import Link from 'next/link'
+
+import { generateMenuLinks } from '@/utils/generateMenuLinks'
+import { logoMapping } from '@/utils/logoMapping'
+
 const footerNavigation = {
   main: [
     { name: 'About', href: '#' },
@@ -71,35 +77,42 @@ const footerNavigation = {
     },
   ],
 }
-const Footer = () => {
+const Footer = ({ footerData }: { footerData: SiteSetting['footer'] }) => {
+  const { footerLinks, socialLinks } = footerData
+  const menuLinks = footerLinks?.length ? generateMenuLinks(footerLinks) : []
   return (
     <footer className='mt-16 sm:mt-32'>
       <div className='mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8'>
         <nav
           aria-label='Footer'
           className='-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6'>
-          {footerNavigation.main.map(item => (
-            <a
-              key={item.name}
-              href={item.href}
+          {menuLinks?.map((item, index) => (
+            <Link
+              key={index}
+              href={item?.href!}
+              target={item?.newTab ? '_blank' : '_self'}
               className='text-gray-600 hover:text-gray-900'>
-              {item.name}
-            </a>
+              {item?.label}
+            </Link>
           ))}
         </nav>
         <div className='mt-16 flex justify-center gap-x-10'>
-          {footerNavigation.social.map(item => (
-            <a
-              key={item.name}
-              href={item.href}
-              className='text-gray-600 hover:text-gray-800'>
-              <span className='sr-only'>{item.name}</span>
-              <item.icon aria-hidden='true' className='size-6' />
-            </a>
-          ))}
+          {socialLinks?.map((item, index) => {
+            const Component = logoMapping[item?.platform]
+
+            return (
+              <a
+                key={index}
+                href={item?.value}
+                className='text-gray-600 hover:text-gray-800'>
+                <span className='sr-only'>{item?.platform}</span>
+                <Component className='size-6 [&_path]:fill-secondary' />
+              </a>
+            )
+          })}
         </div>
         <p className='mt-10 text-center text-sm/6 text-gray-600'>
-          &copy; 2024 Your Company, Inc. All rights reserved.
+          {footerData?.copyright}
         </p>
       </div>
     </footer>
