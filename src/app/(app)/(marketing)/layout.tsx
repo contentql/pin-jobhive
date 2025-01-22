@@ -16,8 +16,8 @@ const MarketingLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <MetadataProvider metadata={metadata}>
       <div className='grid min-h-screen w-full grid-rows-[1fr_auto]'>
-        <Header />
-        <main className='isolate my-20'>{children}</main>
+        <Header headerData={metadata?.navbar} />
+        <main className='isolate'>{children}</main>
         <Footer footerData={metadata?.footer} />
         <Branding />
       </div>

@@ -2,7 +2,12 @@
 
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Media, SiteSetting } from '@payload-types'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
+
+import { generateMenuLinks } from '@/utils/generateMenuLinks'
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -10,20 +15,23 @@ const navigation = [
   { name: 'Resources', href: '#' },
   { name: 'Company', href: '#' },
 ]
-const Header = () => {
+const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { logo, menuLinks } = headerData
+  const navLinks = menuLinks?.length ? generateMenuLinks(menuLinks) : []
 
   return (
-    <header className='absolute inset-x-0 top-0 z-50'>
+    <header className='sticky top-0 z-50 bg-white'>
       <nav
         aria-label='Global'
         className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'>
         <div className='flex lg:flex-1'>
-          <a href='#' className='-m-1.5 p-1.5'>
-            <span className='sr-only'>Your Company</span>
-            <img
-              alt=''
-              src='https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600'
+          <a href='/' className='-m-1.5 p-1.5'>
+            <Image
+              height={1000}
+              width={1000}
+              alt={(logo?.imageUrl as Media)?.alt!}
+              src={(logo?.imageUrl as Media)?.url!}
               className='h-8 w-auto'
             />
           </a>
@@ -38,13 +46,14 @@ const Header = () => {
           </button>
         </div>
         <div className='hidden lg:flex lg:gap-x-12'>
-          {navigation.map(item => (
-            <a
-              key={item.name}
-              href={item.href}
+          {navLinks?.map((item, index) => (
+            <Link
+              key={index}
+              target={item?.newTab ? '_blank' : '_self'}
+              href={item?.href!}
               className='text-sm/6 font-semibold text-gray-900'>
-              {item.name}
-            </a>
+              {item?.label}
+            </Link>
           ))}
         </div>
         <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
