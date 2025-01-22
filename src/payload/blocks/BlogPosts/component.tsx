@@ -21,7 +21,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ params, ...block }) => {
         <p className='mt-2 text-lg/8 text-gray-600'>{block?.description}</p>
       </div>
       <div className='mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3'>
-        {blogData?.map((post, index) => {
+        {blogData?.slice(0, 3)?.map((post, index) => {
           let date = format(new Date(post?.createdAt), 'MMM dd, yyyy')
           return (
             <article
