@@ -91,7 +91,7 @@ const Footer = ({ footerData }: { footerData: SiteSetting['footer'] }) => {
               key={index}
               href={item?.href!}
               target={item?.newTab ? '_blank' : '_self'}
-              className='text-gray-600 hover:text-gray-900'>
+              className='text-text/70 hover:text-text'>
               {item?.label}
             </Link>
           ))}
@@ -104,14 +104,14 @@ const Footer = ({ footerData }: { footerData: SiteSetting['footer'] }) => {
               <a
                 key={index}
                 href={item?.value}
-                className='text-gray-600 hover:text-gray-800'>
+                className='text-text/70 hover:text-text'>
                 <span className='sr-only'>{item?.platform}</span>
                 <Component className='size-6 [&_path]:fill-secondary' />
               </a>
             )
           })}
         </div>
-        <p className='mt-10 text-center text-sm/6 text-gray-600'>
+        <p className='mt-10 text-center text-sm/6 text-text/70'>
           {footerData?.copyright}
         </p>
       </div>

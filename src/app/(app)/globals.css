@@ -23,54 +23,12 @@
 */
 
 @layer base {
-  /* followed the shadcn format of extracting values out of hsl code to support tailwind opacity values like bg-primary/90 etc  */
-  /* :root {
-    --primary: 269 61% 67%;
-    --text: 240 5% 96%;
-    --secondary: 240 5% 65%;
-    --background: 240 10% 4%;
-    --card: 240 6% 10%;
-    --input: 240 3% 34%;
-    --info: 206 92% 69%;
-    --info-foreground: 210 78% 16%;
-    --warning: 35 100% 50%;
-    --warning-foreground: 28 100% 11%;
-    --danger: 357 100% 67%;
-    --danger-foreground: 353 68% 16%;
-    --success: 144 100% 40%;
-    --success-foreground: 133 100% 10%;
-  } */
-
-  .dark {
-    --primary: 269 61% 67%;
-    --text: 240 5% 96%;
-    --secondary: 240 5% 65%;
-    --background: 240 10% 4%;
-    --card: 240 6% 10%;
-    --input: 240 3% 34%;
-    --info: 206 92% 69%;
-    --info-foreground: 210 78% 16%;
-    --warning: 35 100% 50%;
-    --warning-foreground: 28 100% 11%;
-    --danger: 357 100% 67%;
-    --danger-foreground: 353 68% 16%;
-    --success: 144 100% 40%;
-    --success-foreground: 133 100% 10%;
-    --popover: 0 0% 5%;
-    --pink: 289 68 82;
-    --indigo: 185 100% 74;
-  }
-
   html {
-    @apply scroll-smooth bg-background text-primary antialiased;
-  }
-
-  body {
-    @apply text-base text-text;
+    @apply scroll-smooth bg-background text-text antialiased;
   }
 
   * {
-    @apply border-secondary/10 outline-offset-4 outline-primary;
+    @apply border-border outline-offset-4;
   }
 }
 

@@ -19,10 +19,12 @@ const config: Config = {
     },
     extend: {
       colors: {
-        primary: 'hsl(var(--primary))',
-        text: 'hsl(var(--text))',
-        secondary: 'hsl(var(--secondary))',
         background: 'hsl(var(--background))',
+        text: 'hsl(var(--text))',
+        foreground: 'hsl(var(--foreground))',
+        primary: 'hsl(var(--primary))',
+        border: 'hsl(var(--border))',
+
         card: 'hsl(var(--card))',
         input: 'hsl(var(--input))',
         transparent: 'transparent',

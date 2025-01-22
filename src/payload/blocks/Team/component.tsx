@@ -10,10 +10,10 @@ const Team: React.FC<TeamProps> = ({ params, ...block }) => {
   return (
     <div className='mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8'>
       <div className='mx-auto max-w-2xl lg:mx-0'>
-        <h2 className='text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl'>
+        <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
           {block?.heading}
         </h2>
-        <p className='mt-6 text-lg/8 text-gray-600'>{block?.description}</p>
+        <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
       </div>
       <ul
         role='list'
@@ -27,10 +27,10 @@ const Team: React.FC<TeamProps> = ({ params, ...block }) => {
               src={(person?.image as Media)?.url!}
               className='mx-auto size-24 rounded-full'
             />
-            <h3 className='mt-6 text-base/7 font-semibold tracking-tight text-gray-900'>
+            <h3 className='mt-6 text-base/7 font-semibold tracking-tight'>
               {person?.name}
             </h3>
-            <p className='text-sm/6 text-gray-600'>{person?.designation}</p>
+            <p className='text-sm/6 text-text/70'>{person?.designation}</p>
           </li>
         ))}
       </ul>
