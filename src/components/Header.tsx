@@ -9,6 +9,8 @@ import { useState } from 'react'
 
 import { generateMenuLinks } from '@/utils/generateMenuLinks'
 
+import ToggleTheme from './ToggleTheme'
+
 const navigation = [
   { name: 'Product', href: '#' },
   { name: 'Features', href: '#' },
@@ -21,7 +23,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
   const navLinks = menuLinks?.length ? generateMenuLinks(menuLinks) : []
 
   return (
-    <header className='sticky top-0 z-50 bg-white'>
+    <header className='sticky top-0 z-50 bg-background bg-opacity-90 shadow backdrop-blur-md'>
       <nav
         aria-label='Global'
         className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'>
@@ -32,7 +34,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
               width={1000}
               alt={(logo?.imageUrl as Media)?.alt!}
               src={(logo?.imageUrl as Media)?.url!}
-              className='h-8 w-auto'
+              className='h-8 w-auto dark:invert'
             />
           </a>
         </div>
@@ -51,16 +53,17 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
               key={index}
               target={item?.newTab ? '_blank' : '_self'}
               href={item?.href!}
-              className='text-sm/6 font-semibold text-gray-900'>
+              className='text-sm/6 font-semibold'>
               {item?.label}
             </Link>
           ))}
         </div>
-        <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-          <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+        <div className='mr-3 hidden lg:flex lg:flex-1 lg:justify-end'>
+          <a href='#' className='text-sm/6 font-semibold'>
             Log in <span aria-hidden='true'>&rarr;</span>
           </a>
         </div>
+        <ToggleTheme />
       </nav>
       <Dialog
         open={mobileMenuOpen}
