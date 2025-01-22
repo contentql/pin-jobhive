@@ -24,6 +24,8 @@ const HeroConfig: Block = {
       name: 'heroSectionImages',
       label: 'Hero Section Images',
       type: 'array',
+      minRows: 1,
+      maxRows: 5,
       fields: [
         {
           name: 'image',
