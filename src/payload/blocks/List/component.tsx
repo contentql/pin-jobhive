@@ -5,8 +5,8 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import React from 'react'
 
+import AllBlogs from './components/AllBlogs'
 import AuthorsList from './components/AuthorsList'
-import BlogsList from './components/BlogsList'
 import TagsList from './components/TagsList'
 
 interface ListProps extends ListType {
@@ -32,7 +32,7 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
         { tags: ['list-blogs'] },
       )()
 
-      return <BlogsList blogs={blogs} title={block['title']} />
+      return <AllBlogs blogs={blogs} title={block['title'] || 'Blogs'} />
     }
 
     case 'tags': {
