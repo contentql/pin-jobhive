@@ -55,8 +55,8 @@ const config: Config = {
         xs: '0.8rem',
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
+        display: ['var(--font-display)'],
+        body: ['var(--font-body)'],
       },
       transitionTimingFunction: {
         'custom-ease': 'cubic-bezier(0.33, 1, 0.68, 1)',

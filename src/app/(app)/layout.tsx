@@ -8,8 +8,6 @@ import {
 import { env } from '@env'
 import configPromise from '@payload-config'
 import { SiteSetting } from '@payload-types'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
@@ -289,8 +287,7 @@ export default async function RootLayout({
         <GoogleAnalytics metadata={metadata} />
       </head>
 
-      <body
-        className={`${GeistSans.className} ${GeistMono.variable} antialiased`}>
+      <body className={`font-body antialiased`}>
         <Provider>{children}</Provider>
 
         {/* Sonnar toast library */}
