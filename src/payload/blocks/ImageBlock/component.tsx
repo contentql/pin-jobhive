@@ -14,7 +14,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ params, ...block }) => {
         width={1000}
         alt={(block?.image as Media)?.alt || 'Image'}
         src={(block?.image as Media)?.url!}
-        className='aspect-[5/2] w-full object-cover xl:rounded-3xl'
+        className='aspect-[5/2] w-full object-cover xl:rounded'
       />
     </div>
   )

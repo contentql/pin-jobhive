@@ -49,7 +49,7 @@ const config: Config = {
         indigo: 'hsl(var(--indigo))',
       },
       borderRadius: {
-        DEFAULT: '0.5rem',
+        DEFAULT: 'var(--border-radius)',
       },
       fontSize: {
         xs: '0.8rem',

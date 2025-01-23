@@ -70,9 +70,9 @@ const Hero: React.FC<HeroProps> = ({ params, ...block }) => {
                       src={
                         (block?.heroSectionImages?.at(0)?.image as Media)?.url!
                       }
-                      className='aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
+                      className='aspect-[2/3] w-full rounded bg-gray-900/5 object-cover shadow-lg'
                     />
-                    <div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10' />
+                    <div className='pointer-events-none absolute inset-0 rounded ring-1 ring-inset ring-gray-900/10' />
                   </div>
                 </div>
               )}
@@ -88,9 +88,9 @@ const Hero: React.FC<HeroProps> = ({ params, ...block }) => {
                       src={
                         (block?.heroSectionImages?.at(1)?.image as Media)?.url!
                       }
-                      className='aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
+                      className='aspect-[2/3] w-full rounded bg-gray-900/5 object-cover shadow-lg'
                     />
-                    <div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10' />
+                    <div className='pointer-events-none absolute inset-0 rounded ring-1 ring-inset ring-gray-900/10' />
                   </div>
                   {block?.heroSectionImages?.at(2) && (
                     <div className='relative'>
@@ -105,9 +105,9 @@ const Hero: React.FC<HeroProps> = ({ params, ...block }) => {
                           (block?.heroSectionImages?.at(2)?.image as Media)
                             ?.url!
                         }
-                        className='aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
+                        className='aspect-[2/3] w-full rounded bg-gray-900/5 object-cover shadow-lg'
                       />
-                      <div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10' />
+                      <div className='pointer-events-none absolute inset-0 rounded ring-1 ring-inset ring-gray-900/10' />
                     </div>
                   )}
                 </div>
@@ -124,9 +124,9 @@ const Hero: React.FC<HeroProps> = ({ params, ...block }) => {
                       src={
                         (block?.heroSectionImages?.at(3)?.image as Media)?.url!
                       }
-                      className='aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
+                      className='aspect-[2/3] w-full rounded bg-gray-900/5 object-cover shadow-lg'
                     />
-                    <div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10' />
+                    <div className='pointer-events-none absolute inset-0 rounded ring-1 ring-inset ring-gray-900/10' />
                   </div>
                   {block?.heroSectionImages?.at(4) && (
                     <div className='relative'>
@@ -141,9 +141,9 @@ const Hero: React.FC<HeroProps> = ({ params, ...block }) => {
                           (block?.heroSectionImages?.at(4)?.image as Media)
                             ?.url!
                         }
-                        className='aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
+                        className='aspect-[2/3] w-full rounded bg-gray-900/5 object-cover shadow-lg'
                       />
-                      <div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10' />
+                      <div className='pointer-events-none absolute inset-0 rounded ring-1 ring-inset ring-gray-900/10' />
                     </div>
                   )}
                 </div>

@@ -36,7 +36,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
           <button
             type='button'
             onClick={() => setMobileMenuOpen(true)}
-            className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-text/70'>
+            className='-m-2.5 inline-flex items-center justify-center rounded p-2.5 text-text/70'>
             <span className='sr-only'>Open main menu</span>
             <Bars3Icon aria-hidden='true' className='size-6' />
           </button>
@@ -78,7 +78,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
             <button
               type='button'
               onClick={() => setMobileMenuOpen(false)}
-              className='-m-2.5 rounded-md p-2.5 text-text/70'>
+              className='-m-2.5 rounded p-2.5 text-text/70'>
               <span className='sr-only'>Close menu</span>
               <XMarkIcon aria-hidden='true' className='size-6' />
             </button>
@@ -91,7 +91,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
                     key={index}
                     href={item?.href!}
                     target={item?.newTab ? '_blank' : '_self'}
-                    className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-background/20'>
+                    className='-mx-3 block rounded px-3 py-2 text-base/7 font-semibold hover:bg-background/20'>
                     {item?.label}
                   </Link>
                 ))}
@@ -99,7 +99,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
               <div className='py-6'>
                 <a
                   href='#'
-                  className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold hover:bg-background/20'>
+                  className='-mx-3 block rounded px-3 py-2.5 text-base/7 font-semibold hover:bg-background/20'>
                   Log in
                 </a>
               </div>
