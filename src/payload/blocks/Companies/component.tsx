@@ -51,7 +51,7 @@ const Companies: React.FC<CompaniesProps> = ({ params, ...block }) => {
               src={(logo?.companyLogo as Media)?.url!}
               width={1000}
               height={1000}
-              className='col-span-2 max-h-12 w-full object-contain lg:col-span-1'
+              className='col-span-2 max-h-12 w-full object-contain dark:invert lg:col-span-1'
             />
           ))}
         </div>
