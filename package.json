@@ -41,6 +41,7 @@
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-select": "^2.1.2",
+    "@radix-ui/react-switch": "^1.1.2",
     "@react-email/components": "^0.0.22",
     "@slate-serializers/html": "^2.2.1",
     "@t3-oss/env-nextjs": "^0.10.1",
@@ -69,6 +70,7 @@
     "mongodb": "^6.8.0",
     "next": "^15.0.4",
     "next-nprogress-bar": "^2.3.14",
+    "next-themes": "^0.4.4",
     "node-schedule": "^2.1.1",
     "ora": "^8.0.1",
     "payload": "^3.5.0",
@@ -85,8 +87,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8",
-    "next-themes": "^0.4.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
