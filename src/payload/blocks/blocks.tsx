@@ -4,6 +4,7 @@ import { BlogPosts } from './BlogPosts'
 import { Companies } from './Companies'
 import { Content } from './Content'
 import { Details } from './Details'
+import { FeaturedJobs } from './FeaturedJobs'
 import { FormBlock } from './Form'
 import { Hero } from './Hero'
 import { ImageBlock } from './ImageBlock'
@@ -25,4 +26,5 @@ export const blocksJSX = {
   Team,
   Values,
   TermsOrPrivacy,
+  FeaturedJobs,
 }

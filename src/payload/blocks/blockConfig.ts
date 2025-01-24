@@ -5,6 +5,7 @@ import { BlogPostsConfig } from './BlogPosts'
 import { CompaniesConfig } from './Companies'
 import { ContentConfig } from './Content'
 import { DetailsConfig } from './Details'
+import { FeaturedJobsConfig } from './FeaturedJobs'
 import { FormConfig } from './Form'
 import { HeroConfig } from './Hero'
 import { ImageBlockConfig } from './ImageBlock'
@@ -30,4 +31,5 @@ export const blocksConfig = [
   TeamConfig,
   ValuesConfig,
   TermsOrPrivacyConfig,
+  FeaturedJobsConfig,
 ]

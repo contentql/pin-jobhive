@@ -93,6 +93,7 @@ export interface Page {
         | TeamType
         | ValuesType
         | TermsOrPrivacyType
+        | FeaturedJobsType
         | DisqusCommentsType
       )[]
     | null;
@@ -469,6 +470,18 @@ export interface TermsOrPrivacyType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedJobsType".
+ */
+export interface FeaturedJobsType {
+  heading?: string | null;
+  description?: string | null;
+  buttonText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'FeaturedJobs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "DisqusCommentsType".
  */
 export interface DisqusCommentsType {
@@ -762,6 +775,7 @@ export interface PagesSelect<T extends boolean = true> {
         Team?: T | TeamTypeSelect<T>;
         Values?: T | ValuesTypeSelect<T>;
         TermsOrPrivacy?: T | TermsOrPrivacyTypeSelect<T>;
+        FeaturedJobs?: T | FeaturedJobsTypeSelect<T>;
         DisqusComments?: T | DisqusCommentsTypeSelect<T>;
       };
   meta?:
@@ -927,6 +941,17 @@ export interface ValuesTypeSelect<T extends boolean = true> {
  */
 export interface TermsOrPrivacyTypeSelect<T extends boolean = true> {
   content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedJobsType_select".
+ */
+export interface FeaturedJobsTypeSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  buttonText?: T;
   id?: T;
   blockName?: T;
 }
