@@ -198,7 +198,7 @@ export default async function RootLayout({
   })
 
   return (
-    <html lang='en' className=''>
+    <html lang='en' className='dark'>
       <head>
         <link rel='icon' type='image/x-icon' href={faviconUrl} />
         {/* Preloading the custom font given by the user */}
