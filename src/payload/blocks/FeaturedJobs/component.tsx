@@ -62,7 +62,7 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
         </h2>
         <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
       </div>
-      <div className='grid grid-cols-1 gap-8 pt-12 sm:grid-cols-2'>
+      <div className='grid grid-cols-1 gap-8 pt-12 lg:grid-cols-2'>
         {jobCards.map(job => (
           <div key={job.id} className='rounded border border-border p-8'>
             <div className='flex gap-5'>
@@ -80,7 +80,7 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
                     <label className='text-xs text-green-500'>Featured</label>
                   )}
                 </div>
-                <div className='flex gap-6 text-text/70'>
+                <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
                   <div className='flex'>
                     <BriefcaseBusiness size={17} className='mr-1' />
                     {job.categories.map((category, index) => (
