@@ -90,53 +90,62 @@ const JobsList = () => {
     <div>
       {/* Hero Section Job Search */}
       <div className='bg-foreground'>
-        <div className='mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32'>
+        <div className='mx-auto max-w-7xl px-6 pb-32 pt-36 lg:px-8 lg:pt-32'>
           <div className='rounded bg-background p-5'>
-            <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
-              <div className='flex w-full items-center gap-2 border-b py-4 md:border-b-0 md:border-r'>
+            <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
+              {/* Search Input */}
+              <div className='flex w-full items-center gap-2 border-b py-4 lg:border-b-0 lg:border-r lg:pr-4'>
                 <Search size={21} />
                 <Input
-                  className='mr-4 border-none'
+                  className='w-full border-none'
                   placeholder='Job Title, Keywords'
                 />
               </div>
-              <div className='flex w-full items-center gap-2 border-b py-4 md:border-b-0 md:border-r'>
+
+              {/* Location Dropdown */}
+              <div className='flex w-full items-center gap-2 border-b py-4 lg:border-b-0 lg:border-r lg:pr-4'>
                 <MapPin size={21} />
                 <Select>
-                  <SelectTrigger className='mr-4 w-full border-none'>
+                  <SelectTrigger className='w-full border-none'>
                     <SelectValue placeholder='City or PostCode' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Cities</SelectLabel>
-                      <SelectItem value='apple'>London</SelectItem>
-                      <SelectItem value='banana'>Los Angels</SelectItem>
-                      <SelectItem value='blueberry'>Miami</SelectItem>
-                      <SelectItem value='grapes'>Nevada</SelectItem>
-                      <SelectItem value='pineapple'>Florida</SelectItem>
+                      <SelectItem value='london'>London</SelectItem>
+                      <SelectItem value='losangeles'>Los Angeles</SelectItem>
+                      <SelectItem value='miami'>Miami</SelectItem>
+                      <SelectItem value='nevada'>Nevada</SelectItem>
+                      <SelectItem value='florida'>Florida</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
-              <div className='flex w-full items-center gap-2'>
+
+              {/* Categories Dropdown */}
+              <div className='flex w-full items-center gap-2 py-4 lg:pr-4'>
                 <BriefcaseBusiness size={21} />
                 <Select>
-                  <SelectTrigger className='mr-4 w-full border-none'>
+                  <SelectTrigger className='w-full border-none'>
                     <SelectValue placeholder='All Categories' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Categories</SelectLabel>
-                      <SelectItem value='apple'>Development</SelectItem>
-                      <SelectItem value='banana'>Design</SelectItem>
-                      <SelectItem value='blueberry'>Customer</SelectItem>
-                      <SelectItem value='grapes'>Accounting</SelectItem>
-                      <SelectItem value='pineapple'>Automotive</SelectItem>
+                      <SelectItem value='development'>Development</SelectItem>
+                      <SelectItem value='design'>Design</SelectItem>
+                      <SelectItem value='customer'>Customer Support</SelectItem>
+                      <SelectItem value='accounting'>Accounting</SelectItem>
+                      <SelectItem value='automotive'>Automotive</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
-              <Button>Find Jobs</Button>
+
+              {/* Find Jobs Button */}
+              <div className='w-full lg:w-auto'>
+                <Button className='w-full lg:w-auto'>Find Jobs</Button>
+              </div>
             </div>
           </div>
         </div>
@@ -144,7 +153,7 @@ const JobsList = () => {
 
       <div className='mx-auto flex max-w-7xl gap-8 px-6 pb-32 pt-20 lg:px-8'>
         {/* Job Filter Section */}
-        <div className='sticky top-[84px] hidden h-screen w-1/2 rounded bg-foreground px-8 py-7 md:flex'>
+        <div className='sticky top-[84px] hidden h-screen w-1/2 rounded bg-foreground px-8 py-7 lg:flex'>
           <div className='w-full'>
             <div className='mb-8'>
               <h1 className='mb-5 font-semibold'>Job Type</h1>
@@ -217,19 +226,24 @@ const JobsList = () => {
         {/*Job List */}
         <div className='w-full'>
           <div className='mb-5'>
-            <h1 className='mb-4 font-semibold'>Your Selected</h1>
-            <div className='flex items-center justify-between rounded bg-foreground p-3'>
-              <div className='flex gap-2'>
+            <h1 className='mb-4 text-lg font-semibold'>Your Selected</h1>
+            <div className='flex flex-col gap-4 rounded bg-foreground p-3 sm:flex-row sm:items-center sm:justify-between'>
+              {/* Selected Items */}
+              <div className='flex flex-wrap gap-2'>
                 <div className='flex items-center rounded bg-background px-4 py-1'>
-                  <label className='mr-1 text-red-500'>x</label>
+                  <label className='mr-1 cursor-pointer text-red-500'>x</label>
                   <label>$1000</label>
                 </div>
                 <div className='flex items-center rounded bg-background px-4 py-1'>
-                  <label className='mr-1 text-red-500'>x</label>
+                  <label className='mr-1 cursor-pointer text-red-500'>x</label>
                   <label>Development</label>
                 </div>
               </div>
-              <h1 className='text-red-500'>Clear All</h1>
+
+              {/* Clear All */}
+              <h1 className='cursor-pointer text-sm font-medium text-red-500 hover:underline sm:text-base'>
+                Clear All
+              </h1>
             </div>
           </div>
 
@@ -278,7 +292,7 @@ const JobsList = () => {
                           </label>
                         )}
                       </div>
-                      <div className='flex gap-6 text-text/70'>
+                      <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
                         <div className='flex'>
                           <BriefcaseBusiness size={17} className='mr-1' />
                           {job.categories.map((category, index) => (
