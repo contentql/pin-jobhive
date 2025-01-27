@@ -81,7 +81,7 @@ const JobDetails = () => {
 
                 {/* Job Type */}
                 <div className='mt-4'>
-                  <button className='rounded-full bg-blue-100 px-4 py-1 text-sm text-blue-600'>
+                  <button className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
                     {jobCard.type}
                   </button>
                 </div>

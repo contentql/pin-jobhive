@@ -1,7 +1,11 @@
+'use client'
+
 import { Params } from '../types'
 import { FeaturedJobsType } from '@payload-types'
 import { BriefcaseBusiness, MapPin, Wallet } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 import Button from '@/components/common/Button'
@@ -15,7 +19,7 @@ const jobCards = [
     location: 'New York',
     salary: '$150 - $180 / week',
     type: 'Full Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job1.png',
   },
   {
     id: 2,
@@ -25,7 +29,7 @@ const jobCards = [
     location: 'San Francisco',
     salary: '$200 - $250 / week',
     type: 'Part Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job2.png',
   },
   {
     id: 3,
@@ -35,7 +39,7 @@ const jobCards = [
     location: 'Los Angeles',
     salary: '$180 - $220 / week',
     type: 'Contract',
-    image: '/images/image.png',
+    image: '/images/jobs/job3.png',
   },
   {
     id: 4,
@@ -45,7 +49,7 @@ const jobCards = [
     location: 'Remote',
     salary: '$170 - $210 / week',
     type: 'Full Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job4.png',
   },
 ]
 
@@ -54,6 +58,7 @@ interface FeaturedProps extends FeaturedJobsType {
 }
 
 const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
+  const router = useRouter()
   return (
     <div className='mt-32 px-6 sm:mt-40 xl:mx-auto xl:max-w-7xl xl:px-8'>
       <div className='mx-auto max-w-2xl lg:mx-0'>
@@ -75,7 +80,11 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
               />
               <div>
                 <div className='mb-1 flex gap-1'>
-                  <h1 className='font-semibold'>{job.title}</h1>
+                  <Link
+                    href={`/job/${job.title}`}
+                    className='font-semibold hover:text-primary'>
+                    {job.title}
+                  </Link>
                   {job.featured && (
                     <label className='text-xs text-green-500'>Featured</label>
                   )}
@@ -100,7 +109,7 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
                   </div>
                 </div>
                 <div className='mt-3 flex gap-4'>
-                  <button className='rounded-full bg-blue-100 px-5 py-1 text-sm text-blue-600'>
+                  <button className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
                     {job.type}
                   </button>
                 </div>
@@ -110,7 +119,9 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
         ))}
       </div>
       <div className='mt-12 flex items-center justify-center'>
-        <Button>{block?.buttonText}</Button>
+        <Button onClick={() => router.push('/jobs')}>
+          {block?.buttonText}
+        </Button>
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ const jobCards = [
     location: 'New York',
     salary: '$150 - $180 / week',
     type: 'Full Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job1.png',
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const jobCards = [
     location: 'San Francisco',
     salary: '$200 - $250 / week',
     type: 'Part Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job2.png',
   },
   {
     id: 3,
@@ -47,7 +47,7 @@ const jobCards = [
     location: 'Los Angeles',
     salary: '$180 - $220 / week',
     type: 'Contract',
-    image: '/images/image.png',
+    image: '/images/jobs/job3.png',
   },
   {
     id: 4,
@@ -57,7 +57,7 @@ const jobCards = [
     location: 'Remote',
     salary: '$170 - $210 / week',
     type: 'Full Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job4.png',
   },
   {
     id: 5,
@@ -67,7 +67,7 @@ const jobCards = [
     location: 'Remote',
     salary: '$170 - $210 / week',
     type: 'Full Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job5.png',
   },
   {
     id: 6,
@@ -77,7 +77,7 @@ const jobCards = [
     location: 'Remote',
     salary: '$170 - $210 / week',
     type: 'Full Time',
-    image: '/images/image.png',
+    image: '/images/jobs/job6.png',
   },
 ]
 const JobsList = () => {
@@ -191,10 +191,10 @@ const JobsList = () => {
                   onChange={handleRangeChange} // Update state when the slider is moved
                   className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-primary'
                 />
-                <span className='absolute -bottom-6 start-0 text-sm text-gray-500 dark:text-gray-400'>
+                <span className='absolute -bottom-6 start-0 text-sm text-text/70'>
                   Min ($0)
                 </span>
-                <span className='absolute -bottom-6 end-0 text-sm text-gray-500 dark:text-gray-400'>
+                <span className='absolute -bottom-6 end-0 text-sm text-text/70'>
                   Max (${rangeValue})
                 </span>
               </div>
@@ -230,11 +230,11 @@ const JobsList = () => {
             <div className='flex flex-col gap-4 rounded bg-foreground p-3 sm:flex-row sm:items-center sm:justify-between'>
               {/* Selected Items */}
               <div className='flex flex-wrap gap-2'>
-                <div className='flex items-center rounded bg-background px-4 py-1'>
+                <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
                   <label className='mr-1 cursor-pointer text-red-500'>x</label>
                   <label>$1000</label>
                 </div>
-                <div className='flex items-center rounded bg-background px-4 py-1'>
+                <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
                   <label className='mr-1 cursor-pointer text-red-500'>x</label>
                   <label>Development</label>
                 </div>
@@ -253,16 +253,14 @@ const JobsList = () => {
               <div>
                 <Select>
                   <SelectTrigger className=' border-none'>
-                    <SelectValue placeholder='All Categories' />
+                    <SelectValue placeholder='Sort by' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Categories</SelectLabel>
-                      <SelectItem value='apple'>Development</SelectItem>
-                      <SelectItem value='banana'>Design</SelectItem>
-                      <SelectItem value='blueberry'>Customer</SelectItem>
-                      <SelectItem value='grapes'>Accounting</SelectItem>
-                      <SelectItem value='pineapple'>Automotive</SelectItem>
+                      <SelectLabel>Sort</SelectLabel>
+                      <SelectItem value='apple'>Newest</SelectItem>
+                      <SelectItem value='banana'>Oldest</SelectItem>
+                      <SelectItem value='blueberry'>Random</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -282,7 +280,7 @@ const JobsList = () => {
                     <div>
                       <div className='mb-1 flex items-center gap-1'>
                         <Link
-                          href={'/'}
+                          href={`/job/${job.title}`}
                           className='font-semibold hover:text-primary'>
                           {job.title}
                         </Link>
@@ -316,7 +314,7 @@ const JobsList = () => {
                         </div>
                       </div>
                       <div className='mt-3 flex gap-4'>
-                        <button className='rounded-full bg-blue-100 px-5 py-1 text-sm text-blue-600'>
+                        <button className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
                           {job.type}
                         </button>
                       </div>

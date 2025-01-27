@@ -41,21 +41,21 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
             <Bars3Icon aria-hidden='true' className='size-6' />
           </button>
         </div>
-        <div className='hidden lg:flex lg:gap-x-12'>
+        <div className='mr-12 hidden lg:flex lg:gap-x-12'>
+          <Link
+            href={'/jobs'}
+            className='text-sm/6 font-semibold hover:text-primary'>
+            Jobs
+          </Link>
           {navLinks?.map((item, index) => (
             <Link
               key={index}
               target={item?.newTab ? '_blank' : '_self'}
               href={item?.href!}
-              className='text-sm/6 font-semibold'>
+              className='text-sm/6 font-semibold hover:text-primary'>
               {item?.label}
             </Link>
           ))}
-        </div>
-        <div className='mr-3 hidden lg:flex lg:flex-1 lg:justify-end'>
-          <a href='#' className='text-sm/6 font-semibold'>
-            Log in <span aria-hidden='true'>&rarr;</span>
-          </a>
         </div>
         <ToggleTheme />
       </nav>
@@ -95,13 +95,6 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
                     {item?.label}
                   </Link>
                 ))}
-              </div>
-              <div className='py-6'>
-                <a
-                  href='#'
-                  className='-mx-3 block rounded px-3 py-2.5 text-base/7 font-semibold hover:bg-background/20'>
-                  Log in
-                </a>
               </div>
             </div>
           </div>
