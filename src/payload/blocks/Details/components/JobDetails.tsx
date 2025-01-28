@@ -21,7 +21,7 @@ const jobCard = {
   location: 'New York',
   salary: '$150 - $180 / week',
   type: 'Full Time',
-  image: '/images/image.png',
+  image: '/images/jobs/job1.png',
   postedOn: 'June 20, 2021',
   postEndsOn: 'May 18, 2026',
   experience: '4 years',
@@ -103,7 +103,65 @@ const JobDetails = () => {
       </div>
 
       <div className='mx-auto flex max-w-7xl gap-8 px-6 pb-32 pt-20 lg:px-8'>
-        <div>Job Description</div>
+        <div className='w-full'>
+          <h1 className='mb-5 font-semibold'>Job Description</h1>
+          <p className='mb-12 text-text/70'>
+            As a Product Designer, you will work within a Product Delivery Team
+            fused with UX, engineering, product and data talent. You will help
+            the team design beautiful interfaces that solve business challenges
+            for our clients. We work with a number of Tier 1 banks on building
+            web-based applications for AML, KYC and Sanctions List management
+            workflows. This role is ideal if you are looking to segue your
+            career into the FinTech or Big Data arenas.
+          </p>
+          <h1 className='mb-5 font-semibold'>Key Responsibilities</h1>
+          <ul className='mb-12 flex list-disc flex-col gap-2 '>
+            <li className='text-text/70'>
+              Be involved in every step of the product design cycle from
+              discovery to developer handoff and user acceptance testing.
+            </li>
+            <li className='text-text/70'>
+              Work with BAs, product managers and tech teams to lead the Product
+              Design
+            </li>
+            <li className='text-text/70'>
+              Maintain quality of the design process and ensure that when
+              designs are translated into code they accurately reflect the
+              design specifications.
+            </li>
+            <li className='text-text/70'>
+              Accurately estimate design tickets during planning sessions.
+            </li>
+            <li className='text-text/70'>
+              Contribute to sketching sessions involving non-designersCreate,
+              iterate and maintain UI deliverables including sketch files, style
+              guides, high fidelity prototypes, micro interaction specifications
+              and pattern libraries.
+            </li>
+            <li className='text-text/70'>
+              Ensure design choices are data led by identifying assumptions to
+              test each sprint, and work with the analysts in your team to plan
+              moderated usability test sessions.
+            </li>
+          </ul>
+          <h1 className='mb-5 font-semibold'>Skill & Experience</h1>
+          <ul className='flex list-disc flex-col gap-2'>
+            <li className='text-text/70'>
+              You have at least 3 years’ experience working as a Product
+              Designer.
+            </li>
+            <li className='text-text/70'>
+              You have experience using Sketch and InVision or Framer X
+            </li>
+            <li className='text-text/70'>
+              You have some previous experience working in an agile environment
+              – Think two-week sprints.
+            </li>
+            <li className='text-text/70'>
+              You are familiar using Jira and Confluence in your workflow
+            </li>
+          </ul>
+        </div>
         <div className='sticky top-[84px] ml-auto hidden w-1/3 flex-col gap-8 lg:flex'>
           <div className='  h-auto  rounded bg-foreground px-8 py-7'>
             <div>
