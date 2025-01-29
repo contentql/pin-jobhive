@@ -16,6 +16,11 @@ export interface Config {
     tags: Tag;
     media: Media;
     users: User;
+    jobPosts: JobPost;
+    scheduleCall: ScheduleCall;
+    jobTypes: JobType;
+    jobRoles: JobRole;
+    salaryRange: SalaryRange;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -30,6 +35,11 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    jobPosts: JobPostsSelect<false> | JobPostsSelect<true>;
+    scheduleCall: ScheduleCallSelect<false> | ScheduleCallSelect<true>;
+    jobTypes: JobTypesSelect<false> | JobTypesSelect<true>;
+    jobRoles: JobRolesSelect<false> | JobRolesSelect<true>;
+    salaryRange: SalaryRangeSelect<false> | SalaryRangeSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -633,6 +643,197 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobPosts".
+ */
+export interface JobPost {
+  id: number;
+  company: {
+    /**
+     * The name of the company posting the job.
+     */
+    name: string;
+    /**
+     * The primary contact email for job applications.
+     */
+    email: string;
+    /**
+     * Upload the company logo to be displayed with the job post.
+     */
+    logo: number | Media;
+    /**
+     * The official website of the company.
+     */
+    website?: string | null;
+    /**
+     * The headquarters or primary office location of the company.
+     */
+    location?: string | null;
+  };
+  dates: {
+    /**
+     * The date when the job posting becomes active.
+     */
+    openingDate: string;
+    /**
+     * The date when the job posting expires.
+     */
+    closingDate?: string | null;
+  };
+  jobDetails: {
+    /**
+     * The title of the job position.
+     */
+    title: string;
+    slug?: string | null;
+    /**
+     * Select the type of employment for the job (e.g., Full-time, Part-time, Contract, Freelance).
+     */
+    type: number | JobType;
+    /**
+     * Select the roles for the job (e.g., Software Engineer, Project Manager, Data Analyst).
+     */
+    roles: (number | JobRole)[];
+    /**
+     * Include key details about the job role, such as responsibilities, team structure, and expectations.
+     */
+    description: {
+      [k: string]: unknown;
+    }[];
+    /**
+     * The location where the job will be based.
+     */
+    location: string;
+    salaryRange: {
+      /**
+       * The minimum annual salary for the position.
+       */
+      min: number;
+      /**
+       * The maximum annual salary for the position.
+       */
+      max: number;
+    };
+    /**
+     * Check this box if the job can be performed remotely.
+     */
+    remote?: boolean | null;
+  };
+  requirements: {
+    /**
+     * Specify the required years of experience for the position.
+     */
+    experience: string;
+    /**
+     * Add the required qualifications for the job.
+     */
+    qualifications?:
+      | {
+          /**
+           * List the required qualification to the job.
+           */
+          qualification: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * List the key skills required for the job.
+     */
+    skills: {
+      /**
+       * List the programming languages, frameworks, and tools required for the job.
+       */
+      skill: string;
+      id?: string | null;
+    }[];
+  };
+  application: {
+    /**
+     * Select whether the application form URL is internal (linking to a form within the site) or external.
+     */
+    applyType: 'internal' | 'external';
+    /**
+     * Provide the URL where candidates can apply for the job if external.
+     */
+    externalFormUrl?: string | null;
+    /**
+     * Select the form where candidates can apply for the job if internal.
+     */
+    internalForm?: (number | null) | Form;
+  };
+  /**
+   * Mark this job post to appear highlighted or featured in the listings.
+   */
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobTypes".
+ */
+export interface JobType {
+  id: number;
+  /**
+   * Enter the name of the job type (e.g., Full-Time, Part-Time, Contract).
+   */
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobRoles".
+ */
+export interface JobRole {
+  id: number;
+  /**
+   * Enter the name of the job role (e.g., Software Engineer, Product Manager).
+   */
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "scheduleCall".
+ */
+export interface ScheduleCall {
+  id: number;
+  company: string;
+  name: string;
+  email: string;
+  role: string;
+  /**
+   * The date and time for the scheduled call.
+   */
+  scheduledDate?: string | null;
+  status?: ('pending' | 'scheduled' | 'completed' | 'cancelled' | 'rescheduled') | null;
+  /**
+   * Additional notes or comments by the admin.
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "salaryRange".
+ */
+export interface SalaryRange {
+  id: number;
+  salaryType: 'range' | 'lessThan' | 'greaterThan';
+  salaryMin?: number | null;
+  salaryMax?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -700,6 +901,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'jobPosts';
+        value: number | JobPost;
+      } | null)
+    | ({
+        relationTo: 'scheduleCall';
+        value: number | ScheduleCall;
+      } | null)
+    | ({
+        relationTo: 'jobTypes';
+        value: number | JobType;
+      } | null)
+    | ({
+        relationTo: 'jobRoles';
+        value: number | JobRole;
+      } | null)
+    | ({
+        relationTo: 'salaryRange';
+        value: number | SalaryRange;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1091,6 +1312,120 @@ export interface UsersSelect<T extends boolean = true> {
   _verificationToken?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobPosts_select".
+ */
+export interface JobPostsSelect<T extends boolean = true> {
+  company?:
+    | T
+    | {
+        name?: T;
+        email?: T;
+        logo?: T;
+        website?: T;
+        location?: T;
+      };
+  dates?:
+    | T
+    | {
+        openingDate?: T;
+        closingDate?: T;
+      };
+  jobDetails?:
+    | T
+    | {
+        title?: T;
+        slug?: T;
+        type?: T;
+        roles?: T;
+        description?: T;
+        location?: T;
+        salaryRange?:
+          | T
+          | {
+              min?: T;
+              max?: T;
+            };
+        remote?: T;
+      };
+  requirements?:
+    | T
+    | {
+        experience?: T;
+        qualifications?:
+          | T
+          | {
+              qualification?: T;
+              id?: T;
+            };
+        skills?:
+          | T
+          | {
+              skill?: T;
+              id?: T;
+            };
+      };
+  application?:
+    | T
+    | {
+        applyType?: T;
+        externalFormUrl?: T;
+        internalForm?: T;
+      };
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "scheduleCall_select".
+ */
+export interface ScheduleCallSelect<T extends boolean = true> {
+  company?: T;
+  name?: T;
+  email?: T;
+  role?: T;
+  scheduledDate?: T;
+  status?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobTypes_select".
+ */
+export interface JobTypesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobRoles_select".
+ */
+export interface JobRolesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "salaryRange_select".
+ */
+export interface SalaryRangeSelect<T extends boolean = true> {
+  salaryType?: T;
+  salaryMin?: T;
+  salaryMax?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
