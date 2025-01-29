@@ -15,6 +15,9 @@ export const JobRoles: CollectionConfig = {
     update: ({ req: { user } }) => Boolean(user && user.role.includes('admin')), // Only admins can update
     delete: ({ req: { user } }) => Boolean(user && user.role.includes('admin')), // Only admins can delete
   },
+  admin: {
+    useAsTitle: 'title',
+  },
   fields: [
     {
       name: 'title',
