@@ -26,6 +26,10 @@ const DetailsConfig: Block = {
           label: 'Authors',
           value: 'users',
         },
+        {
+          label: 'Job Posts',
+          value: 'jobPosts',
+        },
       ],
     },
   ],

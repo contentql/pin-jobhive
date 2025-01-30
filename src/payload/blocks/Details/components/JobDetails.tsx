@@ -1,3 +1,8 @@
+import { JobPost, JobRole, JobType, Media } from '@payload-types'
+import { payloadSlateToHtmlConfig, slateToHtml } from '@slate-serializers/html'
+import { format } from 'date-fns'
+import { Element } from 'domhandler'
+import DOMPurify from 'isomorphic-dompurify'
 import {
   BriefcaseBusiness,
   Calendar,
@@ -11,7 +16,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
-import Button from '@/components/common/Button'
+import ApplyJob from '@/components/ApplyJob'
 
 const jobCard = {
   id: 1,
@@ -28,7 +33,80 @@ const jobCard = {
   graduation: 'Bachelor Degree',
 }
 
-const JobDetails = () => {
+const JobDetails = ({ job }: { job: JobPost }) => {
+  console.log({ job })
+  const jobPostedDate = format(
+    new Date(job?.dates?.openingDate),
+    'MMMM dd, yyyy',
+  )
+  const jobEndingDate = format(
+    new Date(job?.dates?.closingDate!),
+    'MMMM dd, yyyy',
+  )
+
+  const html = slateToHtml(job?.jobDetails?.description || [], {
+    ...payloadSlateToHtmlConfig,
+    markMap: {
+      ...payloadSlateToHtmlConfig.markMap,
+      mark: ['mark'],
+      kbd: ['kbd'],
+      iframe: ['iframe'],
+      pre: ['pre'],
+      strong: ['strong'],
+    },
+    markTransforms: {
+      'custom-iframe': ({ node }) => {
+        return new Element('iframe', {
+          src: node.text,
+        })
+      },
+    },
+    elementTransforms: {
+      ...payloadSlateToHtmlConfig.elementTransforms,
+      upload: ({ node }) => {
+        // for video returning video element
+        if (node && node?.value) {
+          const mimeType = node?.value?.mimeType ?? ''
+          if (mimeType.includes('video')) {
+            return new Element('video', {
+              src: node?.value?.url,
+              controls: 'true',
+            })
+          }
+        }
+
+        return payloadSlateToHtmlConfig.elementTransforms.upload({ node })
+      },
+      link: ({ node, children = [] }) => {
+        const attrs: { [key: string]: string } = {}
+        if (node.linkType) {
+          attrs['data-link-type'] = node.linkType
+        }
+        if (node.newTab) {
+          attrs.target = '_blank'
+        }
+
+        attrs['data-disable-nprogress'] = 'true'
+
+        return new Element(
+          'a',
+          Object.assign(
+            {
+              href: node.url,
+            },
+            attrs,
+          ),
+          children,
+        )
+      },
+    },
+  })
+
+  const purifiedHtml = DOMPurify.sanitize(html, {
+    ADD_ATTR: ['target'], // Allow the "target" attribute
+    ADD_TAGS: ['iframe'], // You can also add other tags if needed (optional)
+  })
+
   return (
     <div>
       <div className='bg-foreground'>
@@ -40,7 +118,7 @@ const JobDetails = () => {
               width={1000}
               className='size-24 rounded object-cover'
               alt=''
-              src={jobCard.image}
+              src={(job?.company?.logo as Media)?.url!}
             />
 
             {/* Job Details */}
@@ -50,11 +128,11 @@ const JobDetails = () => {
                 {/* Job Title */}
                 <div className='mb-3 flex items-center gap-2'>
                   <Link
-                    href='/'
+                    href={`/job/${job?.jobDetails?.slug}`}
                     className='text-xl font-semibold hover:text-primary sm:text-2xl'>
-                    {jobCard.title}
+                    {job?.jobDetails?.title}
                   </Link>
-                  {jobCard.featured && (
+                  {job?.featured && (
                     <span className='text-green-500'>Featured</span>
                   )}
                 </div>
@@ -63,27 +141,35 @@ const JobDetails = () => {
                 <div className='flex flex-wrap gap-4 text-text/70'>
                   <div className='flex items-center gap-2'>
                     <BriefcaseBusiness size={16} />
-                    <span>{jobCard.categories.join(', ')}</span>
+                    {job?.jobDetails?.roles?.map((role, index) => (
+                      <label key={index} className='truncate text-sm'>
+                        {(role as JobRole)?.title}
+                        {index < job?.jobDetails?.roles.length - 1 && ', '}
+                      </label>
+                    ))}
                   </div>
                   <div className='flex items-center gap-2'>
                     <MapPin size={16} />
-                    <span>{jobCard.location}</span>
+                    <span>{job?.jobDetails?.location}</span>
                   </div>
                   <div className='flex items-center gap-2'>
                     <Clock size={16} />
-                    <span>{jobCard.postedOn}</span>
+                    <span>{jobPostedDate}</span>
                   </div>
                   <div className='flex items-center gap-2'>
                     <Wallet size={16} />
-                    <span>{jobCard.salary}</span>
+                    <label className='truncate text-sm'>
+                      ${job?.jobDetails?.salaryRange?.min}-$
+                      {job?.jobDetails?.salaryRange?.max}
+                    </label>
                   </div>
                 </div>
 
                 {/* Job Type */}
                 <div className='mt-4'>
-                  <button className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
-                    {jobCard.type}
-                  </button>
+                  <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                    {(job?.jobDetails?.type as JobType)?.title}
+                  </div>
                 </div>
               </div>
 
@@ -92,10 +178,11 @@ const JobDetails = () => {
                 <div>
                   <span className='mr-1'>Application Ends:</span>
                   <span className='font-medium text-red-500'>
-                    {jobCard.postEndsOn}
+                    {jobEndingDate}
                   </span>
                 </div>
-                <Button>Apply Now</Button>
+                <ApplyJob />
+                {/* <Button>Apply Now</Button> */}
               </div>
             </div>
           </div>
@@ -104,65 +191,13 @@ const JobDetails = () => {
 
       <div className='mx-auto flex max-w-7xl gap-8 px-6 pb-32 pt-20 lg:px-8'>
         <div className='w-full'>
-          <h1 className='mb-5 font-semibold'>Job Description</h1>
-          <p className='mb-12 text-text/70'>
-            As a Product Designer, you will work within a Product Delivery Team
-            fused with UX, engineering, product and data talent. You will help
-            the team design beautiful interfaces that solve business challenges
-            for our clients. We work with a number of Tier 1 banks on building
-            web-based applications for AML, KYC and Sanctions List management
-            workflows. This role is ideal if you are looking to segue your
-            career into the FinTech or Big Data arenas.
-          </p>
-          <h1 className='mb-5 font-semibold'>Key Responsibilities</h1>
-          <ul className='mb-12 flex list-disc flex-col gap-2 '>
-            <li className='text-text/70'>
-              Be involved in every step of the product design cycle from
-              discovery to developer handoff and user acceptance testing.
-            </li>
-            <li className='text-text/70'>
-              Work with BAs, product managers and tech teams to lead the Product
-              Design
-            </li>
-            <li className='text-text/70'>
-              Maintain quality of the design process and ensure that when
-              designs are translated into code they accurately reflect the
-              design specifications.
-            </li>
-            <li className='text-text/70'>
-              Accurately estimate design tickets during planning sessions.
-            </li>
-            <li className='text-text/70'>
-              Contribute to sketching sessions involving non-designersCreate,
-              iterate and maintain UI deliverables including sketch files, style
-              guides, high fidelity prototypes, micro interaction specifications
-              and pattern libraries.
-            </li>
-            <li className='text-text/70'>
-              Ensure design choices are data led by identifying assumptions to
-              test each sprint, and work with the analysts in your team to plan
-              moderated usability test sessions.
-            </li>
-          </ul>
-          <h1 className='mb-5 font-semibold'>Skill & Experience</h1>
-          <ul className='flex list-disc flex-col gap-2'>
-            <li className='text-text/70'>
-              You have at least 3 years’ experience working as a Product
-              Designer.
-            </li>
-            <li className='text-text/70'>
-              You have experience using Sketch and InVision or Framer X
-            </li>
-            <li className='text-text/70'>
-              You have some previous experience working in an agile environment
-              – Think two-week sprints.
-            </li>
-            <li className='text-text/70'>
-              You are familiar using Jira and Confluence in your workflow
-            </li>
-          </ul>
+          <div
+            dangerouslySetInnerHTML={{ __html: purifiedHtml }}
+            className='prose'
+          />
         </div>
-        <div className='sticky top-[84px] ml-auto hidden w-1/3 flex-col gap-8 lg:flex'>
+
+        <div className='sticky top-[84px] ml-auto hidden w-1/2 flex-col gap-8 lg:flex'>
           <div className='  h-auto  rounded bg-foreground px-8 py-7'>
             <div>
               <div className='mb-4 text-lg font-semibold'>Job Overview</div>
@@ -171,30 +206,35 @@ const JobDetails = () => {
                   <Calendar className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Date Posted</h1>
-                    <h1 className='text-sm text-text/70'>{jobCard.postedOn}</h1>
+                    <h1 className='text-sm text-text/70'>{jobPostedDate}</h1>
                   </div>
                 </div>
                 <div className='flex gap-6'>
                   <MapPin className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Location</h1>
-                    <h1 className='text-sm text-text/70'>{jobCard.location}</h1>
+                    <h1 className='text-sm text-text/70'>
+                      {job?.jobDetails?.location}
+                    </h1>
                   </div>
                 </div>
                 <div className='flex gap-6'>
                   <Wallet className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Offered Salary</h1>
-                    <h1 className='text-sm text-text/70'>{jobCard.salary}</h1>
+                    <h1 className='text-sm text-text/70'>
+                      <label>
+                        ${job?.jobDetails?.salaryRange?.min}-$
+                        {job?.jobDetails?.salaryRange?.max}
+                      </label>
+                    </h1>
                   </div>
                 </div>
                 <div className='flex gap-6'>
                   <Hourglass className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Expiration Date</h1>
-                    <h1 className='text-sm text-text/70'>
-                      {jobCard.postEndsOn}
-                    </h1>
+                    <h1 className='text-sm text-text/70'>{jobEndingDate}</h1>
                   </div>
                 </div>
                 <div className='flex gap-6'>
@@ -202,7 +242,7 @@ const JobDetails = () => {
                   <div>
                     <h1 className='font-semibold'>Experience</h1>
                     <h1 className='text-sm text-text/70'>
-                      {jobCard.experience}
+                      {job?.requirements?.experience}
                     </h1>
                   </div>
                 </div>
@@ -210,9 +250,15 @@ const JobDetails = () => {
                   <GraduationCap className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Graduation</h1>
-                    <h1 className='text-sm text-text/70'>
-                      {jobCard.graduation}
-                    </h1>
+                    <div className='text-sm text-text/70'>
+                      {job?.requirements?.qualifications?.map(
+                        (qualification, index) => (
+                          <span key={index} className='block'>
+                            {qualification?.qualification}
+                          </span>
+                        ),
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -224,7 +270,7 @@ const JobDetails = () => {
               <iframe
                 className='h-64 w-full rounded'
                 loading='lazy'
-                src={`https://maps.google.com/maps?q=${'hyderabad'}&t=m&z=14&output=embed&iwloc=near`}
+                src={`https://maps.google.com/maps?q=${job?.jobDetails?.location}&t=m&z=14&output=embed&iwloc=near`}
                 title='Hyderabad'
                 aria-label='Hyderabad'
               />

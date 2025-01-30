@@ -7,6 +7,7 @@ import { getPayload } from 'payload'
 
 import AuthorDetails from './components/AuthorDetails'
 import BlogDetails from './components/BlogDetails'
+import JobDetails from './components/JobDetails'
 import TagDetails from './components/TagDetails'
 
 interface DetailsProps extends DetailsType {
@@ -128,6 +129,34 @@ const Details: React.FC<DetailsProps> = async ({ params, ...block }) => {
       if (typeof author === 'object') {
         return <AuthorDetails author={author} blogsData={blogs} />
       }
+    }
+
+    case 'jobPosts': {
+      const slug = params?.route?.at(-1) ?? ''
+
+      const { docs } = await unstable_cache(
+        async () =>
+          await payload.find({
+            collection: 'jobPosts',
+            draft: false,
+            where: {
+              'jobDetails.slug': {
+                equals: slug,
+              },
+            },
+          }),
+        ['details', 'jobPosts', slug],
+        { tags: [`details-jobPosts-${slug}`] },
+      )()
+
+      const job = docs.at(0)
+
+      // if blog not found showing 404
+      if (!job) {
+        return notFound()
+      }
+
+      return <JobDetails job={job} />
     }
   }
 }
