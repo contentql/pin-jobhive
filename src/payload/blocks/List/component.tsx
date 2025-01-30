@@ -7,6 +7,7 @@ import React from 'react'
 
 import AllBlogs from './components/AllBlogs'
 import AuthorsList from './components/AuthorsList'
+import JobsList from './components/JobsList'
 import TagsList from './components/TagsList'
 
 interface ListProps extends ListType {
@@ -107,6 +108,55 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
         <AuthorsList
           authors={authors.map(author => ({ ...author, count: 0 }))}
           block={block}
+        />
+      )
+    }
+
+    case 'jobPosts': {
+      const { docs: jobs = [] } = await unstable_cache(
+        async () =>
+          await payload.find({
+            collection: 'jobPosts',
+            depth: 5,
+            draft: false,
+            limit: 1000,
+          }),
+        ['list', 'jobPosts'],
+        { tags: ['list-jobPosts'] },
+      )()
+
+      const { docs: jobRoles = [] } = await unstable_cache(
+        async () =>
+          await payload.find({
+            collection: 'jobRoles',
+            depth: 5,
+            draft: false,
+            limit: 1000,
+          }),
+        ['list', 'jobRoles'],
+        { tags: ['list-jobRoles'] },
+      )()
+
+      const { docs: salaryRange = [] } = await unstable_cache(
+        async () =>
+          await payload.find({
+            collection: 'salaryRange',
+            depth: 5,
+            draft: false,
+            limit: 1000,
+          }),
+        ['list', 'salaryRange'],
+        { tags: ['list-salaryRange'] },
+      )()
+
+      console.log({ salary: salaryRange })
+
+      return (
+        <JobsList
+          jobs={jobs}
+          jobRoles={jobRoles}
+          salaryRange={salaryRange}
+          title={block['title'] || 'Job Roles'}
         />
       )
     }

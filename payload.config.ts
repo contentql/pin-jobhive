@@ -12,6 +12,7 @@ import { revalidateBlogs } from '@/payload/hooks/revalidateBlogs'
 import { revalidatePages } from '@/payload/hooks/revalidatePages'
 import { revalidateSiteSettings } from '@/payload/hooks/revalidateSiteSettings'
 import { revalidateTags } from '@/payload/hooks/revalidateTags'
+import { jobBoard } from '@/plugins/job-board'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -251,4 +252,5 @@ export default cqlConfig({
       ],
     },
   }),
+  plugins: [jobBoard()],
 })
