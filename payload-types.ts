@@ -142,7 +142,7 @@ export interface Page {
  * via the `definition` "DetailsType".
  */
 export interface DetailsType {
-  collectionSlug?: ('blogs' | 'tags' | 'users') | null;
+  collectionSlug?: ('blogs' | 'tags' | 'users' | 'jobPosts') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'Details';
@@ -156,7 +156,7 @@ export interface ListType {
    * This will be used as title for the list
    */
   title?: string | null;
-  collectionSlug?: ('blogs' | 'tags' | 'users') | null;
+  collectionSlug?: ('blogs' | 'tags' | 'users' | 'jobPosts') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'List';
