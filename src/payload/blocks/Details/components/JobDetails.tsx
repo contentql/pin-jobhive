@@ -10,6 +10,7 @@ import {
   GraduationCap,
   Hourglass,
   MapPin,
+  SquareArrowOutUpRight,
   UserPen,
   Wallet,
 } from 'lucide-react'
@@ -274,6 +275,53 @@ const JobDetails = ({ job }: { job: JobPost }) => {
                 title='Hyderabad'
                 aria-label='Hyderabad'
               />
+            </div>
+          </div>
+          <div className='  h-auto rounded bg-foreground px-8 py-7'>
+            <div className='mb-4 text-lg font-semibold'>Job Skills</div>
+            <div className='flex flex-wrap gap-2'>
+              {job?.requirements?.skills?.map((skill, index) => (
+                <div
+                  className='rounded bg-background px-4 py-2 text-sm'
+                  key={index}>
+                  {skill?.skill}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className='  h-auto rounded bg-foreground px-8 py-7'>
+            <div className='flex flex-col gap-5'>
+              <div className='flex items-center gap-5'>
+                <Image
+                  alt={(job?.company?.logo as Media)?.alt || 'Company Logo'}
+                  height={1000}
+                  width={1000}
+                  className='size-20'
+                  src={(job?.company?.logo as Media)?.url!}
+                />
+                <div>
+                  <h1 className='mb-2 font-semibold'>{job?.company?.name}</h1>
+                  <Link
+                    target='_blank'
+                    href={job?.company?.website!}
+                    className='flex text-sm text-text/70 hover:text-primary'>
+                    <span>Visit site</span>
+                    <span className='ml-2'>
+                      <SquareArrowOutUpRight size={18} />
+                    </span>
+                  </Link>
+                </div>
+              </div>
+              <div className='flex flex-col gap-5'>
+                <div className='flex justify-between'>
+                  <h1 className='font-semibold'>Location:</h1>
+                  <span className='text-text/70'>{job?.company?.location}</span>
+                </div>
+                <div className='flex justify-between'>
+                  <h1 className='font-semibold'>Email:</h1>
+                  <span className='text-text/70'>{job?.company?.email}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
