@@ -1,65 +1,28 @@
-'use client'
-
 import { Params } from '../types'
-import { FeaturedJobsType } from '@payload-types'
+import configPromise from '@payload-config'
+import { FeaturedJobsType, JobRole, JobType, Media } from '@payload-types'
 import { BriefcaseBusiness, MapPin, Wallet } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { getPayload } from 'payload'
 import React from 'react'
-
-import Button from '@/components/common/Button'
-
-const jobCards = [
-  {
-    id: 1,
-    title: 'Junior Graphic Designer (Web)',
-    featured: true,
-    categories: ['Design', 'Development'],
-    location: 'New York',
-    salary: '$150 - $180 / week',
-    type: 'Full Time',
-    image: '/images/jobs/job1.png',
-  },
-  {
-    id: 2,
-    title: 'Senior Graphic Designer',
-    featured: false,
-    categories: ['Design'],
-    location: 'San Francisco',
-    salary: '$200 - $250 / week',
-    type: 'Part Time',
-    image: '/images/jobs/job2.png',
-  },
-  {
-    id: 3,
-    title: 'UI/UX Designer',
-    featured: true,
-    categories: ['Design', 'User Experience'],
-    location: 'Los Angeles',
-    salary: '$180 - $220 / week',
-    type: 'Contract',
-    image: '/images/jobs/job3.png',
-  },
-  {
-    id: 4,
-    title: 'Web Developer',
-    featured: false,
-    categories: ['Development', 'Web'],
-    location: 'Remote',
-    salary: '$170 - $210 / week',
-    type: 'Full Time',
-    image: '/images/jobs/job4.png',
-  },
-]
 
 interface FeaturedProps extends FeaturedJobsType {
   params: Params
 }
 
-const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
-  const router = useRouter()
-  return (
+const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
+  const payload = await getPayload({
+    config: configPromise,
+  })
+  const { docs: jobsData } = await payload.find({
+    collection: 'jobPosts',
+    limit: 1000,
+  })
+
+  const featuredJobs = jobsData.filter(job => job?.featured)
+
+  return Boolean(featuredJobs.length) ? (
     <div className='mt-32 px-6 sm:mt-40 xl:mx-auto xl:max-w-7xl xl:px-8'>
       <div className='mx-auto max-w-2xl lg:mx-0'>
         <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
@@ -68,7 +31,7 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
         <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
       </div>
       <div className='grid grid-cols-1 gap-8 pt-12 lg:grid-cols-2'>
-        {jobCards.map(job => (
+        {featuredJobs?.slice(0, 4)?.map(job => (
           <div key={job.id} className='rounded border border-border p-8'>
             <div className='flex gap-5'>
               <Image
@@ -76,14 +39,14 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
                 width={1000}
                 className='size-12 rounded'
                 alt=''
-                src={job.image}
+                src={(job?.company?.logo as Media)?.url!}
               />
               <div>
-                <div className='mb-1 flex gap-1'>
+                <div className='mb-1 flex items-center gap-1'>
                   <Link
-                    href={`/job/${job.title}`}
+                    href={`/job/${job?.jobDetails?.slug}`}
                     className='font-semibold hover:text-primary'>
-                    {job.title}
+                    {job?.jobDetails?.title}
                   </Link>
                   {job.featured && (
                     <label className='text-xs text-green-500'>Featured</label>
@@ -92,26 +55,31 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
                 <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
                   <div className='flex'>
                     <BriefcaseBusiness size={17} className='mr-1' />
-                    {job.categories.map((category, index) => (
+                    {job?.jobDetails?.roles?.map((role, index) => (
                       <label key={index} className='truncate text-sm'>
-                        {category}
-                        {index < job.categories.length - 1 && ', '}
+                        {(role as JobRole)?.title}
+                        {index < job?.jobDetails?.roles.length - 1 && ', '}
                       </label>
                     ))}
                   </div>
                   <div className='flex'>
                     <MapPin size={17} className='mr-1' />
-                    <label className='truncate text-sm'>{job.location}</label>
+                    <label className='truncate text-sm'>
+                      {job?.jobDetails?.location}
+                    </label>
                   </div>
                   <div className='flex'>
                     <Wallet size={17} className='mr-1' />
-                    <label className='truncate text-sm'>{job.salary}</label>
+                    <label className='truncate text-sm'>
+                      ${job?.jobDetails?.salaryRange?.min}-$
+                      {job?.jobDetails?.salaryRange?.max}
+                    </label>
                   </div>
                 </div>
                 <div className='mt-3 flex gap-4'>
-                  <button className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
-                    {job.type}
-                  </button>
+                  <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
+                    {(job?.jobDetails?.type as JobType)?.title}
+                  </div>
                 </div>
               </div>
             </div>
@@ -119,12 +87,14 @@ const FeaturedJobs: React.FC<FeaturedProps> = ({ params, ...block }) => {
         ))}
       </div>
       <div className='mt-12 flex items-center justify-center'>
-        <Button onClick={() => router.push('/jobs')}>
+        <Link
+          href={'/jobs'}
+          className='inline-flex h-10 items-center gap-1 rounded bg-primary px-4 text-sm hover:bg-primary/90'>
           {block?.buttonText}
-        </Button>
+        </Link>
       </div>
     </div>
-  )
+  ) : null
 }
 
 export default FeaturedJobs
