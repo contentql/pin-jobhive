@@ -181,7 +181,7 @@ const JobDetails = ({ job }: { job: JobPost }) => {
                     {jobEndingDate}
                   </span>
                 </div>
-                <ApplyJob />
+                <ApplyJob formData={job?.application?.internalForm} />
                 {/* <Button>Apply Now</Button> */}
               </div>
             </div>
@@ -193,7 +193,7 @@ const JobDetails = ({ job }: { job: JobPost }) => {
         <div className='w-full'>
           <div
             dangerouslySetInnerHTML={{ __html: purifiedHtml }}
-            className='prose'
+            className='prose dark:prose-invert'
           />
         </div>
 
