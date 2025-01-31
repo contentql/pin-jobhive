@@ -8,7 +8,6 @@ import { format } from 'date-fns'
 import { Element } from 'domhandler'
 import DOMPurify from 'isomorphic-dompurify'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/common/Avatar'
@@ -156,12 +155,6 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
     <>
       <section className='grid gap-16 lg:grid-cols-[1fr_minmax(auto,18rem)] xl:mx-auto xl:max-w-7xl xl:px-8'>
         <article className='prose-headings:font prose prose-purple w-full overflow-x-hidden dark:prose-invert lg:prose-xl prose-headings:font-semibold prose-a:text-primary prose-a:no-underline prose-a:after:content-["↗"] hover:prose-a:text-primary/90 hover:prose-a:underline prose-blockquote:border-primary prose-blockquote:bg-primary/10 prose-blockquote:py-4 prose-img:w-full prose-img:rounded prose-video:w-full dark:prose-pre:bg-primary/10 [&_iframe]:aspect-video [&_iframe]:w-full [&_iframe]:rounded'>
-          <span
-            className='not-prose cursor-pointer text-sm text-secondary'
-            onClick={() => router.back()}>
-            {'<-'} Go Back
-          </span>
-
           <div className='not-prose mb-4 mt-6 flex gap-4'>
             {tags
               .filter(value => Boolean(value))
@@ -177,12 +170,11 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
                 const slicedTagSlug = tagSlug ? tagSlug.split('[')[0] : ''
 
                 return (
-                  <Link
-                    href={`${slicedTagSlug}${details.slug}`}
+                  <div
                     className={`text-sm font-bold uppercase ${details.color}-tag`}
                     key={index}>
                     {details.title}
-                  </Link>
+                  </div>
                 )
               })}
           </div>
@@ -248,7 +240,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
               src={imageURL.url}
               alt={imageURL.alt || `${blog.title} cover pic`}
               fill
-              className='h-full w-full animate-image-blur bg-secondary object-cover'
+              className='bg-secondary h-full w-full animate-image-blur object-cover'
             />
           </div>
 
@@ -262,8 +254,8 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
         </article>
 
         <div className='mt-56 hidden space-y-10 lg:block'>
-          <div className='sticky top-24 min-h-10'>
-            <p className='mb-4 text-xs text-secondary'>POSTED BY</p>
+          <div className='sticky top-24 min-h-10 py-5'>
+            <p className='mb-4 font-semibold'>POSTED BY</p>
 
             {userDetails
               .filter(details => Boolean(details))
@@ -287,7 +279,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
                           src={user.url?.src}
                           alt={`${user.name}-pic`}
                         />
-                        <AvatarFallback className='text-sm'>
+                        <AvatarFallback className='bg-foreground text-sm text-text'>
                           {initials}
                         </AvatarFallback>
                       </Avatar>
@@ -298,7 +290,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
                 )
               })}
 
-            <div className='mt-10 flex items-center justify-between'>
+            <div className='mt-10 flex items-center gap-2'>
               <p className='text-secondary'>Share: </p>
 
               <ShareList />
