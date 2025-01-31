@@ -1,10 +1,7 @@
-'use client'
-
 import { JobPost, JobRole, JobType, Media, SalaryRange } from '@payload-types'
 import { BriefcaseBusiness, MapPin, Search, Wallet } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
 
 import Button from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
@@ -31,17 +28,10 @@ const JobsList = ({
   salaryRange: SalaryRange[]
 }) => {
   console.log('jobs...', jobs.at(0))
-  const [rangeValue, setRangeValue] = useState(1000) // Initial value for the slider
-
-  const handleRangeChange = (e: any) => {
-    setRangeValue(e.target.value) // Update state when the slider moves
-  }
 
   const locations = jobs?.length
     ? jobs.map(job => job?.jobDetails?.location)
     : []
-
-  console.log({ salaryRange })
 
   return (
     <div>
