@@ -47,16 +47,19 @@ const AuthorPopover = ({
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
 
-      <PopoverContent align='start' alignOffset={offset}>
+      <PopoverContent
+        className='bg-foreground'
+        align='start'
+        alignOffset={offset}>
         <Avatar key={user.name} className='mb-4 size-10'>
           <AvatarImage src={user.url?.src} alt={`${user.name}-pic`} />
-          <AvatarFallback className='text-sm'>{initials}</AvatarFallback>
+          <AvatarFallback className='bg-background text-sm text-text/70'>
+            {initials}
+          </AvatarFallback>
         </Avatar>
 
-        <Link href={href} className='font-semibold'>
-          {user.name}
-        </Link>
-        <p className='mt-1 text-sm text-secondary'>{user.bio}</p>
+        <div className='font-semibold'>{user.name}</div>
+        <p className='mt-1 text-sm text-text/70'>{user.bio}</p>
 
         <div className='mt-4 flex flex-wrap items-center gap-3'>
           {user.socialLinks && user.socialLinks.length
@@ -65,7 +68,7 @@ const AuthorPopover = ({
                 return (
                   <Link
                     target='_blank'
-                    className='flex items-center gap-2 rounded-md bg-secondary/20 p-2 text-sm capitalize hover:bg-secondary/30'
+                    className='flex items-center gap-2 rounded-md bg-foreground p-2 text-sm capitalize hover:bg-primary'
                     href={value}
                     key={platform}>
                     <Element className='size-5' />
