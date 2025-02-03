@@ -1,7 +1,16 @@
-import { collectionSlug, cqlConfig } from '@contentql/core'
+import { cqlConfig } from '@contentql/core'
+import {
+  BlogsCollection,
+  MediaCollection,
+  PagesCollection,
+  SiteSettingsGlobal,
+  TagsCollection,
+  UsersCollection,
+} from '@contentql/core/blog'
 import { env } from '@env'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import path from 'path'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { ResetPassword } from '@/emails/reset-password'
@@ -46,18 +55,24 @@ export default cqlConfig({
 
   secret: env.PAYLOAD_SECRET,
 
-
   dbURI: env.DATABASE_URI,
   dbSecret: env.DATABASE_SECRET,
   syncDB: false,
   // prodMigrations: migrations,
 
   s3: {
-    accessKeyId: env.S3_ACCESS_KEY_ID,
+    collections: {
+      media: true,
+    },
     bucket: env.S3_BUCKET,
-    endpoint: env.S3_ENDPOINT,
-    region: env.S3_REGION,
-    secretAccessKey: env.S3_SECRET_ACCESS_KEY,
+    config: {
+      credentials: {
+        accessKeyId: env.S3_ACCESS_KEY_ID,
+        secretAccessKey: env.S3_SECRET_ACCESS_KEY,
+      },
+      endpoint: process.env.S3_ENDPOINT,
+      region: process.env.S3_REGION,
+    },
   },
 
   resend: {
@@ -70,20 +85,9 @@ export default cqlConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
 
-  blocks: blocksConfig,
-
   collections: [
     {
-      slug: collectionSlug.users,
-      fields: [
-        {
-          name: 'bio',
-          type: 'text',
-          admin: {
-            description: 'This bio will be shown in the authors details page',
-          },
-        },
-      ],
+      ...UsersCollection,
       auth: {
         cookies: {
           sameSite: 'None',
@@ -109,97 +113,34 @@ export default cqlConfig({
         },
       },
       hooks: {
+        ...UsersCollection.hooks,
         afterChange: [revalidateAuthors],
       },
     },
     {
-      slug: collectionSlug.pages,
-      fields: [],
+      ...PagesCollection({ blocks: blocksConfig }),
       hooks: {
         afterChange: [revalidatePages],
       },
     },
     {
-      slug: collectionSlug.blogs,
-      fields: [],
+      ...BlogsCollection,
       hooks: {
         afterChange: [revalidateBlogs],
       },
     },
     {
-      slug: collectionSlug.tags,
-      fields: [],
+      ...TagsCollection,
       hooks: {
         afterChange: [revalidateTags],
       },
     },
+    MediaCollection,
   ],
 
   globals: [
     {
-      slug: 'site-settings',
-      fields: [
-        {
-          type: 'tabs',
-          label: 'Settings',
-          tabs: [
-            {
-              label: 'Redirection Links',
-              name: 'redirectionLinks',
-              fields: [
-                {
-                  name: 'blogLink',
-                  type: 'relationship',
-                  relationTo: 'pages',
-                  label: 'Blog redirect link',
-                  maxDepth: 1,
-                  admin: {
-                    description: 'This redirects to a blog details page',
-                  },
-                },
-                {
-                  name: 'authorLink',
-                  type: 'relationship',
-                  relationTo: 'pages',
-                  label: 'Author redirect link',
-                  maxDepth: 1,
-                  admin: {
-                    description: 'This redirects to a author details page',
-                  },
-                },
-                {
-                  name: 'tagLink',
-                  type: 'relationship',
-                  relationTo: 'pages',
-                  label: 'Tag redirect link',
-                  maxDepth: 1,
-                  admin: {
-                    description: 'This redirects to a tag details page',
-                  },
-                },
-              ],
-            },
-            {
-              label: 'Monetization',
-              name: 'monetization',
-              fields: [
-                {
-                  name: 'adSenseId',
-                  type: 'text',
-                  label: 'Google AdSense',
-                  admin: {
-                    description:
-                      'Add the publisher-id from Google AdSense Console',
-                  },
-                },
-              ],
-              admin: {
-                hidden: true,
-              },
-            },
-          ],
-        },
-      ],
+      ...SiteSettingsGlobal,
       hooks: {
         afterChange: [revalidateSiteSettings],
       },
@@ -253,4 +194,5 @@ export default cqlConfig({
     },
   }),
   plugins: [jobBoard()],
+  sharp: sharp,
 })
