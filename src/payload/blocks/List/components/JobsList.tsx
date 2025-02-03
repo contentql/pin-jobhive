@@ -1,7 +1,10 @@
+'use client'
+
 import { JobPost, JobRole, JobType, Media, SalaryRange } from '@payload-types'
 import { BriefcaseBusiness, MapPin, Search, Wallet } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
 import Button from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
@@ -33,6 +36,43 @@ const JobsList = ({
     ? jobs.map(job => job?.jobDetails?.location)
     : []
 
+  const [jobPosts, setJobPosts] = useState(jobs)
+  const [filters, setFilters] = useState<{
+    title: string
+    location: string
+    category: string
+  }>({
+    title: '',
+    location: '',
+    category: '',
+  })
+
+  const handleChange = (field: keyof typeof filters, value: string) => {
+    setFilters(prev => ({ ...prev, [field]: value }))
+  }
+
+  const handleFilter = () => {
+    console.log({ filters })
+    const filteredJobs = jobs.filter(job => {
+      return (
+        (filters.title
+          ? job?.jobDetails?.title
+              ?.toLowerCase()
+              .includes(filters.title.toLowerCase())
+          : true) &&
+        (filters.location
+          ? job?.jobDetails?.location === filters.location
+          : true) &&
+        (filters.category
+          ? job.jobDetails.roles.some(
+              role => (role as JobRole)?.title === filters.category,
+            )
+          : true)
+      )
+    })
+    setJobPosts(filteredJobs)
+  }
+
   return (
     <div>
       {/* Hero Section Job Search */}
@@ -45,7 +85,8 @@ const JobsList = ({
                 <Search size={21} />
                 <Input
                   className='w-full border-none'
-                  placeholder='Job Title, Keywords'
+                  placeholder='Job Title'
+                  onChange={e => handleChange('title', e.target.value)}
                 />
               </div>
 
@@ -91,7 +132,9 @@ const JobsList = ({
 
               {/* Find Jobs Button */}
               <div className='w-full lg:w-auto'>
-                <Button className='w-full lg:w-auto'>Find Jobs</Button>
+                <Button className='w-full lg:w-auto' onClick={handleFilter}>
+                  Find Jobs
+                </Button>
               </div>
             </div>
           </div>
@@ -250,7 +293,7 @@ const JobsList = ({
               </div>
             </div>
             <div className='flex flex-col gap-8'>
-              {jobs?.map((job, index) => (
+              {jobPosts?.map((job, index) => (
                 <div key={index} className='rounded border border-border p-8'>
                   <div className='flex gap-5'>
                     <Image
