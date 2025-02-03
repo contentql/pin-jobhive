@@ -42,11 +42,6 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
           </button>
         </div>
         <div className='mr-12 hidden lg:flex lg:gap-x-12'>
-          <Link
-            href={'/jobs'}
-            className='text-sm/6 font-semibold hover:text-primary'>
-            Jobs
-          </Link>
           {navLinks?.map((item, index) => (
             <Link
               key={index}

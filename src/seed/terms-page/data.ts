@@ -4,7 +4,7 @@ export type TermsPageDataType = Omit<Page, 'id' | 'createdAt' | 'updatedAt'>
 
 export const termsPageData: TermsPageDataType = {
   title: 'terms',
-
+  slug: 'terms',
   layout: [
     {
       content: [

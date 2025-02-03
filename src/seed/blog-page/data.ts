@@ -7,7 +7,7 @@ export type HomePageImagesType = {
 }
 export const blogPageData: BlogsPageDataType = {
   title: 'blogs',
-
+  slug: 'blogs',
   layout: [
     {
       title: 'Blogs',

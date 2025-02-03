@@ -88,38 +88,26 @@ const seed = async (spinner: Ora): Promise<any> => {
         if (block?.blockType === 'Hero') {
           return {
             ...block,
-            heroSectionImages: block.heroSectionImages?.map((_, index) => {
+            heroSectionImages: block.heroSectionImages?.map((image, index) => {
               const imageId = formattedHeroImagesSeedResult.at(index)?.id
 
               return {
+                ...image,
                 image: imageId as number,
-                ...block.heroSectionImages?.at(index),
               }
             }),
           }
         }
+
         if (block?.blockType === 'Companies') {
           return {
             ...block,
-            companyLogos: block.companyLogos?.map((_, index) => {
+            companyLogos: block.companyLogos?.map((logo, index) => {
               const imageId = formattedCompanyImagesSeedResult.at(index)?.id
 
               return {
+                ...logo,
                 companyLogo: imageId as number,
-                ...block.companyLogos?.at(index),
-              }
-            }),
-          }
-        }
-        if (block?.blockType === 'Team') {
-          return {
-            ...block,
-            team: block.team?.map((_, index) => {
-              const imageId = formattedTeamImagesSeedResult.at(index)?.id
-
-              return {
-                image: imageId as number,
-                ...block.team?.at(index),
               }
             }),
           }
@@ -132,17 +120,35 @@ const seed = async (spinner: Ora): Promise<any> => {
           }
         }
 
+        if (block?.blockType === 'Team') {
+          return {
+            ...block,
+            team: block.team?.map((t, index) => {
+              const imageId = formattedTeamImagesSeedResult.at(index)?.id
+
+              return {
+                ...t,
+                image: imageId as number,
+              }
+            }),
+          }
+        }
+
         return block
       }),
     }
+
     const result = await payload.create({
       collection: 'pages',
       data: homeResult,
     })
+
     spinner.succeed(`Successfully created home-page`)
+
     return result
   } catch (error) {
     spinner.succeed(`Failed to create home-page`)
+
     throw error
   }
 }

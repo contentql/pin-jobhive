@@ -29,36 +29,7 @@ export const siteSettingsData: siteSettingsDataType = {
       width: null,
     },
 
-    menuLinks: [
-      {
-        group: false,
-        menuLink: {
-          type: 'reference',
-          newTab: null,
-          icon: 0,
-          label: 'Jobs',
-          page: {
-            relationTo: 'pages',
-            value: 0,
-          },
-          url: null,
-        },
-      },
-      {
-        group: false,
-        menuLink: {
-          type: 'reference',
-          newTab: null,
-          icon: 0,
-          label: 'Blogs',
-          page: {
-            relationTo: 'pages',
-            value: 0,
-          },
-          url: null,
-        },
-      },
-    ],
+    menuLinks: [],
   },
 
   footer: {
@@ -69,43 +40,7 @@ export const siteSettingsData: siteSettingsDataType = {
       description: null,
     },
 
-    footerLinks: [
-      {
-        group: false,
-
-        menuLink: {
-          type: 'reference',
-          newTab: null,
-          icon: null,
-          label: 'Terms',
-
-          page: {
-            relationTo: 'pages',
-
-            value: 0,
-          },
-          url: null,
-        },
-      },
-
-      {
-        group: false,
-
-        menuLink: {
-          type: 'reference',
-          newTab: null,
-          icon: null,
-          label: 'Privacy',
-
-          page: {
-            relationTo: 'pages',
-
-            value: 0,
-          },
-          url: null,
-        },
-      },
-    ],
+    footerLinks: [],
 
     socialLinks: [
       {

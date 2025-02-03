@@ -29,7 +29,7 @@ export const jobPostsData: JobPostsDataType[] = [
 
       type: 0,
 
-      roles: [],
+      roles: [1, 2],
 
       description: [
         {
@@ -278,7 +278,7 @@ export const jobPostsData: JobPostsDataType[] = [
 
 export const jobImagesData: jobsImageType[] = [
   {
-    alt: 'Company 1',
+    alt: 'Job 1',
     filePath: path.join(process.cwd(), '/public/images/seed/job_1.png'),
   },
 ]

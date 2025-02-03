@@ -18,4 +18,8 @@ export const blogDetailsPageData: BlogDetailsPageDataType = {
 
   isDynamic: true,
   _status: 'published',
+  slug: 'blog-details',
+  pathMode: 'custom',
+  path: '/blog/[blog-details]',
+  parent: null,
 }

@@ -47,32 +47,24 @@ const seed = async (spinner: Ora): Promise<(string | JobPost)[]> => {
 
     const formattedJobsData: JobPostsDataType[] = jobPostsData.map(
       (job, index) => {
-        const formattedJob = {
+        return {
           ...job,
           company: {
             ...job.company,
             logo: formattedJobsImagesResult?.at(index)?.id as number,
           },
-          JobDetails: {
+          jobDetails: {
             ...job.jobDetails,
-            roles: job.jobDetails.roles.slice(0, 2).map((_, index) => {
-              return {
-                relationTo: 'jobRoles',
-                value: jobRoles.at(index)?.id,
-              }
-            }),
-            type: {
-              relationTo: 'jobTypes',
-              value: jobTypes.at(Math.floor(Math.random() * jobTypeCount))?.id,
-            },
+            roles: job.jobDetails.roles.map(
+              (_, index) => jobRoles.at(index)?.id as number,
+            ),
+            type: jobTypes.at(index)?.id as number,
           },
           application: {
             ...job.application,
-            internalForm: forms.at(index)?.id,
+            internalForm: forms.at(index)?.id as number,
           },
         }
-
-        return formattedJob
       },
     )
 

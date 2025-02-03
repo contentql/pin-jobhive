@@ -1,5 +1,6 @@
 import { collectionSlug } from '@contentql/core'
 import configPromise from '@payload-config'
+import { Page } from '@payload-types'
 import { Ora } from 'ora'
 import { getPayload } from 'payload'
 
@@ -11,17 +12,21 @@ import {
 
 const payload = await getPayload({ config: configPromise })
 
-const seed = async (spinner: Ora) => {
+const seed = async ({
+  jobsPage,
+  spinner,
+  blogsPage,
+  termsPage,
+  privacy,
+}: {
+  spinner: Ora
+  blogsPage: Page
+  jobsPage: Page
+  termsPage: Page
+  privacy: Page
+}) => {
   try {
     spinner.start(`Started created site-settings...`)
-    const { docs: pages } = await payload.find({
-      collection: collectionSlug['pages'],
-      where: {
-        slug: {
-          in: ['jobs', 'blogs', 'terms', 'privacy'],
-        },
-      },
-    })
 
     const siteSettingsImageSeedResult = await Promise.allSettled(
       siteSettingsImages.map(image =>
@@ -56,27 +61,30 @@ const seed = async (spinner: Ora) => {
           ...siteSettingsData.navbar.logo,
           imageUrl: formattedImagesResult.at(0)?.id as number,
         },
-        menuLinks: siteSettingsData.navbar.menuLinks
-          ?.slice(0, 2)
-          ?.map((menuLinkData, idx) => {
-            const linkedPage = pages.find(
-              page =>
-                page.title.toLowerCase() ===
-                menuLinkData.menuLink?.label.toLowerCase(),
-            )
-
-            return {
-              ...menuLinkData,
-              menuLink: {
-                ...menuLinkData.menuLink,
-                label: menuLinkData.menuLink?.label as string,
-                page: {
-                  relationTo: 'pages',
-                  value: linkedPage?.id as number,
-                },
+        menuLinks: [
+          {
+            group: false,
+            menuLink: {
+              type: 'reference',
+              label: 'Jobs',
+              page: {
+                relationTo: 'pages',
+                value: jobsPage.id,
               },
-            }
-          }),
+            },
+          },
+          {
+            group: false,
+            menuLink: {
+              type: 'reference',
+              label: 'Blogs',
+              page: {
+                relationTo: 'pages',
+                value: blogsPage.id,
+              },
+            },
+          },
+        ],
       },
       footer: {
         ...siteSettingsData.footer,
@@ -84,27 +92,30 @@ const seed = async (spinner: Ora) => {
           ...siteSettingsData.footer.logo,
           imageUrl: formattedImagesResult.at(0)?.id as number,
         },
-        footerLinks: siteSettingsData.navbar.menuLinks
-          ?.slice(2, 4)
-          ?.map((menuLinkData, idx) => {
-            const linkedPage = pages.find(
-              page =>
-                page.title.toLowerCase() ===
-                menuLinkData.menuLink?.label.toLowerCase(),
-            )
-
-            return {
-              ...menuLinkData,
-              menuLink: {
-                ...menuLinkData.menuLink,
-                label: menuLinkData.menuLink?.label as string,
-                page: {
-                  relationTo: 'pages',
-                  value: linkedPage?.id as number,
-                },
+        footerLinks: [
+          {
+            group: false,
+            menuLink: {
+              type: 'reference',
+              label: 'Terms',
+              page: {
+                relationTo: 'pages',
+                value: termsPage.id,
               },
-            }
-          }),
+            },
+          },
+          {
+            group: false,
+            menuLink: {
+              type: 'reference',
+              label: 'Privacy',
+              page: {
+                relationTo: 'pages',
+                value: privacy.id,
+              },
+            },
+          },
+        ],
       },
     }
 

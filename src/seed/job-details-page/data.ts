@@ -17,6 +17,9 @@ export const jobDetailsPageData: JobDetailsPageDataType = {
   ],
 
   isDynamic: true,
-
   _status: 'published',
+  slug: 'job-details',
+  pathMode: 'custom',
+  path: '/job/[job-details]',
+  parent: null,
 }

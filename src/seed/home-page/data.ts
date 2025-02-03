@@ -32,9 +32,6 @@ export const homePageData: HomePageDataType = {
         {
           image: 0,
         },
-        {
-          image: 0,
-        },
       ],
       blockType: 'Hero',
     },
@@ -173,13 +170,13 @@ export const companyImagesData: HomePageImagesType[] = [
 ]
 
 export const imageBlockImageData: HomePageImagesType = {
-  alt: 'Company_1',
-  filePath: path.join(process.cwd(), '/public/images/seed/image.png'),
+  alt: 'image_1',
+  filePath: path.join(process.cwd(), '/public/images/seed/image_1.png'),
 }
 
 export const teamImagesData: HomePageImagesType[] = [
   {
-    alt: 'Company_1',
+    alt: 'Team_1',
     filePath: path.join(process.cwd(), '/public/images/seed/team_1.png'),
   },
 ]

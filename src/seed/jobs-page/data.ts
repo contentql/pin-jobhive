@@ -7,7 +7,7 @@ export type HomePageImagesType = {
 }
 export const jobsPageData: JobsPageDataType = {
   title: 'Jobs',
-
+  slug: 'jobs',
   layout: [
     {
       title: 'Jobs',

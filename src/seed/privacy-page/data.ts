@@ -4,7 +4,7 @@ export type PrivacyPageDataType = Omit<Page, 'id' | 'createdAt' | 'updatedAt'>
 
 export const privacyPageData: PrivacyPageDataType = {
   title: 'privacy',
-
+  slug: 'privacy',
   layout: [
     {
       content: [
