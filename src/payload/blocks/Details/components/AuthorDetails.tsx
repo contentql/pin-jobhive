@@ -28,7 +28,6 @@ const AuthorDetails: React.FC<AuthorDetailsProps> = ({
           }
         : undefined,
     name: author.displayName || author.username,
-    bio: author.bio || '',
     socialLinks: author.socialLinks || [],
     username: author.username!,
   }
@@ -36,7 +35,7 @@ const AuthorDetails: React.FC<AuthorDetailsProps> = ({
   return (
     <>
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-        <div className='relative aspect-[9/16] h-full max-h-80 w-full overflow-hidden rounded bg-secondary'>
+        <div className='bg-secondary relative aspect-[9/16] h-full max-h-80 w-full overflow-hidden rounded'>
           {authorDetails.image && (
             <Image
               alt={`${authorDetails.image.alt}`}
@@ -50,7 +49,6 @@ const AuthorDetails: React.FC<AuthorDetailsProps> = ({
 
         <div className='flex flex-col justify-center lg:col-span-3'>
           <h3 className='text-xl font-semibold'>{authorDetails.name}</h3>
-          <p className='max-w-[50ch] text-secondary'>{authorDetails.bio}</p>
 
           <div className='mt-4 flex flex-wrap items-center gap-3'>
             {authorDetails.socialLinks.length
@@ -59,7 +57,7 @@ const AuthorDetails: React.FC<AuthorDetailsProps> = ({
                   return (
                     <Link
                       target='_blank'
-                      className='flex items-center gap-2 rounded-md bg-secondary/20 px-3 py-2 text-sm capitalize hover:bg-secondary/30'
+                      className='bg-secondary/20 hover:bg-secondary/30 flex items-center gap-2 rounded-md px-3 py-2 text-sm capitalize'
                       href={value}
                       key={platform}>
                       <Element className='size-5' />

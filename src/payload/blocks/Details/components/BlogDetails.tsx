@@ -112,13 +112,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
   const userDetails = blog.author
     ? blog.author.map(({ value }) => {
         if (typeof value === 'object') {
-          const {
-            displayName,
-            username,
-            imageUrl,
-            bio = '',
-            socialLinks = [],
-          } = value
+          const { displayName, username, imageUrl, socialLinks = [] } = value
 
           const url =
             imageUrl && typeof imageUrl === 'object'
@@ -131,7 +125,6 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
           return {
             name: displayName || username,
             url,
-            bio,
             socialLinks,
             slug: username!,
           }

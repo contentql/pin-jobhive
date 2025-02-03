@@ -19,7 +19,6 @@ type UserPopoverType = {
         alt: string
       }
     | undefined
-  bio: string | null
   socialLinks:
     | {
         platform: PlatformType
@@ -59,7 +58,6 @@ const AuthorPopover = ({
         </Avatar>
 
         <div className='font-semibold'>{user.name}</div>
-        <p className='mt-1 text-sm text-text/70'>{user.bio}</p>
 
         <div className='mt-4 flex flex-wrap items-center gap-3'>
           {user.socialLinks && user.socialLinks.length

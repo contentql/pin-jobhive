@@ -11,7 +11,7 @@ export const revalidatePages: CollectionAfterChangeHook<Page> = async ({
     block => block.blockType === 'Details' && block.collectionSlug,
   ) as DetailsType | undefined
 
-  // if page is published & their is no dynamic block directly revalidating the page
+  // if page is published & there is no dynamic block directly revalidating the page
   if (doc._status === 'published' && !dynamicBlock) {
     revalidateTag(`page-${doc?.path}`)
     console.log(`revalidated page-${doc?.path} at ${new Date().getTime()}`)
@@ -36,17 +36,26 @@ export const revalidatePages: CollectionAfterChangeHook<Page> = async ({
         docs.forEach(doc => {
           let modifiedPath = basePath
 
-          // replacing the [details] path with slug or username
+          // Guarding against possible types
           if ('username' in doc) {
             if (modifiedPath) {
               modifiedPath = modifiedPath.replace(/\[(.*?)\]/, doc.username)
             }
-          } else {
+          } else if ('slug' in doc) {
             if (modifiedPath && doc.slug) {
               modifiedPath = modifiedPath.replace(/\[(.*?)\]/, doc.slug)
             }
           }
 
+          // Adding a guard for `jobDetails.slug` if it exists
+          if ('jobDetails' in doc && doc.jobDetails?.slug && modifiedPath) {
+            modifiedPath = modifiedPath.replace(
+              /\[(.*?)\]/,
+              doc.jobDetails.slug,
+            )
+          }
+
+          // Ensure modifiedPath is not null or undefined before revalidating
           if (modifiedPath) {
             revalidateTag(`page-${modifiedPath}`)
             console.log(

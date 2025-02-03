@@ -23,7 +23,7 @@ const AuthorCard = ({ author, authorLink }: AuthorCardType) => {
           }
         : undefined,
     name: author.displayName || author.username,
-    bio: author.bio || '',
+
     socialLinks: author.socialLinks,
     username: author.username!,
   }
@@ -33,7 +33,7 @@ const AuthorCard = ({ author, authorLink }: AuthorCardType) => {
       href={`${slicedSlug}${authorDetails.username}`}
       className='group block cursor-pointer'
       key={authorDetails.username}>
-      <div className='relative aspect-[9/16] h-full max-h-80 w-full overflow-hidden rounded bg-secondary'>
+      <div className='bg-secondary relative aspect-[9/16] h-full max-h-80 w-full overflow-hidden rounded'>
         {authorDetails.image && (
           <Image
             src={authorDetails.image.url}
@@ -50,7 +50,6 @@ const AuthorCard = ({ author, authorLink }: AuthorCardType) => {
         className='mt-4 inline-block w-full overflow-x-hidden text-ellipsis text-nowrap text-lg font-semibold transition-colors hover:text-primary'>
         {authorDetails.name}
       </p>
-      <p className='line-clamp-3 text-secondary'>{authorDetails.bio}</p>
     </Link>
   )
 }

@@ -69,13 +69,7 @@ const BlogCard = ({ blog, blogLink, tagLink, authorLink }: BlogCardType) => {
   const userDetails = blog.author
     ? blog.author.map(({ value }) => {
         if (typeof value === 'object') {
-          const {
-            displayName,
-            username,
-            imageUrl,
-            bio = '',
-            socialLinks = [],
-          } = value
+          const { displayName, username, imageUrl, socialLinks = [] } = value
 
           const url =
             imageUrl && typeof imageUrl === 'object'
@@ -88,7 +82,6 @@ const BlogCard = ({ blog, blogLink, tagLink, authorLink }: BlogCardType) => {
           return {
             name: displayName || username,
             url,
-            bio,
             socialLinks,
             slug: username!,
           }
@@ -103,7 +96,7 @@ const BlogCard = ({ blog, blogLink, tagLink, authorLink }: BlogCardType) => {
       <Link
         href={`${slicedBlogSlug}${blog.slug}`}
         tabIndex={-1}
-        className='relative block aspect-video w-full cursor-pointer overflow-hidden rounded bg-secondary outline-none'>
+        className='bg-secondary relative block aspect-video w-full cursor-pointer overflow-hidden rounded outline-none'>
         {imageURL && (
           <Image
             src={imageURL.src}
@@ -140,7 +133,7 @@ const BlogCard = ({ blog, blogLink, tagLink, authorLink }: BlogCardType) => {
               })}
           </div>
 
-          <time className='text-xs text-secondary'>
+          <time className='text-secondary text-xs'>
             {format(blog.createdAt, 'LLL d, yyyy')}
           </time>
         </div>
@@ -152,7 +145,7 @@ const BlogCard = ({ blog, blogLink, tagLink, authorLink }: BlogCardType) => {
           {blog.title}
         </Link>
 
-        <p className='line-clamp-3 text-secondary'>{blog.description}</p>
+        <p className='text-secondary line-clamp-3'>{blog.description}</p>
 
         <div className='ml-2 mt-2 flex items-center'>
           {userDetails
@@ -189,7 +182,7 @@ const BlogCard = ({ blog, blogLink, tagLink, authorLink }: BlogCardType) => {
               )
             })}
 
-          <span className='ml-3 text-sm text-secondary'>
+          <span className='text-secondary ml-3 text-sm'>
             {formatAvatarName(
               userDetails
                 .filter(details => Boolean(details))

@@ -7,6 +7,7 @@ import { tagRouter } from '@/trpc/routers/tag'
 
 import { authRouter } from './auth'
 import { formRouter } from './form'
+import { jobPostRouter } from './job-post'
 import { searchRouter } from './search'
 import { seedRouter } from './seed'
 import { userRouter } from './user/user-route'
@@ -23,6 +24,7 @@ export const appRouter = router({
   search: searchRouter,
   form: formRouter,
   seed: seedRouter,
+  jobPost: jobPostRouter,
 })
 
 export type AppRouter = typeof appRouter
