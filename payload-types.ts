@@ -747,7 +747,7 @@ export interface JobPost {
     /**
      * Specify the required years of experience for the position.
      */
-    experience: string;
+    experience: number;
     /**
      * Add the required qualifications for the job.
      */

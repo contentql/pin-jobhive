@@ -13,7 +13,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i @libsql/linux-x64-musl && pnpm i --frozen-lockfile; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable && corepack prepare pnpm@9.15.2 --activate pnpm && pnpm i @libsql/linux-x64-musl && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -34,7 +34,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 ARG DATABASE_URI
 ARG DATABASE_SECRET
 ARG PAYLOAD_SECRET
-ARG NEXT_PUBLIC_PUBLIC_URL
+ARG NEXT_PUBLIC_WEBSITE_URL
 ARG PAYLOAD_URL
 ARG S3_ENDPOINT
 ARG S3_ACCESS_KEY_ID
@@ -44,13 +44,11 @@ ARG S3_REGION
 ARG RESEND_API_KEY
 ARG RESEND_SENDER_EMAIL
 ARG RESEND_SENDER_NAME
-ARG OPENAPI_KEY
-ARG SUBSCRIPTION_PLAN
 
 ENV DATABASE_URI=$DATABASE_URI
 ENV DATABASE_SECRET=$DATABASE_SECRET
 ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
-ENV NEXT_PUBLIC_PUBLIC_URL=$NEXT_PUBLIC_PUBLIC_URL
+ENV NEXT_PUBLIC_WEBSITE_URL=$NEXT_PUBLIC_WEBSITE_URL
 ENV PAYLOAD_URL=$PAYLOAD_URL
 ENV S3_ENDPOINT=$S3_ENDPOINT
 ENV S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
@@ -60,13 +58,11 @@ ENV S3_REGION=$S3_REGION
 ENV RESEND_API_KEY=$RESEND_API_KEY
 ENV RESEND_SENDER_EMAIL=$RESEND_SENDER_EMAIL
 ENV RESEND_SENDER_NAME=$RESEND_SENDER_NAME
-ENV OPENAPI_KEY=$OPENAPI_KEY
-ENV SUBSCRIPTION_PLAN=$SUBSCRIPTION_PLAN
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable && corepack prepare pnpm@9.15.2 --activate pnpm && pnpm i @libsql/linux-x64-musl && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -82,7 +78,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Adding @libsql/linux-x64-musl again
-RUN corepack enable pnpm &&  pnpm i @libsql/linux-x64-musl
+RUN corepack enable && corepack prepare pnpm@9.15.2 --activate pnpm &&  pnpm i @libsql/linux-x64-musl
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
@@ -93,8 +89,6 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-
 
 USER nextjs
 

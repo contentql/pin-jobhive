@@ -149,8 +149,6 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
         { tags: ['list-salaryRange'] },
       )()
 
-      console.log({ salary: salaryRange })
-
       return (
         <JobsList
           jobs={jobs}
