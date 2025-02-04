@@ -225,7 +225,7 @@ export const jobPostsData: JobPostsDataType[] = [
     },
 
     requirements: {
-      experience: '2',
+      experience: 3,
 
       qualifications: [
         {

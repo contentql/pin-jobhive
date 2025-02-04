@@ -148,6 +148,10 @@ export const heroImagesData: HomePageImagesType[] = [
     alt: 'hero_image_4',
     filePath: path.join(process.cwd(), '/public/images/seed/hero_image_4.png'),
   },
+  {
+    alt: 'hero_image_5',
+    filePath: path.join(process.cwd(), '/public/images/seed/hero_image_5.png'),
+  },
 ]
 
 export const companyImagesData: HomePageImagesType[] = [
