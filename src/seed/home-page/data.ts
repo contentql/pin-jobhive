@@ -32,6 +32,9 @@ export const homePageData: HomePageDataType = {
         {
           image: 0,
         },
+        {
+          image: 0,
+        },
       ],
       blockType: 'Hero',
     },
