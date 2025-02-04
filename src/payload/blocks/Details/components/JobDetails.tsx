@@ -20,7 +20,6 @@ import Link from 'next/link'
 import ApplyJob from '@/components/ApplyJob'
 
 const JobDetails = ({ job }: { job: JobPost }) => {
-  console.log({ job })
   const jobPostedDate = format(
     new Date(job?.dates?.openingDate),
     'MMMM dd, yyyy',
