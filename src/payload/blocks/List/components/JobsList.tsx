@@ -30,47 +30,84 @@ const JobsList = ({
   title: string
   salaryRange: SalaryRange[]
 }) => {
-  console.log('jobs...', jobs.at(0))
-
   const locations = jobs?.length
     ? jobs.map(job => job?.jobDetails?.location)
     : []
 
-  const [jobPosts, setJobPosts] = useState(jobs)
   const [filters, setFilters] = useState<{
     title: string
     location: string
     category: string
+    selectedSalaryRange: {
+      min: number | null
+      max: number | null
+    }
+    experience: number | null
   }>({
     title: '',
     location: '',
     category: '',
+    selectedSalaryRange: { min: null, max: null },
+    experience: null,
   })
 
   const handleChange = (field: keyof typeof filters, value: string) => {
     setFilters(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleFilter = () => {
-    console.log({ filters })
-    const filteredJobs = jobs.filter(job => {
-      return (
-        (filters.title
-          ? job?.jobDetails?.title
-              ?.toLowerCase()
-              .includes(filters.title.toLowerCase())
-          : true) &&
-        (filters.location
-          ? job?.jobDetails?.location === filters.location
-          : true) &&
-        (filters.category
-          ? job.jobDetails.roles.some(
-              role => (role as JobRole)?.title === filters.category,
-            )
-          : true)
-      )
-    })
-    setJobPosts(filteredJobs)
+  const filteredJobs = jobs.filter(job => {
+    const { title, location, category, selectedSalaryRange, experience } =
+      filters
+
+    // Title filter
+    const matchesTitle = Boolean(title)
+      ? job?.jobDetails?.title?.toLowerCase().includes(title.toLowerCase())
+      : true
+
+    // Location filter
+    const matchesLocation = location
+      ? job?.jobDetails?.location === location
+      : true
+
+    // Category filter
+    const matchesCategory = category
+      ? job.jobDetails.roles.some(role => (role as JobRole)?.title === category)
+      : true
+
+    // Salary filter
+    const jobSalaryRange = job?.jobDetails?.salaryRange
+    const jobSalaryMin = jobSalaryRange?.min ?? null
+    const jobSalaryMax = jobSalaryRange?.max ?? null
+    const matchesSalary =
+      selectedSalaryRange.min !== null || selectedSalaryRange.max !== null
+        ? (selectedSalaryRange.min === null ||
+            (jobSalaryMin !== null &&
+              jobSalaryMin >= selectedSalaryRange.min)) &&
+          (selectedSalaryRange.max === null ||
+            (jobSalaryMax !== null && jobSalaryMax <= selectedSalaryRange.max))
+        : true
+
+    // Experience filter
+    const matchesExperience = Boolean(experience)
+      ? experience === 5
+        ? job?.requirements?.experience >= 5
+        : experience === job?.requirements?.experience
+      : true
+
+    return (
+      matchesTitle &&
+      matchesLocation &&
+      matchesCategory &&
+      matchesSalary &&
+      matchesExperience
+    )
+  })
+
+  const handleExperienceChange = (experienceLevel: number | null) => {
+    setFilters(prev => ({
+      ...prev,
+      experience: prev.experience === experienceLevel ? null : experienceLevel,
+    }))
   }
 
   return (
@@ -84,6 +121,7 @@ const JobsList = ({
               <div className='flex w-full items-center gap-2 border-b py-4 lg:border-b-0 lg:border-r lg:pr-4'>
                 <Search size={21} />
                 <Input
+                  value={filters.title}
                   className='w-full border-none'
                   placeholder='Job Title'
                   onChange={e => handleChange('title', e.target.value)}
@@ -93,7 +131,9 @@ const JobsList = ({
               {/* Location Dropdown */}
               <div className='flex w-full items-center gap-2 border-b py-4 lg:border-b-0 lg:border-r lg:pr-4'>
                 <MapPin size={21} />
-                <Select>
+                <Select
+                  value={filters.location}
+                  onValueChange={value => handleChange('location', value)}>
                   <SelectTrigger className='w-full border-none'>
                     <SelectValue placeholder='City or PostCode' />
                   </SelectTrigger>
@@ -113,7 +153,9 @@ const JobsList = ({
               {/* Categories Dropdown */}
               <div className='flex w-full items-center gap-2 py-4 lg:pr-4'>
                 <BriefcaseBusiness size={21} />
-                <Select>
+                <Select
+                  value={filters.category}
+                  onValueChange={value => handleChange('category', value)}>
                   <SelectTrigger className='w-full border-none'>
                     <SelectValue placeholder='All Categories' />
                   </SelectTrigger>
@@ -132,9 +174,7 @@ const JobsList = ({
 
               {/* Find Jobs Button */}
               <div className='w-full lg:w-auto'>
-                <Button className='w-full lg:w-auto' onClick={handleFilter}>
-                  Find Jobs
-                </Button>
+                <Button className='w-full lg:w-auto'>Find Jobs</Button>
               </div>
             </div>
           </div>
@@ -148,7 +188,9 @@ const JobsList = ({
             <div className='mb-8'>
               <h1 className='mb-5 font-semibold'>Job Type</h1>
               <div className=' w-full'>
-                <Select>
+                <Select
+                  value={filters.category}
+                  onValueChange={value => handleChange('category', value)}>
                   <SelectTrigger className='w-full border-none'>
                     <SelectValue placeholder='All Categories' />
                   </SelectTrigger>
@@ -170,50 +212,72 @@ const JobsList = ({
               <h1 className='mb-5 font-semibold'>Salary</h1>
               <div className='flex flex-col gap-4'>
                 {salaryRange?.map((salary, index) => {
-                  if (salary?.salaryType === 'range') {
-                    return (
-                      <div
-                        key={index}
-                        className='flex items-center gap-2 text-text/70'>
-                        <Switch />
-                        <div>
-                          <span>${salary?.salaryMin}</span>
-                          {' - '}
-                          <span>${salary?.salaryMax}</span>
-                        </div>
-                      </div>
-                    )
+                  const isSelected =
+                    (salary?.salaryType === 'range' &&
+                      filters.selectedSalaryRange.min === salary.salaryMin &&
+                      filters.selectedSalaryRange.max === salary.salaryMax) ||
+                    (salary?.salaryType === 'greaterThan' &&
+                      filters.selectedSalaryRange.min === salary.salaryMin &&
+                      filters.selectedSalaryRange.max === null) ||
+                    (salary?.salaryType === 'lessThan' &&
+                      filters.selectedSalaryRange.min === null &&
+                      filters.selectedSalaryRange.max === salary.salaryMax)
+
+                  const handleSalarySelection = () => {
+                    if (isSelected) {
+                      // Deselect salary range
+                      setFilters(prev => ({
+                        ...prev,
+                        selectedSalaryRange: { min: null, max: null },
+                      }))
+                    } else {
+                      // Select new salary range
+                      setFilters(prev => ({
+                        ...prev,
+                        selectedSalaryRange: {
+                          min:
+                            salary.salaryType === 'lessThan'
+                              ? null
+                              : (salary.salaryMin ?? null),
+                          max:
+                            salary.salaryType === 'greaterThan'
+                              ? null
+                              : (salary.salaryMax ?? null),
+                        },
+                      }))
+                    }
                   }
 
-                  if (salary?.salaryType === 'greaterThan') {
-                    return (
-                      <div
-                        key={index}
-                        className='flex items-center gap-2 text-text/70'>
-                        <Switch />
-                        <div>
-                          {'> '}
-                          <span>${salary?.salaryMin}</span>
-                        </div>
+                  return (
+                    <div
+                      key={index}
+                      className='flex items-center gap-2 text-text/70'>
+                      <Switch
+                        checked={isSelected}
+                        onCheckedChange={handleSalarySelection}
+                      />
+                      <div>
+                        {salary?.salaryType === 'range' && (
+                          <>
+                            <span>${salary?.salaryMin}</span> -{' '}
+                            <span>${salary?.salaryMax}</span>
+                          </>
+                        )}
+                        {salary?.salaryType === 'greaterThan' && (
+                          <>
+                            {'> '}
+                            <span>${salary?.salaryMin}</span>
+                          </>
+                        )}
+                        {salary?.salaryType === 'lessThan' && (
+                          <>
+                            {'< '}
+                            <span>${salary?.salaryMax}</span>
+                          </>
+                        )}
                       </div>
-                    )
-                  }
-
-                  if (salary?.salaryType === 'lessThan') {
-                    return (
-                      <div
-                        key={index}
-                        className='flex items-center gap-2 text-text/70'>
-                        <Switch />
-                        <div>
-                          {'< '}
-                          <span>${salary?.salaryMax}</span>
-                        </div>
-                      </div>
-                    )
-                  }
-
-                  return null // Return null if none of the conditions match
+                    </div>
+                  )
                 })}
               </div>
             </div>
@@ -222,27 +286,45 @@ const JobsList = ({
               <h1 className='mb-5 font-semibold'>Experience Level</h1>
               <div className='flex flex-col gap-4'>
                 <div className='flex gap-3'>
-                  <Switch />
+                  <Switch
+                    checked={filters.experience === 0} // Fresher is selected when experience is null
+                    onCheckedChange={() => handleExperienceChange(0)}
+                  />
                   <label className='text-text/70'>Fresher</label>
                 </div>
                 <div className='flex gap-3'>
-                  <Switch />
+                  <Switch
+                    checked={filters.experience === 1} // 1 Year experience selected
+                    onCheckedChange={() => handleExperienceChange(1)}
+                  />
                   <label className='text-text/70'>1 Year</label>
                 </div>
                 <div className='flex gap-3'>
-                  <Switch />
+                  <Switch
+                    checked={filters.experience === 2} // 2 Years experience selected
+                    onCheckedChange={() => handleExperienceChange(2)}
+                  />
                   <label className='text-text/70'>2 Years</label>
                 </div>
                 <div className='flex gap-3'>
-                  <Switch />
+                  <Switch
+                    checked={filters.experience === 3} // 3 Years experience selected
+                    onCheckedChange={() => handleExperienceChange(3)}
+                  />
                   <label className='text-text/70'>3 Years</label>
                 </div>
                 <div className='flex gap-3'>
-                  <Switch />
+                  <Switch
+                    checked={filters.experience === 4} // 4 Years experience selected
+                    onCheckedChange={() => handleExperienceChange(4)}
+                  />
                   <label className='text-text/70'>4 Years</label>
                 </div>
                 <div className='flex gap-3'>
-                  <Switch />
+                  <Switch
+                    checked={filters.experience === 5} // Above 5 Years experience selected
+                    onCheckedChange={() => handleExperienceChange(5)}
+                  />
                   <label className='text-text/70'>Above 5 Years</label>
                 </div>
               </div>
@@ -256,20 +338,88 @@ const JobsList = ({
             <div className='flex flex-col gap-4 rounded bg-foreground p-3 sm:flex-row sm:items-center sm:justify-between'>
               {/* Selected Items */}
               <div className='flex flex-wrap gap-2'>
-                <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
-                  <label className='mr-1 cursor-pointer text-red-500'>x</label>
-                  <label>$1000</label>
-                </div>
-                <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
-                  <label className='mr-1 cursor-pointer text-red-500'>x</label>
-                  <label>Development</label>
-                </div>
+                {filters.title && (
+                  <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
+                    <label
+                      className='mr-1 cursor-pointer text-red-500'
+                      onClick={() => {
+                        setFilters(prev => ({ ...prev, title: '' }))
+                      }}>
+                      x
+                    </label>
+                    <label>{filters.title}</label>
+                  </div>
+                )}
+                {filters.location && (
+                  <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
+                    <label
+                      className='mr-1 cursor-pointer text-red-500'
+                      onClick={() => {
+                        setFilters(prev => ({ ...prev, location: '' }))
+                      }}>
+                      x
+                    </label>
+                    <label>{filters.location}</label>
+                  </div>
+                )}
+                {filters.category && (
+                  <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
+                    <label
+                      className='mr-1 cursor-pointer text-red-500'
+                      onClick={() => {
+                        setFilters(prev => ({ ...prev, category: '' }))
+                      }}>
+                      x
+                    </label>
+                    <label>{filters.category}</label>
+                  </div>
+                )}
+                {filters.selectedSalaryRange.min && (
+                  <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
+                    <label
+                      className='mr-1 cursor-pointer text-red-500'
+                      onClick={() => {
+                        setFilters(prev => ({
+                          ...prev,
+                          selectedSalaryRange: { min: null, max: null },
+                        }))
+                      }}>
+                      x
+                    </label>
+                    <label>
+                      ${filters.selectedSalaryRange.min} - $
+                      {filters.selectedSalaryRange.max}
+                    </label>
+                  </div>
+                )}
+                {filters.experience !== null && (
+                  <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
+                    <label
+                      className='mr-1 cursor-pointer text-red-500'
+                      onClick={() => {
+                        setFilters(prev => ({ ...prev, experience: null }))
+                      }}>
+                      x
+                    </label>
+                    <label>{filters.experience} Years</label>
+                  </div>
+                )}
               </div>
 
               {/* Clear All */}
-              <h1 className='cursor-pointer text-sm font-medium text-red-500 hover:underline sm:text-base'>
+              <button
+                onClick={() => {
+                  setFilters({
+                    title: '',
+                    location: '',
+                    category: '',
+                    selectedSalaryRange: { min: null, max: null },
+                    experience: null,
+                  })
+                }}
+                className='cursor-pointer text-sm font-medium text-red-500 hover:underline sm:text-base'>
                 Clear All
-              </h1>
+              </button>
             </div>
           </div>
 
@@ -293,7 +443,7 @@ const JobsList = ({
               </div>
             </div>
             <div className='flex flex-col gap-8'>
-              {jobPosts?.map((job, index) => (
+              {filteredJobs?.map((job, index) => (
                 <div key={index} className='rounded border border-border p-8'>
                   <div className='flex gap-5'>
                     <Image
