@@ -1,6 +1,52 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-sqlite'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+  await db.run(sql`CREATE TABLE \`users_role\` (
+  	\`order\` integer NOT NULL,
+  	\`parent_id\` integer NOT NULL,
+  	\`value\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`users_role_order_idx\` ON \`users_role\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX \`users_role_parent_idx\` ON \`users_role\` (\`parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`users_social_links\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`platform\` text NOT NULL,
+  	\`value\` text NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`users_social_links_order_idx\` ON \`users_social_links\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`users_social_links_parent_id_idx\` ON \`users_social_links\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`users\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`display_name\` text,
+  	\`username\` text NOT NULL,
+  	\`image_url_id\` integer,
+  	\`email_verified\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`email\` text NOT NULL,
+  	\`reset_password_token\` text,
+  	\`reset_password_expiration\` text,
+  	\`salt\` text,
+  	\`hash\` text,
+  	\`_verified\` integer,
+  	\`_verificationtoken\` text,
+  	\`login_attempts\` numeric DEFAULT 0,
+  	\`lock_until\` text,
+  	FOREIGN KEY (\`image_url_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`users_username_idx\` ON \`users\` (\`username\`);`)
+  await db.run(sql`CREATE INDEX \`users_image_url_idx\` ON \`users\` (\`image_url_id\`);`)
+  await db.run(sql`CREATE INDEX \`users_updated_at_idx\` ON \`users\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`users_created_at_idx\` ON \`users\` (\`created_at\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX \`users_email_idx\` ON \`users\` (\`email\`);`)
   await db.run(sql`CREATE TABLE \`pages_blocks_details\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -809,53 +855,297 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`media_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`media\` (\`sizes_thumbnail_filename\`);`)
   await db.run(sql`CREATE INDEX \`media_sizes_blog_image_size2_sizes_blog_image_size2_filename_idx\` ON \`media\` (\`sizes_blog_image_size2_filename\`);`)
   await db.run(sql`CREATE INDEX \`media_sizes_blog_image_size3_sizes_blog_image_size3_filename_idx\` ON \`media\` (\`sizes_blog_image_size3_filename\`);`)
-  await db.run(sql`CREATE TABLE \`users_role\` (
-  	\`order\` integer NOT NULL,
-  	\`parent_id\` integer NOT NULL,
-  	\`value\` text,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	FOREIGN KEY (\`parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`users_role_order_idx\` ON \`users_role\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`users_role_parent_idx\` ON \`users_role\` (\`parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`users_social_links\` (
+  await db.run(sql`CREATE TABLE \`job_posts_requirements_qualifications\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
-  	\`platform\` text NOT NULL,
-  	\`value\` text NOT NULL,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	\`qualification\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`users_social_links_order_idx\` ON \`users_social_links\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`users_social_links_parent_id_idx\` ON \`users_social_links\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`users\` (
+  await db.run(sql`CREATE INDEX \`job_posts_requirements_qualifications_order_idx\` ON \`job_posts_requirements_qualifications\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_requirements_qualifications_parent_id_idx\` ON \`job_posts_requirements_qualifications\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`job_posts_requirements_skills\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`skill\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`job_posts_requirements_skills_order_idx\` ON \`job_posts_requirements_skills\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_requirements_skills_parent_id_idx\` ON \`job_posts_requirements_skills\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`job_posts\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`display_name\` text,
-  	\`username\` text NOT NULL,
-  	\`image_url_id\` integer,
-  	\`email_verified\` text,
-  	\`bio\` text,
+  	\`company_name\` text,
+  	\`company_email\` text,
+  	\`company_logo_id\` integer,
+  	\`company_website\` text,
+  	\`company_location\` text,
+  	\`dates_opening_date\` text,
+  	\`dates_closing_date\` text,
+  	\`job_details_title\` text,
+  	\`job_details_slug\` text,
+  	\`job_details_type_id\` integer,
+  	\`job_details_description\` text,
+  	\`job_details_location\` text,
+  	\`job_details_salary_range_min\` numeric,
+  	\`job_details_salary_range_max\` numeric,
+  	\`job_details_remote\` integer,
+  	\`requirements_experience\` numeric,
+  	\`application_apply_type\` text DEFAULT 'internal',
+  	\`application_external_form_url\` text,
+  	\`application_internal_form_id\` integer,
+  	\`featured\` integer DEFAULT false,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`email\` text NOT NULL,
-  	\`reset_password_token\` text,
-  	\`reset_password_expiration\` text,
-  	\`salt\` text,
-  	\`hash\` text,
-  	\`_verified\` integer,
-  	\`_verificationtoken\` text,
-  	\`login_attempts\` numeric DEFAULT 0,
-  	\`lock_until\` text,
-  	FOREIGN KEY (\`image_url_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
+  	\`_status\` text DEFAULT 'draft',
+  	FOREIGN KEY (\`company_logo_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`job_details_type_id\`) REFERENCES \`job_types\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`application_internal_form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`users_username_idx\` ON \`users\` (\`username\`);`)
-  await db.run(sql`CREATE INDEX \`users_image_url_idx\` ON \`users\` (\`image_url_id\`);`)
-  await db.run(sql`CREATE INDEX \`users_updated_at_idx\` ON \`users\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`users_created_at_idx\` ON \`users\` (\`created_at\`);`)
-  await db.run(sql`CREATE UNIQUE INDEX \`users_email_idx\` ON \`users\` (\`email\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_company_company_logo_idx\` ON \`job_posts\` (\`company_logo_id\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_job_details_job_details_type_idx\` ON \`job_posts\` (\`job_details_type_id\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_application_application_internal_form_idx\` ON \`job_posts\` (\`application_internal_form_id\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_updated_at_idx\` ON \`job_posts\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_created_at_idx\` ON \`job_posts\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts__status_idx\` ON \`job_posts\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE \`job_posts_rels\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`order\` integer,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`job_roles_id\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`job_roles_id\`) REFERENCES \`job_roles\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`job_posts_rels_order_idx\` ON \`job_posts_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_rels_parent_idx\` ON \`job_posts_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_rels_path_idx\` ON \`job_posts_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX \`job_posts_rels_job_roles_id_idx\` ON \`job_posts_rels\` (\`job_roles_id\`);`)
+  await db.run(sql`CREATE TABLE \`_job_posts_v_version_requirements_qualifications\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`qualification\` text,
+  	\`_uuid\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_job_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_qualifications_order_idx\` ON \`_job_posts_v_version_requirements_qualifications\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_qualifications_parent_id_idx\` ON \`_job_posts_v_version_requirements_qualifications\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`_job_posts_v_version_requirements_skills\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`skill\` text,
+  	\`_uuid\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_job_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_skills_order_idx\` ON \`_job_posts_v_version_requirements_skills\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_skills_parent_id_idx\` ON \`_job_posts_v_version_requirements_skills\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`_job_posts_v\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`parent_id\` integer,
+  	\`version_company_name\` text,
+  	\`version_company_email\` text,
+  	\`version_company_logo_id\` integer,
+  	\`version_company_website\` text,
+  	\`version_company_location\` text,
+  	\`version_dates_opening_date\` text,
+  	\`version_dates_closing_date\` text,
+  	\`version_job_details_title\` text,
+  	\`version_job_details_slug\` text,
+  	\`version_job_details_type_id\` integer,
+  	\`version_job_details_description\` text,
+  	\`version_job_details_location\` text,
+  	\`version_job_details_salary_range_min\` numeric,
+  	\`version_job_details_salary_range_max\` numeric,
+  	\`version_job_details_remote\` integer,
+  	\`version_requirements_experience\` numeric,
+  	\`version_application_apply_type\` text DEFAULT 'internal',
+  	\`version_application_external_form_url\` text,
+  	\`version_application_internal_form_id\` integer,
+  	\`version_featured\` integer DEFAULT false,
+  	\`version_updated_at\` text,
+  	\`version_created_at\` text,
+  	\`version__status\` text DEFAULT 'draft',
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`latest\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`version_company_logo_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`version_job_details_type_id\`) REFERENCES \`job_types\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`version_application_internal_form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_parent_idx\` ON \`_job_posts_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_company_version_company_logo_idx\` ON \`_job_posts_v\` (\`version_company_logo_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_job_details_version_job_details_type_idx\` ON \`_job_posts_v\` (\`version_job_details_type_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_application_version_application_internal_form_idx\` ON \`_job_posts_v\` (\`version_application_internal_form_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_version_updated_at_idx\` ON \`_job_posts_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_version_created_at_idx\` ON \`_job_posts_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_version_version__status_idx\` ON \`_job_posts_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_created_at_idx\` ON \`_job_posts_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_updated_at_idx\` ON \`_job_posts_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_latest_idx\` ON \`_job_posts_v\` (\`latest\`);`)
+  await db.run(sql`CREATE TABLE \`_job_posts_v_rels\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`order\` integer,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`job_roles_id\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`_job_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`job_roles_id\`) REFERENCES \`job_roles\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_rels_order_idx\` ON \`_job_posts_v_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_rels_parent_idx\` ON \`_job_posts_v_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_rels_path_idx\` ON \`_job_posts_v_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_rels_job_roles_id_idx\` ON \`_job_posts_v_rels\` (\`job_roles_id\`);`)
+  await db.run(sql`CREATE TABLE \`schedule_call\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`company\` text,
+  	\`name\` text,
+  	\`email\` text,
+  	\`role\` text,
+  	\`scheduled_date\` text,
+  	\`status\` text DEFAULT 'pending',
+  	\`notes\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`_status\` text DEFAULT 'draft'
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`schedule_call_updated_at_idx\` ON \`schedule_call\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`schedule_call_created_at_idx\` ON \`schedule_call\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`schedule_call__status_idx\` ON \`schedule_call\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE \`_schedule_call_v\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`parent_id\` integer,
+  	\`version_company\` text,
+  	\`version_name\` text,
+  	\`version_email\` text,
+  	\`version_role\` text,
+  	\`version_scheduled_date\` text,
+  	\`version_status\` text DEFAULT 'pending',
+  	\`version_notes\` text,
+  	\`version_updated_at\` text,
+  	\`version_created_at\` text,
+  	\`version__status\` text DEFAULT 'draft',
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`latest\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`schedule_call\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_parent_idx\` ON \`_schedule_call_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_version_version_updated_at_idx\` ON \`_schedule_call_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_version_version_created_at_idx\` ON \`_schedule_call_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_version_version__status_idx\` ON \`_schedule_call_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_created_at_idx\` ON \`_schedule_call_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_updated_at_idx\` ON \`_schedule_call_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_schedule_call_v_latest_idx\` ON \`_schedule_call_v\` (\`latest\`);`)
+  await db.run(sql`CREATE TABLE \`job_types\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`_status\` text DEFAULT 'draft'
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`job_types_updated_at_idx\` ON \`job_types\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`job_types_created_at_idx\` ON \`job_types\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`job_types__status_idx\` ON \`job_types\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE \`_job_types_v\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`parent_id\` integer,
+  	\`version_title\` text,
+  	\`version_updated_at\` text,
+  	\`version_created_at\` text,
+  	\`version__status\` text DEFAULT 'draft',
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`latest\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`job_types\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_types_v_parent_idx\` ON \`_job_types_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_types_v_version_version_updated_at_idx\` ON \`_job_types_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_types_v_version_version_created_at_idx\` ON \`_job_types_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_types_v_version_version__status_idx\` ON \`_job_types_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX \`_job_types_v_created_at_idx\` ON \`_job_types_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_types_v_updated_at_idx\` ON \`_job_types_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_types_v_latest_idx\` ON \`_job_types_v\` (\`latest\`);`)
+  await db.run(sql`CREATE TABLE \`job_roles\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`_status\` text DEFAULT 'draft'
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`job_roles_updated_at_idx\` ON \`job_roles\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`job_roles_created_at_idx\` ON \`job_roles\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`job_roles__status_idx\` ON \`job_roles\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE \`_job_roles_v\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`parent_id\` integer,
+  	\`version_title\` text,
+  	\`version_updated_at\` text,
+  	\`version_created_at\` text,
+  	\`version__status\` text DEFAULT 'draft',
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`latest\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`job_roles\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_parent_idx\` ON \`_job_roles_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_version_version_updated_at_idx\` ON \`_job_roles_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_version_version_created_at_idx\` ON \`_job_roles_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_version_version__status_idx\` ON \`_job_roles_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_created_at_idx\` ON \`_job_roles_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_updated_at_idx\` ON \`_job_roles_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_job_roles_v_latest_idx\` ON \`_job_roles_v\` (\`latest\`);`)
+  await db.run(sql`CREATE TABLE \`salary_range\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`salary_type\` text DEFAULT 'range',
+  	\`salary_min\` numeric,
+  	\`salary_max\` numeric,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`_status\` text DEFAULT 'draft'
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`salary_range_updated_at_idx\` ON \`salary_range\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`salary_range_created_at_idx\` ON \`salary_range\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`salary_range__status_idx\` ON \`salary_range\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE \`_salary_range_v\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`parent_id\` integer,
+  	\`version_salary_type\` text DEFAULT 'range',
+  	\`version_salary_min\` numeric,
+  	\`version_salary_max\` numeric,
+  	\`version_updated_at\` text,
+  	\`version_created_at\` text,
+  	\`version__status\` text DEFAULT 'draft',
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`latest\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`salary_range\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_parent_idx\` ON \`_salary_range_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_version_version_updated_at_idx\` ON \`_salary_range_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_version_version_created_at_idx\` ON \`_salary_range_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_version_version__status_idx\` ON \`_salary_range_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_created_at_idx\` ON \`_salary_range_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_updated_at_idx\` ON \`_salary_range_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`_salary_range_v_latest_idx\` ON \`_salary_range_v\` (\`latest\`);`)
   await db.run(sql`CREATE TABLE \`forms_blocks_checkbox\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -997,6 +1287,24 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`forms_blocks_textarea_order_idx\` ON \`forms_blocks_textarea\` (\`_order\`);`)
   await db.run(sql`CREATE INDEX \`forms_blocks_textarea_parent_id_idx\` ON \`forms_blocks_textarea\` (\`_parent_id\`);`)
   await db.run(sql`CREATE INDEX \`forms_blocks_textarea_path_idx\` ON \`forms_blocks_textarea\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE \`forms_blocks_upload\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`size\` numeric DEFAULT 5 NOT NULL,
+  	\`width\` numeric,
+  	\`multiple\` integer DEFAULT false NOT NULL,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`forms_blocks_upload_order_idx\` ON \`forms_blocks_upload\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`forms_blocks_upload_parent_id_idx\` ON \`forms_blocks_upload\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`forms_blocks_upload_path_idx\` ON \`forms_blocks_upload\` (\`_path\`);`)
   await db.run(sql`CREATE TABLE \`forms_emails\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -1048,6 +1356,20 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`form_submissions_form_idx\` ON \`form_submissions\` (\`form_id\`);`)
   await db.run(sql`CREATE INDEX \`form_submissions_updated_at_idx\` ON \`form_submissions\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`form_submissions_created_at_idx\` ON \`form_submissions\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`form_submissions_rels\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`order\` integer,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`media_id\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`form_submissions_rels_order_idx\` ON \`form_submissions_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX \`form_submissions_rels_parent_idx\` ON \`form_submissions_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`form_submissions_rels_path_idx\` ON \`form_submissions_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX \`form_submissions_rels_media_id_idx\` ON \`form_submissions_rels\` (\`media_id\`);`)
   await db.run(sql`CREATE TABLE \`search\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text,
@@ -1093,20 +1415,30 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
+  	\`users_id\` integer,
   	\`pages_id\` integer,
   	\`blogs_id\` integer,
   	\`tags_id\` integer,
   	\`media_id\` integer,
-  	\`users_id\` integer,
+  	\`job_posts_id\` integer,
+  	\`schedule_call_id\` integer,
+  	\`job_types_id\` integer,
+  	\`job_roles_id\` integer,
+  	\`salary_range_id\` integer,
   	\`forms_id\` integer,
   	\`form_submissions_id\` integer,
   	\`search_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`blogs_id\`) REFERENCES \`blogs\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`tags_id\`) REFERENCES \`tags\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`job_posts_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`schedule_call_id\`) REFERENCES \`schedule_call\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`job_types_id\`) REFERENCES \`job_types\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`job_roles_id\`) REFERENCES \`job_roles\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`salary_range_id\`) REFERENCES \`salary_range\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`forms_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`form_submissions_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`search_id\`) REFERENCES \`search\`(\`id\`) ON UPDATE no action ON DELETE cascade
@@ -1115,11 +1447,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_order_idx\` ON \`payload_locked_documents_rels\` (\`order\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_parent_idx\` ON \`payload_locked_documents_rels\` (\`parent_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_path_idx\` ON \`payload_locked_documents_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_users_id_idx\` ON \`payload_locked_documents_rels\` (\`users_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_pages_id_idx\` ON \`payload_locked_documents_rels\` (\`pages_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_blogs_id_idx\` ON \`payload_locked_documents_rels\` (\`blogs_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_tags_id_idx\` ON \`payload_locked_documents_rels\` (\`tags_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_media_id_idx\` ON \`payload_locked_documents_rels\` (\`media_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_users_id_idx\` ON \`payload_locked_documents_rels\` (\`users_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_job_posts_id_idx\` ON \`payload_locked_documents_rels\` (\`job_posts_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_schedule_call_id_idx\` ON \`payload_locked_documents_rels\` (\`schedule_call_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_job_types_id_idx\` ON \`payload_locked_documents_rels\` (\`job_types_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_job_roles_id_idx\` ON \`payload_locked_documents_rels\` (\`job_roles_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_salary_range_id_idx\` ON \`payload_locked_documents_rels\` (\`salary_range_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_forms_id_idx\` ON \`payload_locked_documents_rels\` (\`forms_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_form_submissions_id_idx\` ON \`payload_locked_documents_rels\` (\`form_submissions_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_search_id_idx\` ON \`payload_locked_documents_rels\` (\`search_id\`);`)
@@ -1318,6 +1655,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+  await db.run(sql`DROP TABLE \`users_role\`;`)
+  await db.run(sql`DROP TABLE \`users_social_links\`;`)
+  await db.run(sql`DROP TABLE \`users\`;`)
   await db.run(sql`DROP TABLE \`pages_blocks_details\`;`)
   await db.run(sql`DROP TABLE \`pages_blocks_list\`;`)
   await db.run(sql`DROP TABLE \`pages_blocks_form_block\`;`)
@@ -1367,9 +1707,22 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`tags\`;`)
   await db.run(sql`DROP TABLE \`_tags_v\`;`)
   await db.run(sql`DROP TABLE \`media\`;`)
-  await db.run(sql`DROP TABLE \`users_role\`;`)
-  await db.run(sql`DROP TABLE \`users_social_links\`;`)
-  await db.run(sql`DROP TABLE \`users\`;`)
+  await db.run(sql`DROP TABLE \`job_posts_requirements_qualifications\`;`)
+  await db.run(sql`DROP TABLE \`job_posts_requirements_skills\`;`)
+  await db.run(sql`DROP TABLE \`job_posts\`;`)
+  await db.run(sql`DROP TABLE \`job_posts_rels\`;`)
+  await db.run(sql`DROP TABLE \`_job_posts_v_version_requirements_qualifications\`;`)
+  await db.run(sql`DROP TABLE \`_job_posts_v_version_requirements_skills\`;`)
+  await db.run(sql`DROP TABLE \`_job_posts_v\`;`)
+  await db.run(sql`DROP TABLE \`_job_posts_v_rels\`;`)
+  await db.run(sql`DROP TABLE \`schedule_call\`;`)
+  await db.run(sql`DROP TABLE \`_schedule_call_v\`;`)
+  await db.run(sql`DROP TABLE \`job_types\`;`)
+  await db.run(sql`DROP TABLE \`_job_types_v\`;`)
+  await db.run(sql`DROP TABLE \`job_roles\`;`)
+  await db.run(sql`DROP TABLE \`_job_roles_v\`;`)
+  await db.run(sql`DROP TABLE \`salary_range\`;`)
+  await db.run(sql`DROP TABLE \`_salary_range_v\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_checkbox\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_country\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_email\`;`)
@@ -1379,10 +1732,12 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`forms_blocks_select\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_text\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_textarea\`;`)
+  await db.run(sql`DROP TABLE \`forms_blocks_upload\`;`)
   await db.run(sql`DROP TABLE \`forms_emails\`;`)
   await db.run(sql`DROP TABLE \`forms\`;`)
   await db.run(sql`DROP TABLE \`form_submissions_submission_data\`;`)
   await db.run(sql`DROP TABLE \`form_submissions\`;`)
+  await db.run(sql`DROP TABLE \`form_submissions_rels\`;`)
   await db.run(sql`DROP TABLE \`search\`;`)
   await db.run(sql`DROP TABLE \`search_rels\`;`)
   await db.run(sql`DROP TABLE \`payload_locked_documents\`;`)
