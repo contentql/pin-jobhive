@@ -224,11 +224,11 @@ export const JobPosts: CollectionConfig = {
       fields: [
         {
           name: 'experience',
-          type: 'text',
+          type: 'number',
           label: 'Experience Required',
           required: true,
           admin: {
-            placeholder: 'e.g., 3+ years of software development experience',
+            placeholder: 'e.g., 3 years of software development experience',
             description:
               'Specify the required years of experience for the position.',
           },
