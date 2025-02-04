@@ -19,21 +19,6 @@ import Link from 'next/link'
 
 import ApplyJob from '@/components/ApplyJob'
 
-const jobCard = {
-  id: 1,
-  title: 'Junior Graphic Designer (Web)',
-  featured: true,
-  categories: ['Design', 'Development'],
-  location: 'New York',
-  salary: '$150 - $180 / week',
-  type: 'Full Time',
-  image: '/images/jobs/job1.png',
-  postedOn: 'June 20, 2021',
-  postEndsOn: 'May 18, 2026',
-  experience: '4 years',
-  graduation: 'Bachelor Degree',
-}
-
 const JobDetails = ({ job }: { job: JobPost }) => {
   console.log({ job })
   const jobPostedDate = format(
