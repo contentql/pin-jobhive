@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import Button from '@/components/common/Button'
 import Spinner from '@/components/common/Spinner'
 import { cn } from '@/utils/cn'
 import uploadMedia from '@/utils/uploadMedia'
@@ -247,11 +248,9 @@ const Form = ({
           : null}
       </div>
 
-      <button
+      <Button
         type='submit'
-        className={`btn group inline-flex items-center bg-primary/90 text-foreground hover:bg-primary ${
-          isPending ? 'w-32 cursor-not-allowed opacity-50' : ''
-        }`}
+        className={`${isPending ? 'w-32 cursor-not-allowed opacity-50' : ''}`}
         disabled={isPending}>
         {isPending ? (
           <Spinner />
@@ -261,7 +260,7 @@ const Form = ({
           'Submit'
         )}
         {!isPending && (
-          <span className='ml-2 tracking-normal text-foreground transition-transform duration-150 ease-in-out group-hover:translate-x-0.5'>
+          <span className='ml-2 tracking-normal text-text transition-transform duration-150 ease-in-out group-hover:translate-x-0.5'>
             <svg
               className='fill-current'
               xmlns='http://www.w3.org/2000/svg'
@@ -271,7 +270,7 @@ const Form = ({
             </svg>
           </span>
         )}
-      </button>
+      </Button>
     </form>
   )
 }
