@@ -273,6 +273,24 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`pages_blocks_featured_jobs_order_idx\` ON \`pages_blocks_featured_jobs\` (\`_order\`);`)
   await db.run(sql`CREATE INDEX \`pages_blocks_featured_jobs_parent_id_idx\` ON \`pages_blocks_featured_jobs\` (\`_parent_id\`);`)
   await db.run(sql`CREATE INDEX \`pages_blocks_featured_jobs_path_idx\` ON \`pages_blocks_featured_jobs\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE \`pages_blocks_contact\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`address\` text,
+  	\`contact_number\` text,
+  	\`mail\` text,
+  	\`contact_form_id\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`contact_form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`pages_blocks_contact_order_idx\` ON \`pages_blocks_contact\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`pages_blocks_contact_parent_id_idx\` ON \`pages_blocks_contact\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`pages_blocks_contact_path_idx\` ON \`pages_blocks_contact\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX \`pages_blocks_contact_contact_form_idx\` ON \`pages_blocks_contact\` (\`contact_form_id\`);`)
   await db.run(sql`CREATE TABLE \`pages_blocks_disqus_comments\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -586,6 +604,25 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`_pages_v_blocks_featured_jobs_order_idx\` ON \`_pages_v_blocks_featured_jobs\` (\`_order\`);`)
   await db.run(sql`CREATE INDEX \`_pages_v_blocks_featured_jobs_parent_id_idx\` ON \`_pages_v_blocks_featured_jobs\` (\`_parent_id\`);`)
   await db.run(sql`CREATE INDEX \`_pages_v_blocks_featured_jobs_path_idx\` ON \`_pages_v_blocks_featured_jobs\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE \`_pages_v_blocks_contact\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`address\` text,
+  	\`contact_number\` text,
+  	\`mail\` text,
+  	\`contact_form_id\` integer,
+  	\`_uuid\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`contact_form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_order_idx\` ON \`_pages_v_blocks_contact\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_parent_id_idx\` ON \`_pages_v_blocks_contact\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_path_idx\` ON \`_pages_v_blocks_contact\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_contact_form_idx\` ON \`_pages_v_blocks_contact\` (\`contact_form_id\`);`)
   await db.run(sql`CREATE TABLE \`_pages_v_blocks_disqus_comments\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -1675,6 +1712,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`pages_blocks_values\`;`)
   await db.run(sql`DROP TABLE \`pages_blocks_terms_or_privacy\`;`)
   await db.run(sql`DROP TABLE \`pages_blocks_featured_jobs\`;`)
+  await db.run(sql`DROP TABLE \`pages_blocks_contact\`;`)
   await db.run(sql`DROP TABLE \`pages_blocks_disqus_comments\`;`)
   await db.run(sql`DROP TABLE \`pages_breadcrumbs\`;`)
   await db.run(sql`DROP TABLE \`pages\`;`)
@@ -1696,6 +1734,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`_pages_v_blocks_values\`;`)
   await db.run(sql`DROP TABLE \`_pages_v_blocks_terms_or_privacy\`;`)
   await db.run(sql`DROP TABLE \`_pages_v_blocks_featured_jobs\`;`)
+  await db.run(sql`DROP TABLE \`_pages_v_blocks_contact\`;`)
   await db.run(sql`DROP TABLE \`_pages_v_blocks_disqus_comments\`;`)
   await db.run(sql`DROP TABLE \`_pages_v_version_breadcrumbs\`;`)
   await db.run(sql`DROP TABLE \`_pages_v\`;`)
