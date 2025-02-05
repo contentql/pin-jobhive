@@ -19,6 +19,11 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
     config: configPromise,
   })
 
+  const siteData = await payload.findGlobal({
+    slug: 'site-settings',
+    draft: false,
+  })
+
   switch (block?.collectionSlug) {
     case 'blogs': {
       const { docs: blogs = [] } = await unstable_cache(
@@ -155,6 +160,7 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
           jobRoles={jobRoles}
           salaryRange={salaryRange}
           title={block['title'] || 'Job Roles'}
+          siteData={siteData}
         />
       )
     }

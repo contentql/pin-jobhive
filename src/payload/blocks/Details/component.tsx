@@ -19,6 +19,11 @@ const Details: React.FC<DetailsProps> = async ({ params, ...block }) => {
     config: configPromise,
   })
 
+  const siteData = await payload.findGlobal({
+    slug: 'site-settings',
+    draft: false,
+  })
+
   switch (block?.collectionSlug) {
     case 'blogs': {
       const slug = params?.route?.at(-1) ?? ''
@@ -156,7 +161,7 @@ const Details: React.FC<DetailsProps> = async ({ params, ...block }) => {
         return notFound()
       }
 
-      return <JobDetails job={job} />
+      return <JobDetails siteData={siteData} job={job} />
     }
   }
 }

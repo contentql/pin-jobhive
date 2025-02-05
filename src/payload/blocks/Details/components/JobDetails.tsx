@@ -1,4 +1,5 @@
-import { JobPost, JobRole, JobType, Media } from '@payload-types'
+import { formatCurrency } from '@contentql/core/client'
+import { JobPost, JobRole, JobType, Media, SiteSetting } from '@payload-types'
 import { payloadSlateToHtmlConfig, slateToHtml } from '@slate-serializers/html'
 import { format } from 'date-fns'
 import { Element } from 'domhandler'
@@ -19,7 +20,13 @@ import Link from 'next/link'
 
 import ApplyJob from '@/components/ApplyJob'
 
-const JobDetails = ({ job }: { job: JobPost }) => {
+const JobDetails = ({
+  job,
+  siteData,
+}: {
+  job: JobPost
+  siteData: SiteSetting
+}) => {
   const jobPostedDate = format(
     new Date(job?.dates?.openingDate),
     'MMMM dd, yyyy',
@@ -92,6 +99,19 @@ const JobDetails = ({ job }: { job: JobPost }) => {
     ADD_TAGS: ['iframe'], // You can also add other tags if needed (optional)
   })
 
+  const minCurrency = {
+    amount: job?.jobDetails?.salaryRange?.min ?? 0,
+    currencyCode: siteData?.general?.currency,
+  }
+
+  const maxCurrency = {
+    amount: job?.jobDetails?.salaryRange?.max ?? 0,
+    currencyCode: siteData?.general?.currency,
+  }
+
+  const minSalary = formatCurrency(minCurrency)
+  const maxSalary = formatCurrency(maxCurrency)
+
   return (
     <div>
       <div className='bg-foreground'>
@@ -144,8 +164,7 @@ const JobDetails = ({ job }: { job: JobPost }) => {
                   <div className='flex items-center gap-2'>
                     <Wallet size={16} />
                     <label className='truncate text-sm'>
-                      ${job?.jobDetails?.salaryRange?.min}-$
-                      {job?.jobDetails?.salaryRange?.max}
+                      {minSalary} - {maxSalary}
                     </label>
                   </div>
                 </div>
@@ -209,8 +228,7 @@ const JobDetails = ({ job }: { job: JobPost }) => {
                     <h1 className='font-semibold'>Offered Salary</h1>
                     <h1 className='text-sm text-text/70'>
                       <label>
-                        ${job?.jobDetails?.salaryRange?.min}-$
-                        {job?.jobDetails?.salaryRange?.max}
+                        {minSalary} - {maxSalary}
                       </label>
                     </h1>
                   </div>

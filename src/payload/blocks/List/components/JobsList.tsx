@@ -1,6 +1,14 @@
 'use client'
 
-import { JobPost, JobRole, JobType, Media, SalaryRange } from '@payload-types'
+import { formatCurrency } from '@contentql/core/client'
+import {
+  JobPost,
+  JobRole,
+  JobType,
+  Media,
+  SalaryRange,
+  SiteSetting,
+} from '@payload-types'
 import { BriefcaseBusiness, MapPin, Search, Wallet } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,11 +32,13 @@ const JobsList = ({
   jobRoles,
   title,
   salaryRange,
+  siteData,
 }: {
   jobs: JobPost[]
   jobRoles: JobRole[]
   title: string
   salaryRange: SalaryRange[]
+  siteData: SiteSetting
 }) => {
   const locations = jobs?.length
     ? jobs.map(job => job?.jobDetails?.location)
@@ -212,6 +222,19 @@ const JobsList = ({
               <h1 className='mb-5 font-semibold'>Salary</h1>
               <div className='flex flex-col gap-4'>
                 {salaryRange?.map((salary, index) => {
+                  const minCurrency = {
+                    amount: salary?.salaryMin ?? 0,
+                    currencyCode: siteData?.general?.currency,
+                  }
+
+                  const maxCurrency = {
+                    amount: salary?.salaryMax ?? 0,
+                    currencyCode: siteData?.general?.currency,
+                  }
+
+                  const minSalary = formatCurrency(minCurrency)
+                  const maxSalary = formatCurrency(maxCurrency)
+
                   const isSelected =
                     (salary?.salaryType === 'range' &&
                       filters.selectedSalaryRange.min === salary.salaryMin &&
@@ -259,20 +282,19 @@ const JobsList = ({
                       <div>
                         {salary?.salaryType === 'range' && (
                           <>
-                            <span>${salary?.salaryMin}</span> -{' '}
-                            <span>${salary?.salaryMax}</span>
+                            <span>{minSalary}</span> - <span>{maxSalary}</span>
                           </>
                         )}
                         {salary?.salaryType === 'greaterThan' && (
                           <>
                             {'> '}
-                            <span>${salary?.salaryMin}</span>
+                            <span>{minSalary}</span>
                           </>
                         )}
                         {salary?.salaryType === 'lessThan' && (
                           <>
                             {'< '}
-                            <span>${salary?.salaryMax}</span>
+                            <span>{maxSalary}</span>
                           </>
                         )}
                       </div>
@@ -443,63 +465,76 @@ const JobsList = ({
               </div>
             </div>
             <div className='flex flex-col gap-8'>
-              {filteredJobs?.map((job, index) => (
-                <div key={index} className='rounded border border-border p-8'>
-                  <div className='flex gap-5'>
-                    <Image
-                      height={1000}
-                      width={1000}
-                      className='size-12 rounded'
-                      alt=''
-                      src={(job?.company?.logo as Media)?.url!}
-                    />
-                    <div>
-                      <div className='mb-1 flex items-center gap-1'>
-                        <Link
-                          href={`/job/${job?.jobDetails?.slug}`}
-                          className='font-semibold hover:text-primary'>
-                          {job?.jobDetails?.title}
-                        </Link>
-                        {job?.featured && (
-                          <label className='text-xs text-green-500'>
-                            Featured
-                          </label>
-                        )}
-                      </div>
-                      <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
-                        <div className='flex'>
-                          <BriefcaseBusiness size={17} className='mr-1' />
-                          {job?.jobDetails?.roles?.map((role, index) => (
-                            <label key={index} className='truncate text-sm'>
-                              {(role as JobRole)?.title}
-                              {index < job?.jobDetails?.roles.length - 1 &&
-                                ', '}
+              {filteredJobs?.map((job, index) => {
+                const minCurrency = {
+                  amount: job?.jobDetails?.salaryRange?.min ?? 0,
+                  currencyCode: siteData?.general?.currency,
+                }
+
+                const maxCurrency = {
+                  amount: job?.jobDetails?.salaryRange?.max ?? 0,
+                  currencyCode: siteData?.general?.currency,
+                }
+
+                const minSalary = formatCurrency(minCurrency)
+                const maxSalary = formatCurrency(maxCurrency)
+                return (
+                  <div key={index} className='rounded border border-border p-8'>
+                    <div className='flex gap-5'>
+                      <Image
+                        height={1000}
+                        width={1000}
+                        className='size-12 rounded'
+                        alt=''
+                        src={(job?.company?.logo as Media)?.url!}
+                      />
+                      <div>
+                        <div className='mb-1 flex items-center gap-1'>
+                          <Link
+                            href={`/job/${job?.jobDetails?.slug}`}
+                            className='font-semibold hover:text-primary'>
+                            {job?.jobDetails?.title}
+                          </Link>
+                          {job?.featured && (
+                            <label className='text-xs text-green-500'>
+                              Featured
                             </label>
-                          ))}
+                          )}
                         </div>
-                        <div className='flex'>
-                          <MapPin size={17} className='mr-1' />
-                          <label className='truncate text-sm'>
-                            {job?.jobDetails?.location}
-                          </label>
+                        <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
+                          <div className='flex'>
+                            <BriefcaseBusiness size={17} className='mr-1' />
+                            {job?.jobDetails?.roles?.map((role, index) => (
+                              <label key={index} className='truncate text-sm'>
+                                {(role as JobRole)?.title}
+                                {index < job?.jobDetails?.roles.length - 1 &&
+                                  ', '}
+                              </label>
+                            ))}
+                          </div>
+                          <div className='flex'>
+                            <MapPin size={17} className='mr-1' />
+                            <label className='truncate text-sm'>
+                              {job?.jobDetails?.location}
+                            </label>
+                          </div>
+                          <div className='flex'>
+                            <Wallet size={17} className='mr-1' />
+                            <label className='truncate text-sm'>
+                              {minSalary} - {maxSalary}
+                            </label>
+                          </div>
                         </div>
-                        <div className='flex'>
-                          <Wallet size={17} className='mr-1' />
-                          <label className='truncate text-sm'>
-                            ${job?.jobDetails?.salaryRange?.min}-$
-                            {job?.jobDetails?.salaryRange?.max}
-                          </label>
-                        </div>
-                      </div>
-                      <div className='mt-3 flex gap-4'>
-                        <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
-                          {(job?.jobDetails?.type as JobType)?.title}
+                        <div className='mt-3 flex gap-4'>
+                          <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
+                            {(job?.jobDetails?.type as JobType)?.title}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>
