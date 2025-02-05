@@ -200,6 +200,7 @@ export interface Page {
         | ValuesType
         | TermsOrPrivacyType
         | FeaturedJobsType
+        | ContactType
         | DisqusCommentsType
       )[]
     | null;
@@ -569,6 +570,19 @@ export interface FeaturedJobsType {
   id?: string | null;
   blockName?: string | null;
   blockType: 'FeaturedJobs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactType".
+ */
+export interface ContactType {
+  address?: string | null;
+  contactNumber?: string | null;
+  mail?: string | null;
+  contactForm?: (number | null) | Form;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Contact';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1052,6 +1066,7 @@ export interface PagesSelect<T extends boolean = true> {
         Values?: T | ValuesTypeSelect<T>;
         TermsOrPrivacy?: T | TermsOrPrivacyTypeSelect<T>;
         FeaturedJobs?: T | FeaturedJobsTypeSelect<T>;
+        Contact?: T | ContactTypeSelect<T>;
         DisqusComments?: T | DisqusCommentsTypeSelect<T>;
       };
   meta?:
@@ -1228,6 +1243,18 @@ export interface FeaturedJobsTypeSelect<T extends boolean = true> {
   heading?: T;
   description?: T;
   buttonText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactType_select".
+ */
+export interface ContactTypeSelect<T extends boolean = true> {
+  address?: T;
+  contactNumber?: T;
+  mail?: T;
+  contactForm?: T;
   id?: T;
   blockName?: T;
 }

@@ -3,6 +3,7 @@
 // Importing the block components and its configurations
 import { BlogPostsConfig } from './BlogPosts'
 import { CompaniesConfig } from './Companies'
+import { ContactConfig } from './Contact'
 import { ContentConfig } from './Content'
 import { DetailsConfig } from './Details'
 import { FeaturedJobsConfig } from './FeaturedJobs'
@@ -32,4 +33,5 @@ export const blocksConfig = [
   ValuesConfig,
   TermsOrPrivacyConfig,
   FeaturedJobsConfig,
+  ContactConfig,
 ]

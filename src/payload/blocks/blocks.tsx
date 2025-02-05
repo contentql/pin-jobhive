@@ -2,6 +2,7 @@ import { DisqusComments } from '@contentql/core/client'
 
 import { BlogPosts } from './BlogPosts'
 import { Companies } from './Companies'
+import { Contact } from './Contact'
 import { Content } from './Content'
 import { Details } from './Details'
 import { FeaturedJobs } from './FeaturedJobs'
@@ -27,4 +28,5 @@ export const blocksJSX = {
   Values,
   TermsOrPrivacy,
   FeaturedJobs,
+  Contact,
 }
