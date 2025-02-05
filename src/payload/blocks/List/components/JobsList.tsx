@@ -98,11 +98,14 @@ const JobsList = ({
         : true
 
     // Experience filter
-    const matchesExperience = Boolean(experience)
-      ? experience === 5
-        ? job?.requirements?.experience >= 5
-        : experience === job?.requirements?.experience
-      : true
+    const matchesExperience =
+      experience !== null && experience !== undefined
+        ? experience === 0
+          ? job?.requirements?.experience === 0
+          : experience === 5
+            ? job?.requirements?.experience >= 5
+            : experience === job?.requirements?.experience
+        : true
 
     return (
       matchesTitle &&
