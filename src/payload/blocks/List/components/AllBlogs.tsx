@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const AllBlogs = ({ blogs, title }: { blogs: Blog[]; title: string }) => {
   return (
-    <div className='mx-auto mt-5 max-w-7xl px-6 sm:mt-10 lg:px-8'>
+    <div className='mx-auto mt-7 max-w-7xl px-6 sm:mt-12 lg:px-8'>
       <div className='mx-auto max-w-2xl lg:mx-0 lg:max-w-none'>
         <h2 className='text-balance text-4xl font-semibold tracking-tight sm:text-5xl'>
           {title}
