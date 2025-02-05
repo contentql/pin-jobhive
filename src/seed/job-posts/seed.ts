@@ -62,7 +62,7 @@ const seed = async (spinner: Ora): Promise<(string | JobPost)[]> => {
           },
           application: {
             ...job.application,
-            internalForm: forms.at(index)?.id as number,
+            internalForm: forms.at(index + 1)?.id as number,
           },
         }
       },

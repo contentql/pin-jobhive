@@ -5,6 +5,7 @@ import { seedAuthors } from '@/seed/authors'
 import { seedBlogDetailsPage } from '@/seed/blog-details-page'
 import { seedBlogsPage } from '@/seed/blog-page'
 import { seedBlogs } from '@/seed/blogs'
+import { seedContactPage } from '@/seed/contact-page'
 import { seedForms } from '@/seed/forms'
 import { seedHomePage } from '@/seed/home-page'
 import { seedJobDetailsPage } from '@/seed/job-details-page'
@@ -37,6 +38,7 @@ export const seedRouter = router({
       await seedSalaryRange(spinner)
       await seedForms(spinner)
       await seedBlogs(spinner)
+      const contactPage = await seedContactPage(spinner)
       await seedJobPosts(spinner)
       const termsPage = await seedTermsPage(spinner)
       const privacy = await seedPrivacyPage(spinner)
@@ -51,6 +53,7 @@ export const seedRouter = router({
         termsPage: termsPage,
         spinner,
         privacy: privacy,
+        contactPage: contactPage,
       })
 
       return { success: true }

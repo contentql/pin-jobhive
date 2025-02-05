@@ -18,12 +18,14 @@ const seed = async ({
   blogsPage,
   termsPage,
   privacy,
+  contactPage,
 }: {
   spinner: Ora
   blogsPage: Page
   jobsPage: Page
   termsPage: Page
   privacy: Page
+  contactPage: Page
 }) => {
   try {
     spinner.start(`Started created site-settings...`)
@@ -81,6 +83,17 @@ const seed = async ({
               page: {
                 relationTo: 'pages',
                 value: blogsPage.id,
+              },
+            },
+          },
+          {
+            group: false,
+            menuLink: {
+              type: 'reference',
+              label: 'Contact',
+              page: {
+                relationTo: 'pages',
+                value: contactPage.id,
               },
             },
           },
