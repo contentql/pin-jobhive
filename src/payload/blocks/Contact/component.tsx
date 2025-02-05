@@ -9,8 +9,6 @@ interface ContactProps extends ContactType {
 }
 
 const Contact: React.FC<ContactProps> = ({ params, ...block }) => {
-  console.log('formData', block?.contactForm)
-
   return (
     <div className=' isolate -z-10 mt-7 sm:mt-12'>
       <div className='mx-auto max-w-7xl px-6 lg:px-8'>

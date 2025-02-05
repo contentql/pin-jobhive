@@ -6,25 +6,31 @@ export const salaryRangeData: salaryRangeDataType[] = [
   {
     salaryType: 'range',
     salaryMin: 100,
-    salaryMax: 500,
+    salaryMax: 2000,
     _status: 'published',
   },
   {
     salaryType: 'range',
-    salaryMin: 500,
-    salaryMax: 1000,
+    salaryMin: 2000,
+    salaryMax: 5000,
+    _status: 'published',
+  },
+  {
+    salaryType: 'range',
+    salaryMin: 5000,
+    salaryMax: 10000,
     _status: 'published',
   },
   {
     salaryType: 'greaterThan',
-    salaryMin: 200,
+    salaryMin: 100,
     salaryMax: null,
     _status: 'published',
   },
   {
     salaryType: 'lessThan',
     salaryMin: null,
-    salaryMax: 1000,
+    salaryMax: 10000,
     _status: 'published',
   },
 ]

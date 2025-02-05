@@ -17,6 +17,7 @@ import { seedAuthors } from '@/seed/authors'
 import { seedBlogDetailsPage } from '@/seed/blog-details-page'
 import { seedBlogsPage } from '@/seed/blog-page'
 import { seedBlogs } from '@/seed/blogs'
+import { seedContactPage } from '@/seed/contact-page'
 import { seedForms } from '@/seed/forms'
 import { seedHomePage } from '@/seed/home-page'
 import { seedJobDetailsPage } from '@/seed/job-details-page'
@@ -88,6 +89,7 @@ const executeSeeding = async (): Promise<void> => {
     await seedSalaryRange(spinner)
     await seedForms(spinner)
     await seedBlogs(spinner)
+    const contactPage = await seedContactPage(spinner)
     await seedJobPosts(spinner)
     const termsPage = await seedTermsPage(spinner)
     const privacy = await seedPrivacyPage(spinner)
@@ -102,6 +104,7 @@ const executeSeeding = async (): Promise<void> => {
       termsPage: termsPage,
       spinner,
       privacy: privacy,
+      contactPage: contactPage,
     })
   } catch (error) {
     console.error(chalk.red('Error running seeds:'), error)

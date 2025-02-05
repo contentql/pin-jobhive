@@ -15,7 +15,6 @@ import { fileURLToPath } from 'url'
 
 import { ResetPassword } from '@/emails/reset-password'
 import { UserAccountVerification } from '@/emails/verify-email'
-import { migrations } from '@/migrations'
 import { blocksConfig } from '@/payload/blocks/blockConfig'
 import { revalidateAuthors } from '@/payload/hooks/revalidateAuthors'
 import { revalidateBlogs } from '@/payload/hooks/revalidateBlogs'
@@ -59,7 +58,7 @@ export default cqlConfig({
   dbURI: env.DATABASE_URI,
   dbSecret: env.DATABASE_SECRET,
   syncDB: false,
-  prodMigrations: migrations,
+  // prodMigrations: migrations,
 
   s3: {
     collections: {
