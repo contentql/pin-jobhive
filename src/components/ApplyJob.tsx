@@ -10,11 +10,17 @@ import {
   DialogTrigger,
 } from './common/Dialog'
 
-const ApplyJob = ({ formData }: { formData: any }) => {
+const ApplyJob = ({
+  formData,
+  disableButton,
+}: {
+  formData: any
+  disableButton: boolean
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Apply Now</Button>
+        <Button disabled={disableButton}>Apply Now</Button>
       </DialogTrigger>
       <DialogContent className=''>
         <DialogHeader>

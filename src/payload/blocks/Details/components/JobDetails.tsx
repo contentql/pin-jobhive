@@ -112,6 +112,10 @@ const JobDetails = ({
   const minSalary = formatCurrency(minCurrency)
   const maxSalary = formatCurrency(maxCurrency)
 
+  const currentDate = new Date()
+  const startDate = new Date(job?.dates?.openingDate)
+  const closingDate = new Date(job?.dates?.closingDate!)
+
   return (
     <div>
       <div className='bg-foreground'>
@@ -185,8 +189,12 @@ const JobDetails = ({
                     {jobEndingDate}
                   </span>
                 </div>
-                <ApplyJob formData={job?.application?.internalForm} />
-                {/* <Button>Apply Now</Button> */}
+                <ApplyJob
+                  formData={job?.application?.internalForm}
+                  disableButton={
+                    currentDate < startDate || closingDate < currentDate
+                  }
+                />
               </div>
             </div>
           </div>
