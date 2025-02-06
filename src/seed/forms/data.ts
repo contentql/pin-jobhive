@@ -27,17 +27,6 @@ export const formsData: FormsDataType[] = [
       },
 
       {
-        name: 'resume',
-        label: 'Upload Resume',
-        size: 5,
-        width: 100,
-        multiple: true,
-        required: null,
-        blockName: null,
-        blockType: 'upload',
-      },
-
-      {
         name: 'message',
         label: 'Message',
         width: 100,
@@ -45,6 +34,17 @@ export const formsData: FormsDataType[] = [
         required: null,
         blockName: null,
         blockType: 'textarea',
+      },
+
+      {
+        name: 'resume',
+        label: 'Upload Resume',
+        size: 5,
+        width: 100,
+        multiple: true,
+        required: true,
+        blockName: null,
+        blockType: 'upload',
       },
     ],
     submitButtonLabel: 'Apply',
@@ -87,17 +87,6 @@ export const formsData: FormsDataType[] = [
       },
 
       {
-        name: 'resume',
-        label: 'Upload Resume',
-        size: 5,
-        width: 100,
-        multiple: true,
-        required: null,
-        blockName: null,
-        blockType: 'upload',
-      },
-
-      {
         name: 'message',
         label: 'Message',
         width: 100,
@@ -105,6 +94,17 @@ export const formsData: FormsDataType[] = [
         required: null,
         blockName: null,
         blockType: 'textarea',
+      },
+
+      {
+        name: 'resume',
+        label: 'Upload Resume',
+        size: 5,
+        width: 100,
+        multiple: true,
+        required: true,
+        blockName: null,
+        blockType: 'upload',
       },
     ],
     submitButtonLabel: 'Apply',
@@ -122,6 +122,7 @@ export const formsData: FormsDataType[] = [
 
     emails: [],
   },
+
   {
     title: 'CloudMayo Form',
 
@@ -146,17 +147,6 @@ export const formsData: FormsDataType[] = [
       },
 
       {
-        name: 'resume',
-        label: 'Upload Resume',
-        size: 5,
-        width: 100,
-        multiple: true,
-        required: null,
-        blockName: null,
-        blockType: 'upload',
-      },
-
-      {
         name: 'message',
         label: 'Message',
         width: 100,
@@ -164,6 +154,17 @@ export const formsData: FormsDataType[] = [
         required: null,
         blockName: null,
         blockType: 'textarea',
+      },
+
+      {
+        name: 'resume',
+        label: 'Upload Resume',
+        size: 5,
+        width: 100,
+        multiple: true,
+        required: true,
+        blockName: null,
+        blockType: 'upload',
       },
     ],
     submitButtonLabel: 'Apply',
@@ -181,8 +182,9 @@ export const formsData: FormsDataType[] = [
 
     emails: [],
   },
+
   {
-    title: 'ContentQL Job Form',
+    title: 'Aderant Job Form',
 
     fields: [
       {
@@ -213,6 +215,17 @@ export const formsData: FormsDataType[] = [
         blockName: null,
         blockType: 'textarea',
       },
+
+      {
+        name: 'resume',
+        label: 'Upload Resume',
+        size: 5,
+        width: 100,
+        multiple: true,
+        required: true,
+        blockName: null,
+        blockType: 'upload',
+      },
     ],
     submitButtonLabel: 'Apply',
     confirmationType: 'message',
@@ -229,6 +242,7 @@ export const formsData: FormsDataType[] = [
 
     emails: [],
   },
+
   {
     title: 'Contact Form',
 

@@ -5,8 +5,8 @@ export type salaryRangeDataType = RequiredDataFromCollectionSlug<'salaryRange'>
 export const salaryRangeData: salaryRangeDataType[] = [
   {
     salaryType: 'range',
-    salaryMin: 100,
-    salaryMax: 2000,
+    salaryMin: 5000,
+    salaryMax: 10000,
     _status: 'published',
   },
   {
@@ -17,7 +17,13 @@ export const salaryRangeData: salaryRangeDataType[] = [
   },
   {
     salaryType: 'range',
-    salaryMin: 5000,
+    salaryMin: 100,
+    salaryMax: 2000,
+    _status: 'published',
+  },
+  {
+    salaryType: 'lessThan',
+    salaryMin: null,
     salaryMax: 10000,
     _status: 'published',
   },
@@ -25,12 +31,6 @@ export const salaryRangeData: salaryRangeDataType[] = [
     salaryType: 'greaterThan',
     salaryMin: 100,
     salaryMax: null,
-    _status: 'published',
-  },
-  {
-    salaryType: 'lessThan',
-    salaryMin: null,
-    salaryMax: 10000,
     _status: 'published',
   },
 ]

@@ -10,11 +10,11 @@ export type jobsImageType = {
 export const jobPostsData: JobPostsDataType[] = [
   {
     company: {
-      name: 'ContentQL',
-      email: 'contentql@gmail.com',
+      name: 'Aderant',
+      email: 'aderant@gmail.com',
 
       logo: 0,
-      website: 'https://contentql.io/',
+      website: 'https://www.aderant.com/',
       location: 'USA',
     },
 
@@ -274,6 +274,7 @@ export const jobPostsData: JobPostsDataType[] = [
 
     _status: 'published',
   },
+
   {
     company: {
       name: 'CloudMoyo',
@@ -295,7 +296,7 @@ export const jobPostsData: JobPostsDataType[] = [
 
       type: 0,
 
-      roles: [1],
+      roles: [1, 2],
 
       description: [
         {
@@ -325,7 +326,7 @@ export const jobPostsData: JobPostsDataType[] = [
         },
 
         {
-          type: 'h1',
+          type: 'h3',
 
           children: [
             {
@@ -429,7 +430,7 @@ export const jobPostsData: JobPostsDataType[] = [
         },
 
         {
-          type: 'h1',
+          type: 'h3',
 
           children: [
             {
@@ -551,7 +552,7 @@ export const jobPostsData: JobPostsDataType[] = [
 
       type: 0,
 
-      roles: [1],
+      roles: [1, 2],
 
       description: [
         {
@@ -572,7 +573,7 @@ export const jobPostsData: JobPostsDataType[] = [
         },
 
         {
-          type: 'h1',
+          type: 'h3',
 
           children: [
             {
@@ -657,7 +658,7 @@ export const jobPostsData: JobPostsDataType[] = [
         },
 
         {
-          type: 'h1',
+          type: 'h3',
 
           children: [
             {
@@ -757,7 +758,7 @@ export const jobPostsData: JobPostsDataType[] = [
     },
 
     dates: {
-      openingDate: '2025-06-05T11:30:00.000Z',
+      openingDate: '2025-02-02T11:30:00.000Z',
       closingDate: '2025-11-10T11:30:00.000Z',
     },
 
@@ -767,7 +768,7 @@ export const jobPostsData: JobPostsDataType[] = [
 
       type: 0,
 
-      roles: [1],
+      roles: [1, 2],
 
       description: [
         {
@@ -788,7 +789,7 @@ export const jobPostsData: JobPostsDataType[] = [
         },
 
         {
-          type: 'h1',
+          type: 'h3',
 
           children: [
             {
@@ -855,7 +856,7 @@ export const jobPostsData: JobPostsDataType[] = [
         },
 
         {
-          type: 'h1',
+          type: 'h3',
 
           children: [
             {

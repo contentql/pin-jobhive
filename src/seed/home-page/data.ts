@@ -118,6 +118,36 @@ export const homePageData: HomePageDataType = {
           name: 'Michael Foster',
           designation: 'Co-Founder / CTO',
         },
+
+        {
+          image: 0,
+          name: 'John Smith',
+          designation: 'Developer',
+        },
+
+        {
+          image: 0,
+          name: 'Rita',
+          designation: 'Designer',
+        },
+
+        {
+          image: 0,
+          name: 'Eladrin',
+          designation: 'Frontend Lead',
+        },
+
+        {
+          image: 0,
+          name: 'Centaur',
+          designation: 'Frontend Developer',
+        },
+
+        {
+          image: 0,
+          name: 'Aasimar',
+          designation: 'Backend Developer',
+        },
       ],
       blockType: 'Team',
     },
@@ -185,5 +215,25 @@ export const teamImagesData: HomePageImagesType[] = [
   {
     alt: 'Team_1',
     filePath: path.join(process.cwd(), '/public/images/seed/team_1.png'),
+  },
+  {
+    alt: 'Team_2',
+    filePath: path.join(process.cwd(), '/public/images/seed/team_2.png'),
+  },
+  {
+    alt: 'Team_3',
+    filePath: path.join(process.cwd(), '/public/images/seed/team_3.png'),
+  },
+  {
+    alt: 'Team_4',
+    filePath: path.join(process.cwd(), '/public/images/seed/team_4.png'),
+  },
+  {
+    alt: 'Team_5',
+    filePath: path.join(process.cwd(), '/public/images/seed/team_5.png'),
+  },
+  {
+    alt: 'Team_6',
+    filePath: path.join(process.cwd(), '/public/images/seed/team_6.png'),
   },
 ]
