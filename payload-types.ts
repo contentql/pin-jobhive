@@ -21,9 +21,9 @@ export interface Config {
     jobTypes: JobType;
     jobRoles: JobRole;
     salaryRange: SalaryRange;
+    search: Search;
     forms: Form;
     'form-submissions': FormSubmission;
-    search: Search;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -40,9 +40,9 @@ export interface Config {
     jobTypes: JobTypesSelect<false> | JobTypesSelect<true>;
     jobRoles: JobRolesSelect<false> | JobRolesSelect<true>;
     salaryRange: SalaryRangeSelect<false> | SalaryRangeSelect<true>;
+    search: SearchSelect<false> | SearchSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
-    search: SearchSelect<false> | SearchSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -872,24 +872,6 @@ export interface SalaryRange {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: number;
-  form: number | Form;
-  submissionData?:
-    | {
-        field: string;
-        value: string;
-        file?: (number | Media)[] | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -912,6 +894,24 @@ export interface Search {
         relationTo: 'users';
         value: number | User;
       };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  form: number | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        file?: (number | Media)[] | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -963,16 +963,16 @@ export interface PayloadLockedDocument {
         value: number | SalaryRange;
       } | null)
     | ({
+        relationTo: 'search';
+        value: number | Search;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
         value: number | FormSubmission;
-      } | null)
-    | ({
-        relationTo: 'search';
-        value: number | Search;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1481,6 +1481,17 @@ export interface SalaryRangeSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search_select".
+ */
+export interface SearchSelect<T extends boolean = true> {
+  title?: T;
+  priority?: T;
+  doc?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
@@ -1627,17 +1638,6 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         file?: T;
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search_select".
- */
-export interface SearchSelect<T extends boolean = true> {
-  title?: T;
-  priority?: T;
-  doc?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1877,20 +1877,46 @@ export interface SiteSetting {
   };
   themeSettings: {
     lightMode: {
-      primary: string;
       background: string;
-      text: string;
       foreground: string;
+      primary: string;
+      primaryForeground: string;
+      card: string;
+      cardForeground: string;
       popover: string;
+      popoverForeground: string;
+      secondary: string;
+      secondaryForeground: string;
+      muted: string;
+      mutedForeground: string;
+      accent: string;
+      accentForeground: string;
+      destructive: string;
+      destructiveForeground: string;
       border: string;
+      input: string;
+      ring: string;
     };
     darkMode: {
-      primary: string;
       background: string;
-      text: string;
       foreground: string;
+      primary: string;
+      primaryForeground: string;
+      card: string;
+      cardForeground: string;
       popover: string;
+      popoverForeground: string;
+      secondary: string;
+      secondaryForeground: string;
+      muted: string;
+      mutedForeground: string;
+      accent: string;
+      accentForeground: string;
+      destructive: string;
+      destructiveForeground: string;
       border: string;
+      input: string;
+      ring: string;
     };
     fonts: {
       display: {
@@ -2049,22 +2075,48 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         lightMode?:
           | T
           | {
-              primary?: T;
               background?: T;
-              text?: T;
               foreground?: T;
+              primary?: T;
+              primaryForeground?: T;
+              card?: T;
+              cardForeground?: T;
               popover?: T;
+              popoverForeground?: T;
+              secondary?: T;
+              secondaryForeground?: T;
+              muted?: T;
+              mutedForeground?: T;
+              accent?: T;
+              accentForeground?: T;
+              destructive?: T;
+              destructiveForeground?: T;
               border?: T;
+              input?: T;
+              ring?: T;
             };
         darkMode?:
           | T
           | {
-              primary?: T;
               background?: T;
-              text?: T;
               foreground?: T;
+              primary?: T;
+              primaryForeground?: T;
+              card?: T;
+              cardForeground?: T;
               popover?: T;
+              popoverForeground?: T;
+              secondary?: T;
+              secondaryForeground?: T;
+              muted?: T;
+              mutedForeground?: T;
+              accent?: T;
+              accentForeground?: T;
+              destructive?: T;
+              destructiveForeground?: T;
               border?: T;
+              input?: T;
+              ring?: T;
             };
         fonts?:
           | T
