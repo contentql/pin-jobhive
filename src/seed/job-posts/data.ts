@@ -215,9 +215,10 @@ export const jobPostsData: JobPostsDataType[] = [
           ],
         },
       ],
-      location: 'Hyderabad',
+      location: ['Hyderabad'],
 
-      salaryRange: {
+      salary: {
+        type: 'range',
         min: 5000,
         max: 7500,
       },
@@ -227,40 +228,14 @@ export const jobPostsData: JobPostsDataType[] = [
     requirements: {
       experience: 3,
 
-      qualifications: [
-        {
-          qualification: 'B.Tech',
-        },
-
-        {
-          qualification: 'B.Sc',
-        },
-      ],
-
+      qualifications: ['B.Tech', 'B.Sc'],
       skills: [
-        {
-          skill: 'UI/UX',
-        },
-
-        {
-          skill: 'Figma',
-        },
-
-        {
-          skill: 'Sketch',
-        },
-
-        {
-          skill: 'Tailwind Css',
-        },
-
-        {
-          skill: 'NextJs',
-        },
-
-        {
-          skill: 'JavaScript',
-        },
+        'UI/UX',
+        'Figma',
+        'Sketch',
+        'Tailwind Css',
+        'NextJs',
+        'JavaScript',
       ],
     },
 
@@ -484,9 +459,10 @@ export const jobPostsData: JobPostsDataType[] = [
           ],
         },
       ],
-      location: 'Bengaluru',
+      location: ['Bengaluru'],
 
-      salaryRange: {
+      salary: {
+        type: 'range',
         min: 6000,
         max: 8500,
       },
@@ -496,29 +472,8 @@ export const jobPostsData: JobPostsDataType[] = [
     requirements: {
       experience: 6,
 
-      qualifications: [
-        {
-          qualification: 'B.Tech',
-        },
-      ],
-
-      skills: [
-        {
-          skill: 'JavaScript',
-        },
-
-        {
-          skill: 'Html',
-        },
-
-        {
-          skill: 'TypeScript',
-        },
-
-        {
-          skill: 'Css',
-        },
-      ],
+      qualifications: ['B.Tech'],
+      skills: ['JavaScript', 'Html', 'TypeScript', 'Css'],
     },
 
     application: {
@@ -703,9 +658,10 @@ export const jobPostsData: JobPostsDataType[] = [
           ],
         },
       ],
-      location: 'Chennai',
+      location: ['Chennai'],
 
-      salaryRange: {
+      salary: {
+        type: 'range',
         min: 4500,
         max: 7000,
       },
@@ -715,25 +671,9 @@ export const jobPostsData: JobPostsDataType[] = [
     requirements: {
       experience: 2,
 
-      qualifications: [
-        {
-          qualification: 'Degree',
-        },
+      qualifications: ['Degree', 'B.Tech'],
 
-        {
-          qualification: 'B.Tech',
-        },
-      ],
-
-      skills: [
-        {
-          skill: 'SEO',
-        },
-
-        {
-          skill: 'Google Analytics',
-        },
-      ],
+      skills: ['SEO', 'Google Analytics'],
     },
 
     application: {
@@ -910,9 +850,10 @@ export const jobPostsData: JobPostsDataType[] = [
           ],
         },
       ],
-      location: 'Delhi',
+      location: ['Delhi'],
 
-      salaryRange: {
+      salary: {
+        type: 'range',
         min: 9000,
         max: 12000,
       },
@@ -922,25 +863,9 @@ export const jobPostsData: JobPostsDataType[] = [
     requirements: {
       experience: 5,
 
-      qualifications: [
-        {
-          qualification: 'MBA',
-        },
-      ],
+      qualifications: ['MBA'],
 
-      skills: [
-        {
-          skill: 'UI/UX principles ',
-        },
-
-        {
-          skill: 'JIRA',
-        },
-
-        {
-          skill: 'Trello',
-        },
-      ],
+      skills: ['UI/UX principles ', 'JIRA', 'Trello'],
     },
 
     application: {

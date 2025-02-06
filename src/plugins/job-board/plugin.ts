@@ -4,9 +4,10 @@ import { JobPosts } from './collections/JobPosts'
 import { JobRoles } from './collections/JobRoles'
 import { JobTypes } from './collections/JobTypes'
 import { SalaryRange } from './collections/SalaryRange'
-import { ScheduleCall } from './collections/ScheduleCall'
 import { getAllJobPosts } from './endpoints/getAllJobPosts'
-import { postScheduleCall } from './endpoints/postScheduleCall'
+import { getAllJobRoles } from './endpoints/getAllJobRoles'
+import { getAllJobTypes } from './endpoints/getAllJobTypes'
+import { getAllSalaryRange } from './endpoints/getAllSalaryRange'
 import { PluginTypes } from './types'
 
 const jobBoard =
@@ -23,12 +24,16 @@ const jobBoard =
       collections: [
         ...(incomingConfig.collections || []),
         JobPosts,
-        ScheduleCall,
         JobTypes,
         JobRoles,
         SalaryRange,
       ],
-      endpoints: [getAllJobPosts, postScheduleCall],
+      endpoints: [
+        getAllJobPosts,
+        getAllJobTypes,
+        getAllJobRoles,
+        getAllSalaryRange,
+      ],
     }
   }
 

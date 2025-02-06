@@ -892,26 +892,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`media_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`media\` (\`sizes_thumbnail_filename\`);`)
   await db.run(sql`CREATE INDEX \`media_sizes_blog_image_size2_sizes_blog_image_size2_filename_idx\` ON \`media\` (\`sizes_blog_image_size2_filename\`);`)
   await db.run(sql`CREATE INDEX \`media_sizes_blog_image_size3_sizes_blog_image_size3_filename_idx\` ON \`media\` (\`sizes_blog_image_size3_filename\`);`)
-  await db.run(sql`CREATE TABLE \`job_posts_requirements_qualifications\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`qualification\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`job_posts_requirements_qualifications_order_idx\` ON \`job_posts_requirements_qualifications\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`job_posts_requirements_qualifications_parent_id_idx\` ON \`job_posts_requirements_qualifications\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`job_posts_requirements_skills\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`skill\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`job_posts_requirements_skills_order_idx\` ON \`job_posts_requirements_skills\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`job_posts_requirements_skills_parent_id_idx\` ON \`job_posts_requirements_skills\` (\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`job_posts\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`company_name\` text,
@@ -924,10 +904,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`job_details_title\` text,
   	\`job_details_slug\` text,
   	\`job_details_type_id\` integer,
+  	\`job_details_salary_type\` text DEFAULT 'fixed',
+  	\`job_details_salary_amount\` numeric,
+  	\`job_details_salary_min\` numeric,
+  	\`job_details_salary_max\` numeric,
   	\`job_details_description\` text,
-  	\`job_details_location\` text,
-  	\`job_details_salary_range_min\` numeric,
-  	\`job_details_salary_range_max\` numeric,
   	\`job_details_remote\` integer,
   	\`requirements_experience\` numeric,
   	\`application_apply_type\` text DEFAULT 'internal',
@@ -948,6 +929,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`job_posts_updated_at_idx\` ON \`job_posts\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`job_posts_created_at_idx\` ON \`job_posts\` (\`created_at\`);`)
   await db.run(sql`CREATE INDEX \`job_posts__status_idx\` ON \`job_posts\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE \`job_posts_texts\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`order\` integer NOT NULL,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`text\` text,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`job_posts_texts_order_parent_idx\` ON \`job_posts_texts\` (\`order\`,\`parent_id\`);`)
   await db.run(sql`CREATE TABLE \`job_posts_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
@@ -962,28 +953,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`job_posts_rels_parent_idx\` ON \`job_posts_rels\` (\`parent_id\`);`)
   await db.run(sql`CREATE INDEX \`job_posts_rels_path_idx\` ON \`job_posts_rels\` (\`path\`);`)
   await db.run(sql`CREATE INDEX \`job_posts_rels_job_roles_id_idx\` ON \`job_posts_rels\` (\`job_roles_id\`);`)
-  await db.run(sql`CREATE TABLE \`_job_posts_v_version_requirements_qualifications\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`qualification\` text,
-  	\`_uuid\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_job_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_qualifications_order_idx\` ON \`_job_posts_v_version_requirements_qualifications\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_qualifications_parent_id_idx\` ON \`_job_posts_v_version_requirements_qualifications\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_job_posts_v_version_requirements_skills\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`skill\` text,
-  	\`_uuid\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_job_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_skills_order_idx\` ON \`_job_posts_v_version_requirements_skills\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_job_posts_v_version_requirements_skills_parent_id_idx\` ON \`_job_posts_v_version_requirements_skills\` (\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`_job_posts_v\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`parent_id\` integer,
@@ -997,10 +966,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`version_job_details_title\` text,
   	\`version_job_details_slug\` text,
   	\`version_job_details_type_id\` integer,
+  	\`version_job_details_salary_type\` text DEFAULT 'fixed',
+  	\`version_job_details_salary_amount\` numeric,
+  	\`version_job_details_salary_min\` numeric,
+  	\`version_job_details_salary_max\` numeric,
   	\`version_job_details_description\` text,
-  	\`version_job_details_location\` text,
-  	\`version_job_details_salary_range_min\` numeric,
-  	\`version_job_details_salary_range_max\` numeric,
   	\`version_job_details_remote\` integer,
   	\`version_requirements_experience\` numeric,
   	\`version_application_apply_type\` text DEFAULT 'internal',
@@ -1029,6 +999,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`_job_posts_v_created_at_idx\` ON \`_job_posts_v\` (\`created_at\`);`)
   await db.run(sql`CREATE INDEX \`_job_posts_v_updated_at_idx\` ON \`_job_posts_v\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`_job_posts_v_latest_idx\` ON \`_job_posts_v\` (\`latest\`);`)
+  await db.run(sql`CREATE TABLE \`_job_posts_v_texts\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`order\` integer NOT NULL,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`text\` text,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`_job_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`_job_posts_v_texts_order_parent_idx\` ON \`_job_posts_v_texts\` (\`order\`,\`parent_id\`);`)
   await db.run(sql`CREATE TABLE \`_job_posts_v_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
@@ -1043,52 +1023,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`_job_posts_v_rels_parent_idx\` ON \`_job_posts_v_rels\` (\`parent_id\`);`)
   await db.run(sql`CREATE INDEX \`_job_posts_v_rels_path_idx\` ON \`_job_posts_v_rels\` (\`path\`);`)
   await db.run(sql`CREATE INDEX \`_job_posts_v_rels_job_roles_id_idx\` ON \`_job_posts_v_rels\` (\`job_roles_id\`);`)
-  await db.run(sql`CREATE TABLE \`schedule_call\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`company\` text,
-  	\`name\` text,
-  	\`email\` text,
-  	\`role\` text,
-  	\`scheduled_date\` text,
-  	\`status\` text DEFAULT 'pending',
-  	\`notes\` text,
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`_status\` text DEFAULT 'draft'
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`schedule_call_updated_at_idx\` ON \`schedule_call\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`schedule_call_created_at_idx\` ON \`schedule_call\` (\`created_at\`);`)
-  await db.run(sql`CREATE INDEX \`schedule_call__status_idx\` ON \`schedule_call\` (\`_status\`);`)
-  await db.run(sql`CREATE TABLE \`_schedule_call_v\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`parent_id\` integer,
-  	\`version_company\` text,
-  	\`version_name\` text,
-  	\`version_email\` text,
-  	\`version_role\` text,
-  	\`version_scheduled_date\` text,
-  	\`version_status\` text DEFAULT 'pending',
-  	\`version_notes\` text,
-  	\`version_updated_at\` text,
-  	\`version_created_at\` text,
-  	\`version__status\` text DEFAULT 'draft',
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`latest\` integer,
-  	FOREIGN KEY (\`parent_id\`) REFERENCES \`schedule_call\`(\`id\`) ON UPDATE no action ON DELETE set null
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_parent_idx\` ON \`_schedule_call_v\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_version_version_updated_at_idx\` ON \`_schedule_call_v\` (\`version_updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_version_version_created_at_idx\` ON \`_schedule_call_v\` (\`version_created_at\`);`)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_version_version__status_idx\` ON \`_schedule_call_v\` (\`version__status\`);`)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_created_at_idx\` ON \`_schedule_call_v\` (\`created_at\`);`)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_updated_at_idx\` ON \`_schedule_call_v\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`_schedule_call_v_latest_idx\` ON \`_schedule_call_v\` (\`latest\`);`)
   await db.run(sql`CREATE TABLE \`job_types\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text,
+  	\`slug\` text,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`_status\` text DEFAULT 'draft'
@@ -1101,6 +1039,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`parent_id\` integer,
   	\`version_title\` text,
+  	\`version_slug\` text,
   	\`version_updated_at\` text,
   	\`version_created_at\` text,
   	\`version__status\` text DEFAULT 'draft',
@@ -1120,6 +1059,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE TABLE \`job_roles\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text,
+  	\`slug\` text,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`_status\` text DEFAULT 'draft'
@@ -1132,6 +1072,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`parent_id\` integer,
   	\`version_title\` text,
+  	\`version_slug\` text,
   	\`version_updated_at\` text,
   	\`version_created_at\` text,
   	\`version__status\` text DEFAULT 'draft',
@@ -1183,6 +1124,36 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`_salary_range_v_created_at_idx\` ON \`_salary_range_v\` (\`created_at\`);`)
   await db.run(sql`CREATE INDEX \`_salary_range_v_updated_at_idx\` ON \`_salary_range_v\` (\`updated_at\`);`)
   await db.run(sql`CREATE INDEX \`_salary_range_v_latest_idx\` ON \`_salary_range_v\` (\`latest\`);`)
+  await db.run(sql`CREATE TABLE \`search\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`priority\` numeric,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`search_updated_at_idx\` ON \`search\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`search_created_at_idx\` ON \`search\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE \`search_rels\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`order\` integer,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`blogs_id\` integer,
+  	\`tags_id\` integer,
+  	\`users_id\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`search\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`blogs_id\`) REFERENCES \`blogs\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`tags_id\`) REFERENCES \`tags\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`search_rels_order_idx\` ON \`search_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX \`search_rels_parent_idx\` ON \`search_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX \`search_rels_path_idx\` ON \`search_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX \`search_rels_blogs_id_idx\` ON \`search_rels\` (\`blogs_id\`);`)
+  await db.run(sql`CREATE INDEX \`search_rels_tags_id_idx\` ON \`search_rels\` (\`tags_id\`);`)
+  await db.run(sql`CREATE INDEX \`search_rels_users_id_idx\` ON \`search_rels\` (\`users_id\`);`)
   await db.run(sql`CREATE TABLE \`forms_blocks_checkbox\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -1407,36 +1378,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`form_submissions_rels_parent_idx\` ON \`form_submissions_rels\` (\`parent_id\`);`)
   await db.run(sql`CREATE INDEX \`form_submissions_rels_path_idx\` ON \`form_submissions_rels\` (\`path\`);`)
   await db.run(sql`CREATE INDEX \`form_submissions_rels_media_id_idx\` ON \`form_submissions_rels\` (\`media_id\`);`)
-  await db.run(sql`CREATE TABLE \`search\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`title\` text,
-  	\`priority\` numeric,
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`search_updated_at_idx\` ON \`search\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`search_created_at_idx\` ON \`search\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`search_rels\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`order\` integer,
-  	\`parent_id\` integer NOT NULL,
-  	\`path\` text NOT NULL,
-  	\`blogs_id\` integer,
-  	\`tags_id\` integer,
-  	\`users_id\` integer,
-  	FOREIGN KEY (\`parent_id\`) REFERENCES \`search\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`blogs_id\`) REFERENCES \`blogs\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`tags_id\`) REFERENCES \`tags\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await db.run(sql`CREATE INDEX \`search_rels_order_idx\` ON \`search_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`search_rels_parent_idx\` ON \`search_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`search_rels_path_idx\` ON \`search_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`search_rels_blogs_id_idx\` ON \`search_rels\` (\`blogs_id\`);`)
-  await db.run(sql`CREATE INDEX \`search_rels_tags_id_idx\` ON \`search_rels\` (\`tags_id\`);`)
-  await db.run(sql`CREATE INDEX \`search_rels_users_id_idx\` ON \`search_rels\` (\`users_id\`);`)
   await db.run(sql`CREATE TABLE \`payload_locked_documents\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`global_slug\` text,
@@ -1458,13 +1399,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`tags_id\` integer,
   	\`media_id\` integer,
   	\`job_posts_id\` integer,
-  	\`schedule_call_id\` integer,
   	\`job_types_id\` integer,
   	\`job_roles_id\` integer,
   	\`salary_range_id\` integer,
+  	\`search_id\` integer,
   	\`forms_id\` integer,
   	\`form_submissions_id\` integer,
-  	\`search_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
@@ -1472,13 +1412,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`tags_id\`) REFERENCES \`tags\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`job_posts_id\`) REFERENCES \`job_posts\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`schedule_call_id\`) REFERENCES \`schedule_call\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`job_types_id\`) REFERENCES \`job_types\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`job_roles_id\`) REFERENCES \`job_roles\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`salary_range_id\`) REFERENCES \`salary_range\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`search_id\`) REFERENCES \`search\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`forms_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`form_submissions_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`search_id\`) REFERENCES \`search\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`form_submissions_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_order_idx\` ON \`payload_locked_documents_rels\` (\`order\`);`)
@@ -1490,13 +1429,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_tags_id_idx\` ON \`payload_locked_documents_rels\` (\`tags_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_media_id_idx\` ON \`payload_locked_documents_rels\` (\`media_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_job_posts_id_idx\` ON \`payload_locked_documents_rels\` (\`job_posts_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_schedule_call_id_idx\` ON \`payload_locked_documents_rels\` (\`schedule_call_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_job_types_id_idx\` ON \`payload_locked_documents_rels\` (\`job_types_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_job_roles_id_idx\` ON \`payload_locked_documents_rels\` (\`job_roles_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_salary_range_id_idx\` ON \`payload_locked_documents_rels\` (\`salary_range_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_search_id_idx\` ON \`payload_locked_documents_rels\` (\`search_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_forms_id_idx\` ON \`payload_locked_documents_rels\` (\`forms_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_form_submissions_id_idx\` ON \`payload_locked_documents_rels\` (\`form_submissions_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_search_id_idx\` ON \`payload_locked_documents_rels\` (\`search_id\`);`)
   await db.run(sql`CREATE TABLE \`payload_preferences\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`key\` text,
@@ -1628,18 +1566,44 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`footer_copyright\` text,
   	\`monetization_ad_sense_id\` text,
   	\`monetization_measurement_id\` text,
-  	\`theme_settings_light_mode_primary\` text DEFAULT '#C084FC' NOT NULL,
-  	\`theme_settings_light_mode_background\` text DEFAULT '#F8FAFC' NOT NULL,
-  	\`theme_settings_light_mode_text\` text DEFAULT '#0F0F0F' NOT NULL,
-  	\`theme_settings_light_mode_foreground\` text DEFAULT '#E2E8F0' NOT NULL,
-  	\`theme_settings_light_mode_popover\` text DEFAULT '#000000' NOT NULL,
-  	\`theme_settings_light_mode_border\` text DEFAULT '#000000' NOT NULL,
-  	\`theme_settings_dark_mode_primary\` text DEFAULT '#60A5FA' NOT NULL,
-  	\`theme_settings_dark_mode_background\` text DEFAULT '#0F172A' NOT NULL,
-  	\`theme_settings_dark_mode_text\` text DEFAULT '#FFFAFA' NOT NULL,
-  	\`theme_settings_dark_mode_foreground\` text DEFAULT '#1E293B' NOT NULL,
-  	\`theme_settings_dark_mode_popover\` text DEFAULT '#000000' NOT NULL,
-  	\`theme_settings_dark_mode_border\` text DEFAULT '#000000' NOT NULL,
+  	\`theme_settings_light_mode_background\` text DEFAULT '#ffffff' NOT NULL,
+  	\`theme_settings_light_mode_foreground\` text DEFAULT '#0a0a0a' NOT NULL,
+  	\`theme_settings_light_mode_primary\` text DEFAULT '#9372f7' NOT NULL,
+  	\`theme_settings_light_mode_primary_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_light_mode_card\` text DEFAULT '#ffffff' NOT NULL,
+  	\`theme_settings_light_mode_card_foreground\` text DEFAULT '#0a0a0a' NOT NULL,
+  	\`theme_settings_light_mode_popover\` text DEFAULT '#ffffff' NOT NULL,
+  	\`theme_settings_light_mode_popover_foreground\` text DEFAULT '#0a0a0a' NOT NULL,
+  	\`theme_settings_light_mode_secondary\` text DEFAULT '#e2e8f0' NOT NULL,
+  	\`theme_settings_light_mode_secondary_foreground\` text DEFAULT '#1e293b' NOT NULL,
+  	\`theme_settings_light_mode_muted\` text DEFAULT '#e2e8f0' NOT NULL,
+  	\`theme_settings_light_mode_muted_foreground\` text DEFAULT '#6b7280' NOT NULL,
+  	\`theme_settings_light_mode_accent\` text DEFAULT '#e2e8f0' NOT NULL,
+  	\`theme_settings_light_mode_accent_foreground\` text DEFAULT '#1e293b' NOT NULL,
+  	\`theme_settings_light_mode_destructive\` text DEFAULT '#ef4444' NOT NULL,
+  	\`theme_settings_light_mode_destructive_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_light_mode_border\` text DEFAULT '#d1d5db' NOT NULL,
+  	\`theme_settings_light_mode_input\` text DEFAULT '#d1d5db' NOT NULL,
+  	\`theme_settings_light_mode_ring\` text DEFAULT '#9372f7' NOT NULL,
+  	\`theme_settings_dark_mode_background\` text DEFAULT '#0a0a0a' NOT NULL,
+  	\`theme_settings_dark_mode_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_primary\` text DEFAULT '#7158e2' NOT NULL,
+  	\`theme_settings_dark_mode_primary_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_card\` text DEFAULT '#0a0a0a' NOT NULL,
+  	\`theme_settings_dark_mode_card_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_popover\` text DEFAULT '#0a0a0a' NOT NULL,
+  	\`theme_settings_dark_mode_popover_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_secondary\` text DEFAULT '#232c3a' NOT NULL,
+  	\`theme_settings_dark_mode_secondary_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_muted\` text DEFAULT '#232c3a' NOT NULL,
+  	\`theme_settings_dark_mode_muted_foreground\` text DEFAULT '#a1a8c0' NOT NULL,
+  	\`theme_settings_dark_mode_accent\` text DEFAULT '#232c3a' NOT NULL,
+  	\`theme_settings_dark_mode_accent_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_destructive\` text DEFAULT '#752626' NOT NULL,
+  	\`theme_settings_dark_mode_destructive_foreground\` text DEFAULT '#f1f5f9' NOT NULL,
+  	\`theme_settings_dark_mode_border\` text DEFAULT '#232c3a' NOT NULL,
+  	\`theme_settings_dark_mode_input\` text DEFAULT '#232c3a' NOT NULL,
+  	\`theme_settings_dark_mode_ring\` text DEFAULT '#7158e2' NOT NULL,
   	\`theme_settings_fonts_display_type\` text DEFAULT 'googleFont' NOT NULL,
   	\`theme_settings_fonts_display_custom_font_id\` integer,
   	\`theme_settings_fonts_display_remote_font\` text DEFAULT 'https://fonts.googleapis.com/css2?family=Chewy&display=swap',
@@ -1746,22 +1710,20 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`tags\`;`)
   await db.run(sql`DROP TABLE \`_tags_v\`;`)
   await db.run(sql`DROP TABLE \`media\`;`)
-  await db.run(sql`DROP TABLE \`job_posts_requirements_qualifications\`;`)
-  await db.run(sql`DROP TABLE \`job_posts_requirements_skills\`;`)
   await db.run(sql`DROP TABLE \`job_posts\`;`)
+  await db.run(sql`DROP TABLE \`job_posts_texts\`;`)
   await db.run(sql`DROP TABLE \`job_posts_rels\`;`)
-  await db.run(sql`DROP TABLE \`_job_posts_v_version_requirements_qualifications\`;`)
-  await db.run(sql`DROP TABLE \`_job_posts_v_version_requirements_skills\`;`)
   await db.run(sql`DROP TABLE \`_job_posts_v\`;`)
+  await db.run(sql`DROP TABLE \`_job_posts_v_texts\`;`)
   await db.run(sql`DROP TABLE \`_job_posts_v_rels\`;`)
-  await db.run(sql`DROP TABLE \`schedule_call\`;`)
-  await db.run(sql`DROP TABLE \`_schedule_call_v\`;`)
   await db.run(sql`DROP TABLE \`job_types\`;`)
   await db.run(sql`DROP TABLE \`_job_types_v\`;`)
   await db.run(sql`DROP TABLE \`job_roles\`;`)
   await db.run(sql`DROP TABLE \`_job_roles_v\`;`)
   await db.run(sql`DROP TABLE \`salary_range\`;`)
   await db.run(sql`DROP TABLE \`_salary_range_v\`;`)
+  await db.run(sql`DROP TABLE \`search\`;`)
+  await db.run(sql`DROP TABLE \`search_rels\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_checkbox\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_country\`;`)
   await db.run(sql`DROP TABLE \`forms_blocks_email\`;`)
@@ -1777,8 +1739,6 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`form_submissions_submission_data\`;`)
   await db.run(sql`DROP TABLE \`form_submissions\`;`)
   await db.run(sql`DROP TABLE \`form_submissions_rels\`;`)
-  await db.run(sql`DROP TABLE \`search\`;`)
-  await db.run(sql`DROP TABLE \`search_rels\`;`)
   await db.run(sql`DROP TABLE \`payload_locked_documents\`;`)
   await db.run(sql`DROP TABLE \`payload_locked_documents_rels\`;`)
   await db.run(sql`DROP TABLE \`payload_preferences\`;`)

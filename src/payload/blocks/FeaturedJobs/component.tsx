@@ -41,12 +41,12 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
       <div className='grid grid-cols-1 gap-8 pt-12 lg:grid-cols-2'>
         {featuredJobs?.slice(0, 4)?.map(job => {
           const minCurrency = {
-            amount: job?.jobDetails?.salaryRange?.min ?? 0,
+            amount: job?.jobDetails?.salary?.min ?? 0,
             currencyCode: siteData?.general?.currency,
           }
 
           const maxCurrency = {
-            amount: job?.jobDetails?.salaryRange?.max ?? 0,
+            amount: job?.jobDetails?.salary?.max ?? 0,
             currencyCode: siteData?.general?.currency,
           }
 

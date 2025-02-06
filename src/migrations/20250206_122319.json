@@ -6265,140 +6265,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "job_posts_requirements_qualifications": {
-      "name": "job_posts_requirements_qualifications",
-      "columns": {
-        "_order": {
-          "name": "_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "qualification": {
-          "name": "qualification",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "job_posts_requirements_qualifications_order_idx": {
-          "name": "job_posts_requirements_qualifications_order_idx",
-          "columns": [
-            "_order"
-          ],
-          "isUnique": false
-        },
-        "job_posts_requirements_qualifications_parent_id_idx": {
-          "name": "job_posts_requirements_qualifications_parent_id_idx",
-          "columns": [
-            "_parent_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "job_posts_requirements_qualifications_parent_id_fk": {
-          "name": "job_posts_requirements_qualifications_parent_id_fk",
-          "tableFrom": "job_posts_requirements_qualifications",
-          "tableTo": "job_posts",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "job_posts_requirements_skills": {
-      "name": "job_posts_requirements_skills",
-      "columns": {
-        "_order": {
-          "name": "_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "skill": {
-          "name": "skill",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "job_posts_requirements_skills_order_idx": {
-          "name": "job_posts_requirements_skills_order_idx",
-          "columns": [
-            "_order"
-          ],
-          "isUnique": false
-        },
-        "job_posts_requirements_skills_parent_id_idx": {
-          "name": "job_posts_requirements_skills_parent_id_idx",
-          "columns": [
-            "_parent_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "job_posts_requirements_skills_parent_id_fk": {
-          "name": "job_posts_requirements_skills_parent_id_fk",
-          "tableFrom": "job_posts_requirements_skills",
-          "tableTo": "job_posts",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "job_posts": {
       "name": "job_posts",
       "columns": {
@@ -6479,30 +6345,38 @@
           "notNull": false,
           "autoincrement": false
         },
+        "job_details_salary_type": {
+          "name": "job_details_salary_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'fixed'"
+        },
+        "job_details_salary_amount": {
+          "name": "job_details_salary_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "job_details_salary_min": {
+          "name": "job_details_salary_min",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "job_details_salary_max": {
+          "name": "job_details_salary_max",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "job_details_description": {
           "name": "job_details_description",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "job_details_location": {
-          "name": "job_details_location",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "job_details_salary_range_min": {
-          "name": "job_details_salary_range_min",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "job_details_salary_range_max": {
-          "name": "job_details_salary_range_max",
-          "type": "numeric",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -6665,6 +6539,74 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "job_posts_texts": {
+      "name": "job_posts_texts",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "path": {
+          "name": "path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "job_posts_texts_order_parent_idx": {
+          "name": "job_posts_texts_order_parent_idx",
+          "columns": [
+            "order",
+            "parent_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "job_posts_texts_parent_fk": {
+          "name": "job_posts_texts_parent_fk",
+          "tableFrom": "job_posts_texts",
+          "tableTo": "job_posts",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "job_posts_rels": {
       "name": "job_posts_rels",
       "columns": {
@@ -6766,154 +6708,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "_job_posts_v_version_requirements_qualifications": {
-      "name": "_job_posts_v_version_requirements_qualifications",
-      "columns": {
-        "_order": {
-          "name": "_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "qualification": {
-          "name": "qualification",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "_uuid": {
-          "name": "_uuid",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "_job_posts_v_version_requirements_qualifications_order_idx": {
-          "name": "_job_posts_v_version_requirements_qualifications_order_idx",
-          "columns": [
-            "_order"
-          ],
-          "isUnique": false
-        },
-        "_job_posts_v_version_requirements_qualifications_parent_id_idx": {
-          "name": "_job_posts_v_version_requirements_qualifications_parent_id_idx",
-          "columns": [
-            "_parent_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "_job_posts_v_version_requirements_qualifications_parent_id_fk": {
-          "name": "_job_posts_v_version_requirements_qualifications_parent_id_fk",
-          "tableFrom": "_job_posts_v_version_requirements_qualifications",
-          "tableTo": "_job_posts_v",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "_job_posts_v_version_requirements_skills": {
-      "name": "_job_posts_v_version_requirements_skills",
-      "columns": {
-        "_order": {
-          "name": "_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "skill": {
-          "name": "skill",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "_uuid": {
-          "name": "_uuid",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "_job_posts_v_version_requirements_skills_order_idx": {
-          "name": "_job_posts_v_version_requirements_skills_order_idx",
-          "columns": [
-            "_order"
-          ],
-          "isUnique": false
-        },
-        "_job_posts_v_version_requirements_skills_parent_id_idx": {
-          "name": "_job_posts_v_version_requirements_skills_parent_id_idx",
-          "columns": [
-            "_parent_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "_job_posts_v_version_requirements_skills_parent_id_fk": {
-          "name": "_job_posts_v_version_requirements_skills_parent_id_fk",
-          "tableFrom": "_job_posts_v_version_requirements_skills",
-          "tableTo": "_job_posts_v",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "_job_posts_v": {
       "name": "_job_posts_v",
       "columns": {
@@ -7001,30 +6795,38 @@
           "notNull": false,
           "autoincrement": false
         },
+        "version_job_details_salary_type": {
+          "name": "version_job_details_salary_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'fixed'"
+        },
+        "version_job_details_salary_amount": {
+          "name": "version_job_details_salary_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version_job_details_salary_min": {
+          "name": "version_job_details_salary_min",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version_job_details_salary_max": {
+          "name": "version_job_details_salary_max",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "version_job_details_description": {
           "name": "version_job_details_description",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_job_details_location": {
-          "name": "version_job_details_location",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_job_details_salary_range_min": {
-          "name": "version_job_details_salary_range_min",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_job_details_salary_range_max": {
-          "name": "version_job_details_salary_range_max",
-          "type": "numeric",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -7249,6 +7051,74 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "_job_posts_v_texts": {
+      "name": "_job_posts_v_texts",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "path": {
+          "name": "path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "_job_posts_v_texts_order_parent_idx": {
+          "name": "_job_posts_v_texts_order_parent_idx",
+          "columns": [
+            "order",
+            "parent_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "_job_posts_v_texts_parent_fk": {
+          "name": "_job_posts_v_texts_parent_fk",
+          "tableFrom": "_job_posts_v_texts",
+          "tableTo": "_job_posts_v",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "_job_posts_v_rels": {
       "name": "_job_posts_v_rels",
       "columns": {
@@ -7350,302 +7220,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "schedule_call": {
-      "name": "schedule_call",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "company": {
-          "name": "company",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "role": {
-          "name": "role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "scheduled_date": {
-          "name": "scheduled_date",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "status": {
-          "name": "status",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'pending'"
-        },
-        "notes": {
-          "name": "notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
-        },
-        "_status": {
-          "name": "_status",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'draft'"
-        }
-      },
-      "indexes": {
-        "schedule_call_updated_at_idx": {
-          "name": "schedule_call_updated_at_idx",
-          "columns": [
-            "updated_at"
-          ],
-          "isUnique": false
-        },
-        "schedule_call_created_at_idx": {
-          "name": "schedule_call_created_at_idx",
-          "columns": [
-            "created_at"
-          ],
-          "isUnique": false
-        },
-        "schedule_call__status_idx": {
-          "name": "schedule_call__status_idx",
-          "columns": [
-            "_status"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "_schedule_call_v": {
-      "name": "_schedule_call_v",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "parent_id": {
-          "name": "parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_company": {
-          "name": "version_company",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_name": {
-          "name": "version_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_email": {
-          "name": "version_email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_role": {
-          "name": "version_role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_scheduled_date": {
-          "name": "version_scheduled_date",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_status": {
-          "name": "version_status",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'pending'"
-        },
-        "version_notes": {
-          "name": "version_notes",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_updated_at": {
-          "name": "version_updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_created_at": {
-          "name": "version_created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version__status": {
-          "name": "version__status",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'draft'"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
-        },
-        "latest": {
-          "name": "latest",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "_schedule_call_v_parent_idx": {
-          "name": "_schedule_call_v_parent_idx",
-          "columns": [
-            "parent_id"
-          ],
-          "isUnique": false
-        },
-        "_schedule_call_v_version_version_updated_at_idx": {
-          "name": "_schedule_call_v_version_version_updated_at_idx",
-          "columns": [
-            "version_updated_at"
-          ],
-          "isUnique": false
-        },
-        "_schedule_call_v_version_version_created_at_idx": {
-          "name": "_schedule_call_v_version_version_created_at_idx",
-          "columns": [
-            "version_created_at"
-          ],
-          "isUnique": false
-        },
-        "_schedule_call_v_version_version__status_idx": {
-          "name": "_schedule_call_v_version_version__status_idx",
-          "columns": [
-            "version__status"
-          ],
-          "isUnique": false
-        },
-        "_schedule_call_v_created_at_idx": {
-          "name": "_schedule_call_v_created_at_idx",
-          "columns": [
-            "created_at"
-          ],
-          "isUnique": false
-        },
-        "_schedule_call_v_updated_at_idx": {
-          "name": "_schedule_call_v_updated_at_idx",
-          "columns": [
-            "updated_at"
-          ],
-          "isUnique": false
-        },
-        "_schedule_call_v_latest_idx": {
-          "name": "_schedule_call_v_latest_idx",
-          "columns": [
-            "latest"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "_schedule_call_v_parent_id_schedule_call_id_fk": {
-          "name": "_schedule_call_v_parent_id_schedule_call_id_fk",
-          "tableFrom": "_schedule_call_v",
-          "tableTo": "schedule_call",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "job_types": {
       "name": "job_types",
       "columns": {
@@ -7658,6 +7232,13 @@
         },
         "title": {
           "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -7735,6 +7316,13 @@
         },
         "version_title": {
           "name": "version_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version_slug": {
+          "name": "version_slug",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -7873,6 +7461,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "updated_at": {
           "name": "updated_at",
           "type": "text",
@@ -7945,6 +7540,13 @@
         },
         "version_title": {
           "name": "version_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version_slug": {
+          "name": "version_slug",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -8299,6 +7901,223 @@
             "id"
           ],
           "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "search": {
+      "name": "search",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "priority": {
+          "name": "priority",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        }
+      },
+      "indexes": {
+        "search_updated_at_idx": {
+          "name": "search_updated_at_idx",
+          "columns": [
+            "updated_at"
+          ],
+          "isUnique": false
+        },
+        "search_created_at_idx": {
+          "name": "search_created_at_idx",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "search_rels": {
+      "name": "search_rels",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "path": {
+          "name": "path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "blogs_id": {
+          "name": "blogs_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "tags_id": {
+          "name": "tags_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "users_id": {
+          "name": "users_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "search_rels_order_idx": {
+          "name": "search_rels_order_idx",
+          "columns": [
+            "order"
+          ],
+          "isUnique": false
+        },
+        "search_rels_parent_idx": {
+          "name": "search_rels_parent_idx",
+          "columns": [
+            "parent_id"
+          ],
+          "isUnique": false
+        },
+        "search_rels_path_idx": {
+          "name": "search_rels_path_idx",
+          "columns": [
+            "path"
+          ],
+          "isUnique": false
+        },
+        "search_rels_blogs_id_idx": {
+          "name": "search_rels_blogs_id_idx",
+          "columns": [
+            "blogs_id"
+          ],
+          "isUnique": false
+        },
+        "search_rels_tags_id_idx": {
+          "name": "search_rels_tags_id_idx",
+          "columns": [
+            "tags_id"
+          ],
+          "isUnique": false
+        },
+        "search_rels_users_id_idx": {
+          "name": "search_rels_users_id_idx",
+          "columns": [
+            "users_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "search_rels_parent_fk": {
+          "name": "search_rels_parent_fk",
+          "tableFrom": "search_rels",
+          "tableTo": "search",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "search_rels_blogs_fk": {
+          "name": "search_rels_blogs_fk",
+          "tableFrom": "search_rels",
+          "tableTo": "blogs",
+          "columnsFrom": [
+            "blogs_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "search_rels_tags_fk": {
+          "name": "search_rels_tags_fk",
+          "tableFrom": "search_rels",
+          "tableTo": "tags",
+          "columnsFrom": [
+            "tags_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "search_rels_users_fk": {
+          "name": "search_rels_users_fk",
+          "tableFrom": "search_rels",
+          "tableTo": "users",
+          "columnsFrom": [
+            "users_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -9836,223 +9655,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "search": {
-      "name": "search",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "priority": {
-          "name": "priority",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
-        }
-      },
-      "indexes": {
-        "search_updated_at_idx": {
-          "name": "search_updated_at_idx",
-          "columns": [
-            "updated_at"
-          ],
-          "isUnique": false
-        },
-        "search_created_at_idx": {
-          "name": "search_created_at_idx",
-          "columns": [
-            "created_at"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "search_rels": {
-      "name": "search_rels",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "order": {
-          "name": "order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "parent_id": {
-          "name": "parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "path": {
-          "name": "path",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "blogs_id": {
-          "name": "blogs_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "tags_id": {
-          "name": "tags_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "users_id": {
-          "name": "users_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "search_rels_order_idx": {
-          "name": "search_rels_order_idx",
-          "columns": [
-            "order"
-          ],
-          "isUnique": false
-        },
-        "search_rels_parent_idx": {
-          "name": "search_rels_parent_idx",
-          "columns": [
-            "parent_id"
-          ],
-          "isUnique": false
-        },
-        "search_rels_path_idx": {
-          "name": "search_rels_path_idx",
-          "columns": [
-            "path"
-          ],
-          "isUnique": false
-        },
-        "search_rels_blogs_id_idx": {
-          "name": "search_rels_blogs_id_idx",
-          "columns": [
-            "blogs_id"
-          ],
-          "isUnique": false
-        },
-        "search_rels_tags_id_idx": {
-          "name": "search_rels_tags_id_idx",
-          "columns": [
-            "tags_id"
-          ],
-          "isUnique": false
-        },
-        "search_rels_users_id_idx": {
-          "name": "search_rels_users_id_idx",
-          "columns": [
-            "users_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "search_rels_parent_fk": {
-          "name": "search_rels_parent_fk",
-          "tableFrom": "search_rels",
-          "tableTo": "search",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "search_rels_blogs_fk": {
-          "name": "search_rels_blogs_fk",
-          "tableFrom": "search_rels",
-          "tableTo": "blogs",
-          "columnsFrom": [
-            "blogs_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "search_rels_tags_fk": {
-          "name": "search_rels_tags_fk",
-          "tableFrom": "search_rels",
-          "tableTo": "tags",
-          "columnsFrom": [
-            "tags_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "search_rels_users_fk": {
-          "name": "search_rels_users_fk",
-          "tableFrom": "search_rels",
-          "tableTo": "users",
-          "columnsFrom": [
-            "users_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "payload_locked_documents": {
       "name": "payload_locked_documents",
       "columns": {
@@ -10188,13 +9790,6 @@
           "notNull": false,
           "autoincrement": false
         },
-        "schedule_call_id": {
-          "name": "schedule_call_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "job_types_id": {
           "name": "job_types_id",
           "type": "integer",
@@ -10216,6 +9811,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "search_id": {
+          "name": "search_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "forms_id": {
           "name": "forms_id",
           "type": "integer",
@@ -10225,13 +9827,6 @@
         },
         "form_submissions_id": {
           "name": "form_submissions_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "search_id": {
-          "name": "search_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -10302,13 +9897,6 @@
           ],
           "isUnique": false
         },
-        "payload_locked_documents_rels_schedule_call_id_idx": {
-          "name": "payload_locked_documents_rels_schedule_call_id_idx",
-          "columns": [
-            "schedule_call_id"
-          ],
-          "isUnique": false
-        },
         "payload_locked_documents_rels_job_types_id_idx": {
           "name": "payload_locked_documents_rels_job_types_id_idx",
           "columns": [
@@ -10330,6 +9918,13 @@
           ],
           "isUnique": false
         },
+        "payload_locked_documents_rels_search_id_idx": {
+          "name": "payload_locked_documents_rels_search_id_idx",
+          "columns": [
+            "search_id"
+          ],
+          "isUnique": false
+        },
         "payload_locked_documents_rels_forms_id_idx": {
           "name": "payload_locked_documents_rels_forms_id_idx",
           "columns": [
@@ -10341,13 +9936,6 @@
           "name": "payload_locked_documents_rels_form_submissions_id_idx",
           "columns": [
             "form_submissions_id"
-          ],
-          "isUnique": false
-        },
-        "payload_locked_documents_rels_search_id_idx": {
-          "name": "payload_locked_documents_rels_search_id_idx",
-          "columns": [
-            "search_id"
           ],
           "isUnique": false
         }
@@ -10444,19 +10032,6 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "payload_locked_documents_rels_schedule_call_fk": {
-          "name": "payload_locked_documents_rels_schedule_call_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "schedule_call",
-          "columnsFrom": [
-            "schedule_call_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
         "payload_locked_documents_rels_job_types_fk": {
           "name": "payload_locked_documents_rels_job_types_fk",
           "tableFrom": "payload_locked_documents_rels",
@@ -10496,6 +10071,19 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
+        "payload_locked_documents_rels_search_fk": {
+          "name": "payload_locked_documents_rels_search_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "search",
+          "columnsFrom": [
+            "search_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
         "payload_locked_documents_rels_forms_fk": {
           "name": "payload_locked_documents_rels_forms_fk",
           "tableFrom": "payload_locked_documents_rels",
@@ -10515,19 +10103,6 @@
           "tableTo": "form_submissions",
           "columnsFrom": [
             "form_submissions_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_search_fk": {
-          "name": "payload_locked_documents_rels_search_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "search",
-          "columnsFrom": [
-            "search_id"
           ],
           "columnsTo": [
             "id"
@@ -11456,29 +11031,13 @@
           "notNull": false,
           "autoincrement": false
         },
-        "theme_settings_light_mode_primary": {
-          "name": "theme_settings_light_mode_primary",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'#C084FC'"
-        },
         "theme_settings_light_mode_background": {
           "name": "theme_settings_light_mode_background",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#F8FAFC'"
-        },
-        "theme_settings_light_mode_text": {
-          "name": "theme_settings_light_mode_text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'#0F0F0F'"
+          "default": "'#ffffff'"
         },
         "theme_settings_light_mode_foreground": {
           "name": "theme_settings_light_mode_foreground",
@@ -11486,7 +11045,39 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#E2E8F0'"
+          "default": "'#0a0a0a'"
+        },
+        "theme_settings_light_mode_primary": {
+          "name": "theme_settings_light_mode_primary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#9372f7'"
+        },
+        "theme_settings_light_mode_primary_foreground": {
+          "name": "theme_settings_light_mode_primary_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
+        },
+        "theme_settings_light_mode_card": {
+          "name": "theme_settings_light_mode_card",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#ffffff'"
+        },
+        "theme_settings_light_mode_card_foreground": {
+          "name": "theme_settings_light_mode_card_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#0a0a0a'"
         },
         "theme_settings_light_mode_popover": {
           "name": "theme_settings_light_mode_popover",
@@ -11494,7 +11085,79 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#000000'"
+          "default": "'#ffffff'"
+        },
+        "theme_settings_light_mode_popover_foreground": {
+          "name": "theme_settings_light_mode_popover_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#0a0a0a'"
+        },
+        "theme_settings_light_mode_secondary": {
+          "name": "theme_settings_light_mode_secondary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#e2e8f0'"
+        },
+        "theme_settings_light_mode_secondary_foreground": {
+          "name": "theme_settings_light_mode_secondary_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#1e293b'"
+        },
+        "theme_settings_light_mode_muted": {
+          "name": "theme_settings_light_mode_muted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#e2e8f0'"
+        },
+        "theme_settings_light_mode_muted_foreground": {
+          "name": "theme_settings_light_mode_muted_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#6b7280'"
+        },
+        "theme_settings_light_mode_accent": {
+          "name": "theme_settings_light_mode_accent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#e2e8f0'"
+        },
+        "theme_settings_light_mode_accent_foreground": {
+          "name": "theme_settings_light_mode_accent_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#1e293b'"
+        },
+        "theme_settings_light_mode_destructive": {
+          "name": "theme_settings_light_mode_destructive",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#ef4444'"
+        },
+        "theme_settings_light_mode_destructive_foreground": {
+          "name": "theme_settings_light_mode_destructive_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
         },
         "theme_settings_light_mode_border": {
           "name": "theme_settings_light_mode_border",
@@ -11502,15 +11165,23 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#000000'"
+          "default": "'#d1d5db'"
         },
-        "theme_settings_dark_mode_primary": {
-          "name": "theme_settings_dark_mode_primary",
+        "theme_settings_light_mode_input": {
+          "name": "theme_settings_light_mode_input",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#60A5FA'"
+          "default": "'#d1d5db'"
+        },
+        "theme_settings_light_mode_ring": {
+          "name": "theme_settings_light_mode_ring",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#9372f7'"
         },
         "theme_settings_dark_mode_background": {
           "name": "theme_settings_dark_mode_background",
@@ -11518,15 +11189,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#0F172A'"
-        },
-        "theme_settings_dark_mode_text": {
-          "name": "theme_settings_dark_mode_text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'#FFFAFA'"
+          "default": "'#0a0a0a'"
         },
         "theme_settings_dark_mode_foreground": {
           "name": "theme_settings_dark_mode_foreground",
@@ -11534,7 +11197,39 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#1E293B'"
+          "default": "'#f1f5f9'"
+        },
+        "theme_settings_dark_mode_primary": {
+          "name": "theme_settings_dark_mode_primary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#7158e2'"
+        },
+        "theme_settings_dark_mode_primary_foreground": {
+          "name": "theme_settings_dark_mode_primary_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
+        },
+        "theme_settings_dark_mode_card": {
+          "name": "theme_settings_dark_mode_card",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#0a0a0a'"
+        },
+        "theme_settings_dark_mode_card_foreground": {
+          "name": "theme_settings_dark_mode_card_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
         },
         "theme_settings_dark_mode_popover": {
           "name": "theme_settings_dark_mode_popover",
@@ -11542,7 +11237,79 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#000000'"
+          "default": "'#0a0a0a'"
+        },
+        "theme_settings_dark_mode_popover_foreground": {
+          "name": "theme_settings_dark_mode_popover_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
+        },
+        "theme_settings_dark_mode_secondary": {
+          "name": "theme_settings_dark_mode_secondary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#232c3a'"
+        },
+        "theme_settings_dark_mode_secondary_foreground": {
+          "name": "theme_settings_dark_mode_secondary_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
+        },
+        "theme_settings_dark_mode_muted": {
+          "name": "theme_settings_dark_mode_muted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#232c3a'"
+        },
+        "theme_settings_dark_mode_muted_foreground": {
+          "name": "theme_settings_dark_mode_muted_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#a1a8c0'"
+        },
+        "theme_settings_dark_mode_accent": {
+          "name": "theme_settings_dark_mode_accent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#232c3a'"
+        },
+        "theme_settings_dark_mode_accent_foreground": {
+          "name": "theme_settings_dark_mode_accent_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
+        },
+        "theme_settings_dark_mode_destructive": {
+          "name": "theme_settings_dark_mode_destructive",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#752626'"
+        },
+        "theme_settings_dark_mode_destructive_foreground": {
+          "name": "theme_settings_dark_mode_destructive_foreground",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#f1f5f9'"
         },
         "theme_settings_dark_mode_border": {
           "name": "theme_settings_dark_mode_border",
@@ -11550,7 +11317,23 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'#000000'"
+          "default": "'#232c3a'"
+        },
+        "theme_settings_dark_mode_input": {
+          "name": "theme_settings_dark_mode_input",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#232c3a'"
+        },
+        "theme_settings_dark_mode_ring": {
+          "name": "theme_settings_dark_mode_ring",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'#7158e2'"
         },
         "theme_settings_fonts_display_type": {
           "name": "theme_settings_fonts_display_type",
@@ -11944,6 +11727,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "66c01d35-9589-49d1-8ff9-db775d8e796f",
+  "id": "72b85a79-431f-4a7b-ac0d-c027d1fc25c4",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

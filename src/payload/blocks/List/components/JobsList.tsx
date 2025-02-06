@@ -41,7 +41,7 @@ const JobsList = ({
   siteData: SiteSetting
 }) => {
   const locations = jobs?.length
-    ? jobs.map(job => job?.jobDetails?.location)
+    ? Array.from(new Set(jobs.flatMap(job => job?.jobDetails?.location ?? [])))
     : []
 
   const [filters, setFilters] = useState<{
@@ -76,7 +76,7 @@ const JobsList = ({
 
     // Location filter
     const matchesLocation = location
-      ? job?.jobDetails?.location === location
+      ? job?.jobDetails?.location.includes(location)
       : true
 
     // Category filter
@@ -85,7 +85,7 @@ const JobsList = ({
       : true
 
     // Salary filter
-    const jobSalaryRange = job?.jobDetails?.salaryRange
+    const jobSalaryRange = job?.jobDetails?.salary
     const jobSalaryMin = jobSalaryRange?.min ?? null
     const jobSalaryMax = jobSalaryRange?.max ?? null
     const matchesSalary =
@@ -103,7 +103,7 @@ const JobsList = ({
         ? experience === 0
           ? job?.requirements?.experience === 0
           : experience === 5
-            ? job?.requirements?.experience >= 5
+            ? job?.requirements?.experience! >= 5
             : experience === job?.requirements?.experience
         : true
 
@@ -470,12 +470,12 @@ const JobsList = ({
             <div className='flex flex-col gap-8'>
               {filteredJobs?.map((job, index) => {
                 const minCurrency = {
-                  amount: job?.jobDetails?.salaryRange?.min ?? 0,
+                  amount: job?.jobDetails?.salary?.min ?? 0,
                   currencyCode: siteData?.general?.currency,
                 }
 
                 const maxCurrency = {
-                  amount: job?.jobDetails?.salaryRange?.max ?? 0,
+                  amount: job?.jobDetails?.salary?.max ?? 0,
                   currencyCode: siteData?.general?.currency,
                 }
 

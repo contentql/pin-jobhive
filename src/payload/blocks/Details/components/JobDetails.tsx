@@ -100,12 +100,12 @@ const JobDetails = ({
   })
 
   const minCurrency = {
-    amount: job?.jobDetails?.salaryRange?.min ?? 0,
+    amount: job?.jobDetails?.salary?.min ?? 0,
     currencyCode: siteData?.general?.currency,
   }
 
   const maxCurrency = {
-    amount: job?.jobDetails?.salaryRange?.max ?? 0,
+    amount: job?.jobDetails?.salary?.max ?? 0,
     currencyCode: siteData?.general?.currency,
   }
 
@@ -269,7 +269,7 @@ const JobDetails = ({
                       {job?.requirements?.qualifications?.map(
                         (qualification, index) => (
                           <span key={index} className='block'>
-                            {qualification?.qualification}
+                            {qualification}
                           </span>
                         ),
                       )}
@@ -298,7 +298,7 @@ const JobDetails = ({
                 <div
                   className='rounded bg-background px-4 py-2 text-sm'
                   key={index}>
-                  {skill?.skill}
+                  {skill}
                 </div>
               ))}
             </div>
