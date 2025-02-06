@@ -109,8 +109,13 @@ const JobDetails = ({
     currencyCode: siteData?.general?.currency,
   }
 
+  const fixedSalaryCurrency = {
+    amount: job?.jobDetails?.salary?.amount ?? 0,
+    currencyCode: siteData?.general?.currency,
+  }
   const minSalary = formatCurrency(minCurrency)
   const maxSalary = formatCurrency(maxCurrency)
+  const fixedSalary = formatCurrency(fixedSalaryCurrency)
 
   const currentDate = new Date()
   const startDate = new Date(job?.dates?.openingDate)
@@ -168,7 +173,10 @@ const JobDetails = ({
                   <div className='flex items-center gap-2'>
                     <Wallet size={16} />
                     <label className='truncate text-sm'>
-                      {minSalary} - {maxSalary}
+                      {job?.jobDetails?.salary?.type === 'fixed' &&
+                        `${fixedSalary}`}
+                      {job?.jobDetails?.salary?.type === 'range' &&
+                        `${minSalary} - ${maxSalary}`}
                     </label>
                   </div>
                 </div>
@@ -238,7 +246,10 @@ const JobDetails = ({
                     <h1 className='font-semibold'>Offered Salary</h1>
                     <h1 className='text-sm text-muted-foreground'>
                       <label>
-                        {minSalary} - {maxSalary}
+                        {job?.jobDetails?.salary?.type === 'fixed' &&
+                          `${fixedSalary}`}
+                        {job?.jobDetails?.salary?.type === 'range' &&
+                          `${minSalary} - ${maxSalary}`}
                       </label>
                     </h1>
                   </div>

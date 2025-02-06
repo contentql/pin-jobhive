@@ -40,6 +40,7 @@ const JobsList = ({
   salaryRange: SalaryRange[]
   siteData: SiteSetting
 }) => {
+  console.log({ jobs })
   const locations = jobs?.length
     ? Array.from(new Set(jobs.flatMap(job => job?.jobDetails?.location ?? [])))
     : []
@@ -479,8 +480,15 @@ const JobsList = ({
                   currencyCode: siteData?.general?.currency,
                 }
 
+                const fixedSalaryCurrency = {
+                  amount: job?.jobDetails?.salary?.amount ?? 0,
+                  currencyCode: siteData?.general?.currency,
+                }
+
                 const minSalary = formatCurrency(minCurrency)
                 const maxSalary = formatCurrency(maxCurrency)
+                const fixedSalary = formatCurrency(fixedSalaryCurrency)
+
                 return (
                   <div key={index} className='rounded border border-border p-8'>
                     <div className='flex gap-5'>
@@ -524,7 +532,10 @@ const JobsList = ({
                           <div className='flex'>
                             <Wallet size={17} className='mr-1' />
                             <label className='truncate text-sm'>
-                              {minSalary} - {maxSalary}
+                              {job?.jobDetails?.salary?.type === 'fixed' &&
+                                `${fixedSalary}`}
+                              {job?.jobDetails?.salary?.type === 'range' &&
+                                `${minSalary} - ${maxSalary}`}
                             </label>
                           </div>
                         </div>
