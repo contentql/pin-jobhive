@@ -12,13 +12,15 @@ const Values: React.FC<ValuesProps> = ({ params, ...block }) => {
         <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
           {block.heading}
         </h2>
-        <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
+        <p className='mt-6 text-lg/8 text-muted-foreground'>
+          {block?.description}
+        </p>
       </div>
       <dl className='mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base/7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3'>
         {block?.values?.map((value, index) => (
           <div key={index}>
             <dt className='font-semibold'>{value?.title}</dt>
-            <dd className='mt-1 text-text/70'>{value?.description}</dd>
+            <dd className='mt-1 text-muted-foreground'>{value?.description}</dd>
           </div>
         ))}
       </dl>

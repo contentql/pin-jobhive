@@ -34,22 +34,30 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
         <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
           {block?.heading}
         </h2>
-        <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
+        <p className='mt-6 text-lg/8 text-muted-foreground'>
+          {block?.description}
+        </p>
       </div>
       <div className='grid grid-cols-1 gap-8 pt-12 lg:grid-cols-2'>
         {featuredJobs?.slice(0, 4)?.map(job => {
           const minCurrency = {
-            amount: job?.jobDetails?.salaryRange?.min ?? 0,
+            amount: job?.jobDetails?.salary?.min ?? 0,
             currencyCode: siteData?.general?.currency,
           }
 
           const maxCurrency = {
-            amount: job?.jobDetails?.salaryRange?.max ?? 0,
+            amount: job?.jobDetails?.salary?.max ?? 0,
+            currencyCode: siteData?.general?.currency,
+          }
+
+          const fixedSalaryCurrency = {
+            amount: job?.jobDetails?.salary?.amount ?? 0,
             currencyCode: siteData?.general?.currency,
           }
 
           const minSalary = formatCurrency(minCurrency)
           const maxSalary = formatCurrency(maxCurrency)
+          const fixedSalary = formatCurrency(fixedSalaryCurrency)
 
           return (
             <div key={job.id} className='rounded border border-border p-8'>
@@ -72,7 +80,7 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
                       <label className='text-xs text-green-500'>Featured</label>
                     )}
                   </div>
-                  <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
+                  <div className='grid grid-cols-1 space-y-1 text-muted-foreground md:grid-cols-3 md:space-x-6 md:space-y-0'>
                     <div className='flex'>
                       <BriefcaseBusiness size={17} className='mr-1' />
                       {job?.jobDetails?.roles?.map((role, index) => (
@@ -91,7 +99,10 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
                     <div className='flex'>
                       <Wallet size={17} className='mr-1' />
                       <label className='truncate text-sm'>
-                        {minSalary} - {maxSalary}
+                        {job?.jobDetails?.salary?.type === 'fixed' &&
+                          `${fixedSalary}`}
+                        {job?.jobDetails?.salary?.type === 'range' &&
+                          `${minSalary} - ${maxSalary}`}
                       </label>
                     </div>
                   </div>

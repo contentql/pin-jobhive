@@ -56,7 +56,7 @@ const seed = async (spinner: Ora): Promise<(string | JobPost)[]> => {
           jobDetails: {
             ...job.jobDetails,
             roles: job.jobDetails.roles.map((_, index) => {
-              const randomNum = Math.floor(Math.random() * 11)
+              const randomNum = Math.floor(Math.random() * 10)
 
               return jobRoles.at(randomNum)?.id as number
             }),

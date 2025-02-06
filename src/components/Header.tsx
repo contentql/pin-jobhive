@@ -36,7 +36,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
           <button
             type='button'
             onClick={() => setMobileMenuOpen(true)}
-            className='-m-2.5 inline-flex items-center justify-center rounded p-2.5 text-text/70'>
+            className='-m-2.5 inline-flex items-center justify-center rounded p-2.5 text-muted-foreground'>
             <span className='sr-only'>Open main menu</span>
             <Bars3Icon aria-hidden='true' className='size-6' />
           </button>
@@ -59,7 +59,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
         onClose={setMobileMenuOpen}
         className='lg:hidden'>
         <div className='fixed inset-0 z-50' />
-        <DialogPanel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-text/10'>
+        <DialogPanel className='sm:ring-text/10 fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1'>
           <div className='flex items-center justify-between'>
             <a href='/' className='-m-1.5 p-1.5'>
               <Image
@@ -73,7 +73,7 @@ const Header = ({ headerData }: { headerData: SiteSetting['navbar'] }) => {
             <button
               type='button'
               onClick={() => setMobileMenuOpen(false)}
-              className='-m-2.5 rounded p-2.5 text-text/70'>
+              className='-m-2.5 rounded p-2.5 text-muted-foreground'>
               <span className='sr-only'>Close menu</span>
               <XMarkIcon aria-hidden='true' className='size-6' />
             </button>

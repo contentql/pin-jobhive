@@ -41,7 +41,7 @@ const JobsList = ({
   siteData: SiteSetting
 }) => {
   const locations = jobs?.length
-    ? jobs.map(job => job?.jobDetails?.location)
+    ? Array.from(new Set(jobs.flatMap(job => job?.jobDetails?.location ?? [])))
     : []
 
   const [filters, setFilters] = useState<{
@@ -76,7 +76,7 @@ const JobsList = ({
 
     // Location filter
     const matchesLocation = location
-      ? job?.jobDetails?.location === location
+      ? job?.jobDetails?.location.includes(location)
       : true
 
     // Category filter
@@ -85,9 +85,20 @@ const JobsList = ({
       : true
 
     // Salary filter
-    const jobSalaryRange = job?.jobDetails?.salaryRange
-    const jobSalaryMin = jobSalaryRange?.min ?? null
-    const jobSalaryMax = jobSalaryRange?.max ?? null
+    const jobSalaryRange = job?.jobDetails?.salary
+    const jobSalaryType = jobSalaryRange?.type
+
+    let jobSalaryMin: number | null = null
+    let jobSalaryMax: number | null = null
+
+    if (jobSalaryType === 'fixed') {
+      jobSalaryMin = jobSalaryRange?.amount ?? null
+      jobSalaryMax = jobSalaryMin
+    } else if (jobSalaryType === 'range') {
+      jobSalaryMin = jobSalaryRange?.min ?? null
+      jobSalaryMax = jobSalaryRange?.max ?? null
+    }
+
     const matchesSalary =
       selectedSalaryRange.min !== null || selectedSalaryRange.max !== null
         ? (selectedSalaryRange.min === null ||
@@ -96,14 +107,13 @@ const JobsList = ({
           (selectedSalaryRange.max === null ||
             (jobSalaryMax !== null && jobSalaryMax <= selectedSalaryRange.max))
         : true
-
     // Experience filter
     const matchesExperience =
       experience !== null && experience !== undefined
         ? experience === 0
           ? job?.requirements?.experience === 0
           : experience === 5
-            ? job?.requirements?.experience >= 5
+            ? job?.requirements?.experience! >= 5
             : experience === job?.requirements?.experience
         : true
 
@@ -277,7 +287,7 @@ const JobsList = ({
                   return (
                     <div
                       key={index}
-                      className='flex items-center gap-2 text-text/70'>
+                      className='flex items-center gap-2 text-muted-foreground'>
                       <Switch
                         checked={isSelected}
                         onCheckedChange={handleSalarySelection}
@@ -315,42 +325,42 @@ const JobsList = ({
                     checked={filters.experience === 0} // Fresher is selected when experience is null
                     onCheckedChange={() => handleExperienceChange(0)}
                   />
-                  <label className='text-text/70'>Fresher</label>
+                  <label className='text-muted-foreground'>Fresher</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 1} // 1 Year experience selected
                     onCheckedChange={() => handleExperienceChange(1)}
                   />
-                  <label className='text-text/70'>1 Year</label>
+                  <label className='text-muted-foreground'>1 Year</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 2} // 2 Years experience selected
                     onCheckedChange={() => handleExperienceChange(2)}
                   />
-                  <label className='text-text/70'>2 Years</label>
+                  <label className='text-muted-foreground'>2 Years</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 3} // 3 Years experience selected
                     onCheckedChange={() => handleExperienceChange(3)}
                   />
-                  <label className='text-text/70'>3 Years</label>
+                  <label className='text-muted-foreground'>3 Years</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 4} // 4 Years experience selected
                     onCheckedChange={() => handleExperienceChange(4)}
                   />
-                  <label className='text-text/70'>4 Years</label>
+                  <label className='text-muted-foreground'>4 Years</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 5} // Above 5 Years experience selected
                     onCheckedChange={() => handleExperienceChange(5)}
                   />
-                  <label className='text-text/70'>Above 5 Years</label>
+                  <label className='text-muted-foreground'>Above 5 Years</label>
                 </div>
               </div>
             </div>
@@ -470,17 +480,24 @@ const JobsList = ({
             <div className='flex flex-col gap-8'>
               {filteredJobs?.map((job, index) => {
                 const minCurrency = {
-                  amount: job?.jobDetails?.salaryRange?.min ?? 0,
+                  amount: job?.jobDetails?.salary?.min ?? 0,
                   currencyCode: siteData?.general?.currency,
                 }
 
                 const maxCurrency = {
-                  amount: job?.jobDetails?.salaryRange?.max ?? 0,
+                  amount: job?.jobDetails?.salary?.max ?? 0,
+                  currencyCode: siteData?.general?.currency,
+                }
+
+                const fixedSalaryCurrency = {
+                  amount: job?.jobDetails?.salary?.amount ?? 0,
                   currencyCode: siteData?.general?.currency,
                 }
 
                 const minSalary = formatCurrency(minCurrency)
                 const maxSalary = formatCurrency(maxCurrency)
+                const fixedSalary = formatCurrency(fixedSalaryCurrency)
+
                 return (
                   <div key={index} className='rounded border border-border p-8'>
                     <div className='flex gap-5'>
@@ -504,7 +521,7 @@ const JobsList = ({
                             </label>
                           )}
                         </div>
-                        <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
+                        <div className='grid grid-cols-1 space-y-1 text-muted-foreground md:grid-cols-3 md:space-x-6 md:space-y-0'>
                           <div className='flex'>
                             <BriefcaseBusiness size={17} className='mr-1' />
                             {job?.jobDetails?.roles?.map((role, index) => (
@@ -524,7 +541,10 @@ const JobsList = ({
                           <div className='flex'>
                             <Wallet size={17} className='mr-1' />
                             <label className='truncate text-sm'>
-                              {minSalary} - {maxSalary}
+                              {job?.jobDetails?.salary?.type === 'fixed' &&
+                                `${fixedSalary}`}
+                              {job?.jobDetails?.salary?.type === 'range' &&
+                                `${minSalary} - ${maxSalary}`}
                             </label>
                           </div>
                         </div>

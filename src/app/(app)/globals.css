@@ -24,7 +24,7 @@
 
 @layer base {
   html {
-    @apply scroll-smooth bg-background text-text antialiased;
+    @apply scroll-smooth bg-background text-muted antialiased;
   }
 
   * {
@@ -32,32 +32,8 @@
   }
 }
 
-.green-tag {
-  @apply text-success hover:text-success/80;
-}
-
 .purple-tag {
   @apply text-primary hover:text-primary/80;
-}
-
-.blue-tag {
-  @apply text-info hover:text-info/80;
-}
-
-.red-tag {
-  @apply text-danger hover:text-danger/80;
-}
-
-.yellow-tag {
-  @apply text-warning hover:text-warning/80;
-}
-
-.pink-tag {
-  @apply text-pink hover:text-pink/80;
-}
-
-.indigo-tag {
-  @apply text-indigo hover:text-indigo/80;
 }
 
 /* shadcn dropdown hides scroll when it's open */

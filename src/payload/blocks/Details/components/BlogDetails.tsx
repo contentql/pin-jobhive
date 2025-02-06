@@ -233,7 +233,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
               src={imageURL.url}
               alt={imageURL.alt || `${blog.title} cover pic`}
               fill
-              className='bg-secondary h-full w-full animate-image-blur object-cover'
+              className='animate-image-blur h-full w-full bg-secondary object-cover'
             />
           </div>
 
@@ -272,7 +272,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
                           src={user.url?.src}
                           alt={`${user.name}-pic`}
                         />
-                        <AvatarFallback className='bg-foreground text-sm text-text'>
+                        <AvatarFallback className='bg-foreground text-sm text-muted'>
                           {initials}
                         </AvatarFallback>
                       </Avatar>
