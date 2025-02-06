@@ -40,7 +40,6 @@ const JobsList = ({
   salaryRange: SalaryRange[]
   siteData: SiteSetting
 }) => {
-  console.log({ jobs })
   const locations = jobs?.length
     ? Array.from(new Set(jobs.flatMap(job => job?.jobDetails?.location ?? [])))
     : []
@@ -87,8 +86,19 @@ const JobsList = ({
 
     // Salary filter
     const jobSalaryRange = job?.jobDetails?.salary
-    const jobSalaryMin = jobSalaryRange?.min ?? null
-    const jobSalaryMax = jobSalaryRange?.max ?? null
+    const jobSalaryType = jobSalaryRange?.type
+
+    let jobSalaryMin: number | null = null
+    let jobSalaryMax: number | null = null
+
+    if (jobSalaryType === 'fixed') {
+      jobSalaryMin = jobSalaryRange?.amount ?? null
+      jobSalaryMax = jobSalaryMin
+    } else if (jobSalaryType === 'range') {
+      jobSalaryMin = jobSalaryRange?.min ?? null
+      jobSalaryMax = jobSalaryRange?.max ?? null
+    }
+
     const matchesSalary =
       selectedSalaryRange.min !== null || selectedSalaryRange.max !== null
         ? (selectedSalaryRange.min === null ||
@@ -97,7 +107,6 @@ const JobsList = ({
           (selectedSalaryRange.max === null ||
             (jobSalaryMax !== null && jobSalaryMax <= selectedSalaryRange.max))
         : true
-
     // Experience filter
     const matchesExperience =
       experience !== null && experience !== undefined
