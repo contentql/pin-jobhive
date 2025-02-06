@@ -23,21 +23,21 @@ const Contact: React.FC<ContactProps> = ({ params, ...block }) => {
               <MapPin size={51} />
             </div>
             <h3 className='text-lg font-semibold'>Address</h3>
-            <p className='text-text/70'>{block?.address}</p>
+            <p className='text-muted-foreground'>{block?.address}</p>
           </div>
           <div className='flex flex-col'>
             <div className='mb-4 text-primary'>
               <Phone size={51} />
             </div>
             <h3 className='text-lg font-semibold'>Call Us</h3>
-            <p className='text-text/70'>{block?.contactNumber}</p>
+            <p className='text-muted-foreground'>{block?.contactNumber}</p>
           </div>
           <div className='flex flex-col'>
             <div className='mb-4 text-primary'>
               <Mail size={51} />
             </div>
             <h3 className='text-lg font-semibold'>Email</h3>
-            <p className='text-text/70'>{block?.mail}</p>
+            <p className='text-muted-foreground'>{block?.mail}</p>
           </div>
         </div>
 

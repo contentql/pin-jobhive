@@ -147,7 +147,7 @@ const JobDetails = ({
                 </div>
 
                 {/* Job Metadata */}
-                <div className='flex flex-wrap gap-4 text-text/70'>
+                <div className='flex flex-wrap gap-4 text-muted-foreground'>
                   <div className='flex items-center gap-2'>
                     <BriefcaseBusiness size={16} />
                     {job?.jobDetails?.roles?.map((role, index) => (
@@ -218,14 +218,16 @@ const JobDetails = ({
                   <Calendar className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Date Posted</h1>
-                    <h1 className='text-sm text-text/70'>{jobPostedDate}</h1>
+                    <h1 className='text-sm text-muted-foreground'>
+                      {jobPostedDate}
+                    </h1>
                   </div>
                 </div>
                 <div className='flex gap-6'>
                   <MapPin className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Location</h1>
-                    <h1 className='text-sm text-text/70'>
+                    <h1 className='text-sm text-muted-foreground'>
                       {job?.jobDetails?.location}
                     </h1>
                   </div>
@@ -234,7 +236,7 @@ const JobDetails = ({
                   <Wallet className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Offered Salary</h1>
-                    <h1 className='text-sm text-text/70'>
+                    <h1 className='text-sm text-muted-foreground'>
                       <label>
                         {minSalary} - {maxSalary}
                       </label>
@@ -245,14 +247,16 @@ const JobDetails = ({
                   <Hourglass className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Expiration Date</h1>
-                    <h1 className='text-sm text-text/70'>{jobEndingDate}</h1>
+                    <h1 className='text-sm text-muted-foreground'>
+                      {jobEndingDate}
+                    </h1>
                   </div>
                 </div>
                 <div className='flex gap-6'>
                   <UserPen className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Experience</h1>
-                    <h1 className='text-sm text-text/70'>
+                    <h1 className='text-sm text-muted-foreground'>
                       {job?.requirements?.experience}
                     </h1>
                   </div>
@@ -261,7 +265,7 @@ const JobDetails = ({
                   <GraduationCap className='text-primary' size={22} />
                   <div>
                     <h1 className='font-semibold'>Graduation</h1>
-                    <div className='text-sm text-text/70'>
+                    <div className='text-sm text-muted-foreground'>
                       {job?.requirements?.qualifications?.map(
                         (qualification, index) => (
                           <span key={index} className='block'>
@@ -314,7 +318,7 @@ const JobDetails = ({
                   <Link
                     target='_blank'
                     href={job?.company?.website!}
-                    className='flex text-sm text-text/70 hover:text-primary'>
+                    className='flex text-sm text-muted-foreground hover:text-primary'>
                     <span>Visit site</span>
                     <span className='ml-2'>
                       <SquareArrowOutUpRight size={18} />
@@ -325,11 +329,15 @@ const JobDetails = ({
               <div className='flex flex-col gap-5'>
                 <div className='flex justify-between'>
                   <h1 className='font-semibold'>Location:</h1>
-                  <span className='text-text/70'>{job?.company?.location}</span>
+                  <span className='text-muted-foreground'>
+                    {job?.company?.location}
+                  </span>
                 </div>
                 <div className='flex justify-between'>
                   <h1 className='font-semibold'>Email:</h1>
-                  <span className='text-text/70'>{job?.company?.email}</span>
+                  <span className='text-muted-foreground'>
+                    {job?.company?.email}
+                  </span>
                 </div>
               </div>
             </div>

@@ -75,7 +75,7 @@ const TermsOrPrivacy: React.FC<TermsOrPrivacyPolicyProps> = ({
     ADD_TAGS: ['iframe'], // You can also add other tags if needed (optional)
   })
   return (
-    <div className='prose mx-auto max-w-7xl px-6 pt-10 text-text dark:prose-invert lg:px-8'>
+    <div className='prose mx-auto max-w-7xl px-6 pt-10 text-muted dark:prose-invert lg:px-8'>
       <div dangerouslySetInnerHTML={{ __html: purifiedHtml }} />
     </div>
   )

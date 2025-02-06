@@ -52,7 +52,7 @@ const AuthorPopover = ({
         alignOffset={offset}>
         <Avatar key={user.name} className='mb-4 size-10'>
           <AvatarImage src={user.url?.src} alt={`${user.name}-pic`} />
-          <AvatarFallback className='bg-background text-sm text-text/70'>
+          <AvatarFallback className='bg-background text-sm text-muted-foreground'>
             {initials}
           </AvatarFallback>
         </Avatar>

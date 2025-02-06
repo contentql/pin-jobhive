@@ -1,9 +1,9 @@
-import tailwindTypography from "@tailwindcss/typography"
+import tailwindTypography from '@tailwindcss/typography'
 import type { Config } from 'tailwindcss'
-import tailwindAnimate from "tailwindcss-animate"
+import tailwindAnimate from 'tailwindcss-animate'
 
 const config: Config = {
-  darkMode: 'class',
+  darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,77 +14,69 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: '1rem',
+      padding: '2rem',
       screens: {
-        '2xl': '1280px',
+        '2xl': '1400px',
       },
     },
     extend: {
       colors: {
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
         background: 'hsl(var(--background))',
-        text: 'hsl(var(--text))',
         foreground: 'hsl(var(--foreground))',
-        primary: 'hsl(var(--primary))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
         border: 'hsl(var(--border))',
-
-        card: 'hsl(var(--card))',
         input: 'hsl(var(--input))',
-        transparent: 'transparent',
-        info: {
-          DEFAULT: 'hsl(var(--info))',
-          foreground: 'hsl(var(--info-foreground))',
+        ring: 'hsl(var(--ring))',
+        chart: {
+          '1': 'hsl(var(--chart-1))',
+          '2': 'hsl(var(--chart-2))',
+          '3': 'hsl(var(--chart-3))',
+          '4': 'hsl(var(--chart-4))',
+          '5': 'hsl(var(--chart-5))',
         },
-        warning: {
-          DEFAULT: 'hsl(var(--warning))',
-          foreground: 'hsl(var(--warning-foreground))',
-        },
-        danger: {
-          DEFAULT: 'hsl(var(--danger))',
-          foreground: 'hsl(var(--danger-foreground))',
-        },
-        success: {
-          DEFAULT: 'hsl(var(--success))',
-          foreground: 'hsl(var(--success-foreground))',
-        },
-        popover: 'hsl(var(--popover))',
-        pink: 'hsl(var(--pink))',
-        indigo: 'hsl(var(--indigo))',
       },
       borderRadius: {
         DEFAULT: 'var(--border-radius)',
-      },
-      fontSize: {
-        xs: '0.8rem',
+        none: `0rem`,
+        sm: `0.75rem`,
+        md: `1rem`,
+        lg: `1.5rem`,
+        full: `999rem`,
       },
       fontFamily: {
         display: ['var(--font-display)'],
         body: ['var(--font-body)'],
       },
-      transitionTimingFunction: {
-        'custom-ease': 'cubic-bezier(0.33, 1, 0.68, 1)',
-      },
-      keyframes: {
-        'image-blur-frames': {
-          '0%': { filter: 'blur(16px)' },
-          '100%': { filter: 'blur(0px)' },
-        },
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'image-blur': 'image-blur-frames 0.1s ease-in',
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
     },
   },
-  plugins: [tailwindTypography, tailwindAnimate],
+  plugins: [tailwindAnimate, tailwindTypography],
 }
 
 export default config

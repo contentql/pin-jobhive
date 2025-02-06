@@ -106,14 +106,26 @@ type ThemeStylesType = {
 
 function generateThemeVariables({ colors, radius, fontName }: ThemeStylesType) {
   return `
-      --background: ${hexToHsl(colors.background)};
-      --text: ${hexToHsl(colors.text)};
-      --foreground: ${hexToHsl(colors.foreground)};
       --primary: ${hexToHsl(colors.primary)};
-      --border: ${hexToHsl(colors.border)};
+      --primary-foreground: ${hexToHsl(colors.primaryForeground)};
+      --secondary: ${hexToHsl(colors.secondary)};
+      --secondary-foreground: ${hexToHsl(colors.secondaryForeground)};
+      --accent: ${hexToHsl(colors.accent)};
+      --accent-foreground: ${hexToHsl(colors.accentForeground)};
+      --background: ${hexToHsl(colors.background)};
+      --foreground: ${hexToHsl(colors.foreground)};
+      --card: ${hexToHsl(colors.card)};
+      --card-foreground: ${hexToHsl(colors.cardForeground)};
       --popover: ${hexToHsl(colors.popover)};
-      --font-display: ${fontName.display || ''}, sans-serif;
-      --font-body: ${fontName.body || ''}, sans-serif;
+      --popover-foreground: ${hexToHsl(colors.popoverForeground)};
+      --muted: ${hexToHsl(colors.muted)};
+      --muted-foreground: ${hexToHsl(colors.mutedForeground)};
+      --destructive: ${hexToHsl(colors.destructive)};
+      --border: ${hexToHsl(colors.border)};
+      --input: ${hexToHsl(colors.input)};
+      --ring: ${hexToHsl(colors.ring)};
+      --font-display: ${fontName.display || ''};
+      --font-body: ${fontName.body || ''};
       --border-radius: ${borderRadius[radius]}rem;
   `
 }
@@ -125,12 +137,11 @@ export default async function RootLayout({
 }>) {
   const metadata = await getCachedSiteSettings()
   const { general, themeSettings } = metadata
-  const generalSettings = general
   const { lightMode, darkMode, fonts, radius } = themeSettings
 
   const faviconUrl =
-    typeof generalSettings?.faviconUrl === 'object'
-      ? generalSettings?.faviconUrl?.url!
+    typeof general?.faviconUrl === 'object'
+      ? general?.faviconUrl?.url!
       : '/favicon.ico'
 
   const displayFont =
@@ -270,6 +281,7 @@ export default async function RootLayout({
         ))}
 
         {/* following shadcn approach & generating lightMode & darkMode variables */}
+        {/* Enabled a boolean to enable local css variable overridden from admin-panel */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -283,11 +295,12 @@ export default async function RootLayout({
             `,
           }}
         />
+
         <GoogleAdsense metadata={metadata} />
         <GoogleAnalytics metadata={metadata} />
       </head>
 
-      <body className={`font-body antialiased`}>
+      <body className='font-body antialiased'>
         <Provider>{children}</Provider>
 
         {/* Sonnar toast library */}

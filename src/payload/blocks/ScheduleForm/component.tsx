@@ -56,7 +56,7 @@ const ScheduleForm = () => {
           <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
             Job Posting Schedule
           </h2>
-          <p className='mt-6 text-lg/8 text-text/70'>
+          <p className='mt-6 text-lg/8 text-muted-foreground'>
             Organize and streamline your hiring process by scheduling job posts
             in advance.
           </p>

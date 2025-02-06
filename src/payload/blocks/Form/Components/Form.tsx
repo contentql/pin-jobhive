@@ -261,7 +261,7 @@ const Form = ({
             'Submit'
           )}
           {!isPending && (
-            <span className='ml-2 tracking-normal text-text transition-transform duration-150 ease-in-out group-hover:translate-x-0.5'>
+            <span className='ml-2 tracking-normal text-muted transition-transform duration-150 ease-in-out group-hover:translate-x-0.5'>
               <svg
                 className='fill-current'
                 xmlns='http://www.w3.org/2000/svg'

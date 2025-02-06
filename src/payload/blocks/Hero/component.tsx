@@ -53,7 +53,7 @@ const Hero: React.FC<HeroProps> = ({ params, ...block }) => {
               <h1 className='text-pretty text-5xl font-semibold tracking-tight sm:text-7xl'>
                 {block?.heading}
               </h1>
-              <p className='mt-8 text-pretty text-lg font-medium text-text/70 sm:max-w-md sm:text-xl/8 lg:max-w-none'>
+              <p className='mt-8 text-pretty text-lg font-medium text-muted-foreground sm:max-w-md sm:text-xl/8 lg:max-w-none'>
                 {block?.description}
               </p>
             </div>

@@ -13,7 +13,9 @@ const Team: React.FC<TeamProps> = ({ params, ...block }) => {
         <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
           {block?.heading}
         </h2>
-        <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
+        <p className='mt-6 text-lg/8 text-muted-foreground'>
+          {block?.description}
+        </p>
       </div>
       <ul
         role='list'
@@ -30,7 +32,9 @@ const Team: React.FC<TeamProps> = ({ params, ...block }) => {
             <h3 className='mt-6 text-base/7 font-semibold tracking-tight'>
               {person?.name}
             </h3>
-            <p className='text-sm/6 text-text/70'>{person?.designation}</p>
+            <p className='text-sm/6 text-muted-foreground'>
+              {person?.designation}
+            </p>
           </li>
         ))}
       </ul>

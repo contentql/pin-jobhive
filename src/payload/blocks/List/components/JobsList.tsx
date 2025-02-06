@@ -277,7 +277,7 @@ const JobsList = ({
                   return (
                     <div
                       key={index}
-                      className='flex items-center gap-2 text-text/70'>
+                      className='flex items-center gap-2 text-muted-foreground'>
                       <Switch
                         checked={isSelected}
                         onCheckedChange={handleSalarySelection}
@@ -315,42 +315,42 @@ const JobsList = ({
                     checked={filters.experience === 0} // Fresher is selected when experience is null
                     onCheckedChange={() => handleExperienceChange(0)}
                   />
-                  <label className='text-text/70'>Fresher</label>
+                  <label className='text-muted-foreground'>Fresher</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 1} // 1 Year experience selected
                     onCheckedChange={() => handleExperienceChange(1)}
                   />
-                  <label className='text-text/70'>1 Year</label>
+                  <label className='text-muted-foreground'>1 Year</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 2} // 2 Years experience selected
                     onCheckedChange={() => handleExperienceChange(2)}
                   />
-                  <label className='text-text/70'>2 Years</label>
+                  <label className='text-muted-foreground'>2 Years</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 3} // 3 Years experience selected
                     onCheckedChange={() => handleExperienceChange(3)}
                   />
-                  <label className='text-text/70'>3 Years</label>
+                  <label className='text-muted-foreground'>3 Years</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 4} // 4 Years experience selected
                     onCheckedChange={() => handleExperienceChange(4)}
                   />
-                  <label className='text-text/70'>4 Years</label>
+                  <label className='text-muted-foreground'>4 Years</label>
                 </div>
                 <div className='flex gap-3'>
                   <Switch
                     checked={filters.experience === 5} // Above 5 Years experience selected
                     onCheckedChange={() => handleExperienceChange(5)}
                   />
-                  <label className='text-text/70'>Above 5 Years</label>
+                  <label className='text-muted-foreground'>Above 5 Years</label>
                 </div>
               </div>
             </div>
@@ -504,7 +504,7 @@ const JobsList = ({
                             </label>
                           )}
                         </div>
-                        <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
+                        <div className='grid grid-cols-1 space-y-1 text-muted-foreground md:grid-cols-3 md:space-x-6 md:space-y-0'>
                           <div className='flex'>
                             <BriefcaseBusiness size={17} className='mr-1' />
                             {job?.jobDetails?.roles?.map((role, index) => (

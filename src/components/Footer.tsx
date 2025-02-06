@@ -91,7 +91,7 @@ const Footer = ({ footerData }: { footerData: SiteSetting['footer'] }) => {
               key={index}
               href={item?.href!}
               target={item?.newTab ? '_blank' : '_self'}
-              className='text-text/70 hover:text-text'>
+              className='text-muted-foreground hover:text-muted'>
               {item?.label}
             </Link>
           ))}
@@ -101,17 +101,14 @@ const Footer = ({ footerData }: { footerData: SiteSetting['footer'] }) => {
             const Component = logoMapping[item?.platform]
 
             return (
-              <a
-                key={index}
-                href={item?.value}
-                className='text-text/70 hover:text-text'>
+              <a key={index} href={item?.value}>
                 <span className='sr-only'>{item?.platform}</span>
-                <Component className='size-6 [&_path]:fill-secondary' />
+                <Component className=' size-6 [&_path]:fill-muted-foreground hover:[&_path]:fill-primary' />
               </a>
             )
           })}
         </div>
-        <p className='mt-10 text-center text-sm/6 text-text/70'>
+        <p className='mt-10 text-center text-sm/6 text-muted-foreground'>
           {footerData?.copyright}
         </p>
       </div>

@@ -34,7 +34,9 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
         <h2 className='text-pretty text-4xl font-semibold tracking-tight sm:text-5xl'>
           {block?.heading}
         </h2>
-        <p className='mt-6 text-lg/8 text-text/70'>{block?.description}</p>
+        <p className='mt-6 text-lg/8 text-muted-foreground'>
+          {block?.description}
+        </p>
       </div>
       <div className='grid grid-cols-1 gap-8 pt-12 lg:grid-cols-2'>
         {featuredJobs?.slice(0, 4)?.map(job => {
@@ -72,7 +74,7 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
                       <label className='text-xs text-green-500'>Featured</label>
                     )}
                   </div>
-                  <div className='grid grid-cols-1 space-y-1 text-text/70 md:grid-cols-3 md:space-x-6 md:space-y-0'>
+                  <div className='grid grid-cols-1 space-y-1 text-muted-foreground md:grid-cols-3 md:space-x-6 md:space-y-0'>
                     <div className='flex'>
                       <BriefcaseBusiness size={17} className='mr-1' />
                       {job?.jobDetails?.roles?.map((role, index) => (
