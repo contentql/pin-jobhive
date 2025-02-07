@@ -27,6 +27,7 @@ const JobDetails = ({
   job: JobPost
   siteData: SiteSetting
 }) => {
+  console.log({ job })
   const jobPostedDate = format(
     new Date(job?.dates?.openingDate),
     'MMMM dd, yyyy',
@@ -182,10 +183,17 @@ const JobDetails = ({
                 </div>
 
                 {/* Job Type */}
-                <div className='mt-4'>
-                  <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
-                    {(job?.jobDetails?.type as JobType)?.title}
-                  </div>
+                <div className='mt-4 flex gap-2'>
+                  {job?.jobDetails?.type && (
+                    <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                      {(job?.jobDetails?.type as JobType)?.title}
+                    </div>
+                  )}
+                  {job?.jobDetails?.remote && (
+                    <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                      Remote
+                    </div>
+                  )}
                 </div>
               </div>
 

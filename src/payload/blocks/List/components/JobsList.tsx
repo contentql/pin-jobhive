@@ -543,10 +543,17 @@ const JobsList = ({
                             </label>
                           </div>
                         </div>
-                        <div className='mt-3 flex gap-4'>
-                          <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
-                            {(job?.jobDetails?.type as JobType)?.title}
-                          </div>
+                        <div className='mt-3 flex gap-2'>
+                          {job?.jobDetails?.type && (
+                            <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                              {(job?.jobDetails?.type as JobType)?.title}
+                            </div>
+                          )}
+                          {job?.jobDetails?.remote && (
+                            <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
+                              Remote
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
