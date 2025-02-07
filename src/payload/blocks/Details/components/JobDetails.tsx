@@ -209,7 +209,7 @@ const JobDetails = ({
         </div>
       </div>
 
-      <div className='mx-auto flex max-w-7xl gap-8 px-6 pb-32 pt-20 lg:px-8'>
+      <div className='mx-auto flex max-w-7xl flex-col gap-8 px-6 pb-32 pt-20 lg:flex-row lg:px-8'>
         <div className='w-full'>
           <div
             dangerouslySetInnerHTML={{ __html: purifiedHtml }}
@@ -217,7 +217,7 @@ const JobDetails = ({
           />
         </div>
 
-        <div className='sticky top-[84px] ml-auto hidden w-1/2 flex-col gap-8 lg:flex'>
+        <div className='flex w-full flex-col gap-8 lg:sticky lg:top-[84px] lg:w-1/2'>
           <div className='  h-auto  rounded bg-foreground px-8 py-7'>
             <div>
               <div className='mb-4 text-lg font-semibold'>Job Overview</div>
