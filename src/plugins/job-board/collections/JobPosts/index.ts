@@ -1,4 +1,7 @@
-import { revalidateJobPosts } from '../../hooks/revalidateJobPosts'
+import {
+  revalidateJobPostsAfterChange,
+  revalidateJobPostsAfterDelete,
+} from '../../hooks/revalidateJobPosts'
 import { JOBS_GROUP_NAME } from '../../utils/constants'
 import { formatString } from '../../utils/formatString'
 import { CollectionConfig } from 'payload'
@@ -22,7 +25,8 @@ export const JobPosts: CollectionConfig = {
     group: JOBS_GROUP_NAME,
   },
   hooks: {
-    afterChange: [revalidateJobPosts],
+    afterChange: [revalidateJobPostsAfterChange],
+    afterDelete: [revalidateJobPostsAfterDelete],
   },
   fields: [
     {

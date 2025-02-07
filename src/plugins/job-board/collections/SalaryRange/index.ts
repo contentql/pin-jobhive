@@ -1,4 +1,7 @@
-import { revalidateSalaryRange } from '../../hooks/revalidateSalaryRange'
+import {
+  revalidateSalaryRangeAfterChange,
+  revalidateSalaryRangeAfterDelete,
+} from '../../hooks/revalidateSalaryRange'
 import { JOBS_GROUP_NAME } from '../../utils/constants'
 import { CollectionConfig } from 'payload'
 
@@ -22,7 +25,8 @@ export const SalaryRange: CollectionConfig = {
     delete: ({ req: { user } }) => Boolean(user && user.role.includes('admin')), // Only admins can delete
   },
   hooks: {
-    afterChange: [revalidateSalaryRange],
+    afterChange: [revalidateSalaryRangeAfterChange],
+    afterDelete: [revalidateSalaryRangeAfterDelete],
   },
   fields: [
     {
