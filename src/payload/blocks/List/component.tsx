@@ -118,7 +118,7 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
     }
 
     case 'jobPosts': {
-      const { docs: jobs = [] } = await unstable_cache(
+      const { docs: jobs = [], totalDocs: totalJobs } = await unstable_cache(
         async () =>
           await payload.find({
             collection: 'jobPosts',
@@ -161,6 +161,7 @@ const List: React.FC<ListProps> = async ({ params, ...block }) => {
           salaryRange={salaryRange}
           title={block['title'] || 'Job Roles'}
           siteData={siteData}
+          totalJobs={totalJobs}
         />
       )
     }
