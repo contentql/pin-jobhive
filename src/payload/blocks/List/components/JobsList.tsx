@@ -33,12 +33,14 @@ const JobsList = ({
   title,
   salaryRange,
   siteData,
+  totalJobs,
 }: {
   jobs: JobPost[]
   jobRoles: JobRole[]
   title: string
   salaryRange: SalaryRange[]
   siteData: SiteSetting
+  totalJobs: number
 }) => {
   const locations = jobs?.length
     ? Array.from(new Set(jobs.flatMap(job => job?.jobDetails?.location ?? [])))
@@ -125,6 +127,13 @@ const JobsList = ({
       matchesExperience
     )
   })
+
+  const jobsPerPage = 6
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const totalPages = Math.ceil(filteredJobs?.length / jobsPerPage)
+  const startIndex = (currentPage - 1) * jobsPerPage
+  const displayedJobs = filteredJobs.slice(startIndex, startIndex + jobsPerPage)
 
   const handleExperienceChange = (experienceLevel: number | null) => {
     setFilters(prev => ({
@@ -458,27 +467,13 @@ const JobsList = ({
             </div>
           </div>
 
-          <div>
-            <div className='mb-8 flex w-full items-center justify-between'>
-              <h1>Showing 1 – 10 of 18 results</h1>
-              <div>
-                <Select>
-                  <SelectTrigger className=' border-none'>
-                    <SelectValue placeholder='Sort by' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Sort</SelectLabel>
-                      <SelectItem value='apple'>Newest</SelectItem>
-                      <SelectItem value='banana'>Oldest</SelectItem>
-                      <SelectItem value='blueberry'>Random</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className='flex flex-col gap-8'>
-              {filteredJobs?.map((job, index) => {
+          <div className='flex flex-col gap-8'>
+            <h1>
+              Showing 1 – {totalJobs <= jobsPerPage ? totalJobs : jobsPerPage}{' '}
+              of {totalJobs} results
+            </h1>
+            <div className='flex flex-col gap-5'>
+              {displayedJobs?.map((job, index) => {
                 const minCurrency = {
                   amount: job?.jobDetails?.salary?.min ?? 0,
                   currencyCode: siteData?.general?.currency,
@@ -548,16 +543,44 @@ const JobsList = ({
                             </label>
                           </div>
                         </div>
-                        <div className='mt-3 flex gap-4'>
-                          <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
-                            {(job?.jobDetails?.type as JobType)?.title}
-                          </div>
+                        <div className='mt-3 flex gap-2'>
+                          {job?.jobDetails?.type && (
+                            <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                              {(job?.jobDetails?.type as JobType)?.title}
+                            </div>
+                          )}
+                          {job?.jobDetails?.remote && (
+                            <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
+                              Remote
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 )
               })}
+            </div>
+            <div className='ite flex items-center justify-center gap-4'>
+              <Button
+                variant={'outline'}
+                className='rounded disabled:opacity-50'
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}>
+                Prev
+              </Button>
+              <span>
+                {currentPage} / {totalPages}
+              </span>
+              <Button
+                variant={'outline'}
+                className='rounded disabled:opacity-50'
+                onClick={() =>
+                  setCurrentPage(prev => Math.min(prev + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}>
+                Next
+              </Button>
             </div>
           </div>
         </div>

@@ -18,10 +18,19 @@ import { UserAccountVerification } from '@/emails/verify-email'
 import { migrations } from '@/migrations'
 import { blocksConfig } from '@/payload/blocks/blockConfig'
 import { revalidateAuthors } from '@/payload/hooks/revalidateAuthors'
-import { revalidateBlogs } from '@/payload/hooks/revalidateBlogs'
-import { revalidatePages } from '@/payload/hooks/revalidatePages'
+import {
+  revalidateBlogsAfterChange,
+  revalidateBlogsAfterDelete,
+} from '@/payload/hooks/revalidateBlogs'
+import {
+  revalidatePagesAfterChange,
+  revalidatePagesAfterDelete,
+} from '@/payload/hooks/revalidatePages'
 import { revalidateSiteSettings } from '@/payload/hooks/revalidateSiteSettings'
-import { revalidateTags } from '@/payload/hooks/revalidateTags'
+import {
+  revalidateTagsAfterChange,
+  revalidateTagsAfterDelete,
+} from '@/payload/hooks/revalidateTags'
 import { jobBoard } from '@/plugins/job-board'
 
 const filename = fileURLToPath(import.meta.url)
@@ -121,19 +130,22 @@ export default cqlConfig({
     {
       ...PagesCollection({ blocks: blocksConfig }),
       hooks: {
-        afterChange: [revalidatePages],
+        afterChange: [revalidatePagesAfterChange],
+        afterDelete: [revalidatePagesAfterDelete],
       },
     },
     {
       ...BlogsCollection,
       hooks: {
-        afterChange: [revalidateBlogs],
+        afterChange: [revalidateBlogsAfterChange],
+        afterDelete: [revalidateBlogsAfterDelete],
       },
     },
     {
       ...TagsCollection,
       hooks: {
-        afterChange: [revalidateTags],
+        afterChange: [revalidateTagsAfterChange],
+        afterDelete: [revalidateTagsAfterDelete],
       },
     },
     MediaCollection,
@@ -194,6 +206,24 @@ export default cqlConfig({
       ],
     },
   }),
+
+  formBuilderPluginOptions: {
+    formSubmissionOverrides: {
+      extraFields: [
+        {
+          name: 'jobPost',
+          type: 'relationship',
+          relationTo: 'jobPosts',
+          label: 'Job Post',
+          admin: {
+            position: 'sidebar',
+            readOnly: true,
+          },
+        },
+      ],
+    },
+  },
+
   plugins: [jobBoard()],
   sharp: sharp,
 })

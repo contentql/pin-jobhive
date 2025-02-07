@@ -1,11 +1,13 @@
 import { DetailsType, Page } from '@payload-types'
 import { revalidateTag } from 'next/cache'
-import type { CollectionAfterChangeHook } from 'payload'
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+} from 'payload'
 
-export const revalidatePages: CollectionAfterChangeHook<Page> = async ({
-  doc,
-  req: { payload },
-}) => {
+export const revalidatePagesAfterChange: CollectionAfterChangeHook<
+  Page
+> = async ({ doc, req: { payload } }) => {
   // checking for dynamic blocks present in page or not
   const dynamicBlock = doc?.layout?.find(
     block => block.blockType === 'Details' && block.collectionSlug,
@@ -13,6 +15,71 @@ export const revalidatePages: CollectionAfterChangeHook<Page> = async ({
 
   // if page is published & there is no dynamic block directly revalidating the page
   if (doc._status === 'published' && !dynamicBlock) {
+    revalidateTag(`page-${doc?.path}`)
+    console.log(`revalidated page-${doc?.path} at ${new Date().getTime()}`)
+  }
+  // else fetching the records of that dynamic-block
+  else if (dynamicBlock) {
+    const { collectionSlug } = dynamicBlock
+
+    if (collectionSlug) {
+      const { docs } = await payload.find({
+        collection: collectionSlug,
+        limit: 1000,
+        select: {
+          username: true,
+          slug: true,
+        },
+      })
+
+      if (docs.length > 0) {
+        let basePath = doc?.path
+
+        docs.forEach(doc => {
+          let modifiedPath = basePath
+
+          // Guarding against possible types
+          if ('username' in doc) {
+            if (modifiedPath) {
+              modifiedPath = modifiedPath.replace(/\[(.*?)\]/, doc.username)
+            }
+          } else if ('slug' in doc) {
+            if (modifiedPath && doc.slug) {
+              modifiedPath = modifiedPath.replace(/\[(.*?)\]/, doc.slug)
+            }
+          }
+
+          // Adding a guard for `jobDetails.slug` if it exists
+          if ('jobDetails' in doc && doc.jobDetails?.slug && modifiedPath) {
+            modifiedPath = modifiedPath.replace(
+              /\[(.*?)\]/,
+              doc.jobDetails.slug,
+            )
+          }
+
+          // Ensure modifiedPath is not null or undefined before revalidating
+          if (modifiedPath) {
+            revalidateTag(`page-${modifiedPath}`)
+            console.log(
+              `revalidated page-${modifiedPath} at ${new Date().getTime()}`,
+            )
+          }
+        })
+      }
+    }
+  }
+}
+
+export const revalidatePagesAfterDelete: CollectionAfterDeleteHook<
+  Page
+> = async ({ doc, req: { payload } }) => {
+  // checking for dynamic blocks present in page or not
+  const dynamicBlock = doc?.layout?.find(
+    block => block.blockType === 'Details' && block.collectionSlug,
+  ) as DetailsType | undefined
+
+  // if page is published & there is no dynamic block directly revalidating the page
+  if (!dynamicBlock) {
     revalidateTag(`page-${doc?.path}`)
     console.log(`revalidated page-${doc?.path} at ${new Date().getTime()}`)
   }

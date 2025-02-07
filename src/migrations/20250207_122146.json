@@ -9495,6 +9495,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "job_post_id": {
+          "name": "job_post_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "updated_at": {
           "name": "updated_at",
           "type": "text",
@@ -9520,6 +9527,13 @@
           ],
           "isUnique": false
         },
+        "form_submissions_job_post_idx": {
+          "name": "form_submissions_job_post_idx",
+          "columns": [
+            "job_post_id"
+          ],
+          "isUnique": false
+        },
         "form_submissions_updated_at_idx": {
           "name": "form_submissions_updated_at_idx",
           "columns": [
@@ -9542,6 +9556,19 @@
           "tableTo": "forms",
           "columnsFrom": [
             "form_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "form_submissions_job_post_id_job_posts_id_fk": {
+          "name": "form_submissions_job_post_id_job_posts_id_fk",
+          "tableFrom": "form_submissions",
+          "tableTo": "job_posts",
+          "columnsFrom": [
+            "job_post_id"
           ],
           "columnsTo": [
             "id"
@@ -11727,6 +11754,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "6228d626-353c-49b8-9fd9-c78e615faba7",
+  "id": "81d811cf-03eb-4774-9be4-0bc6b17540b0",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

@@ -889,6 +889,7 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
+  jobPost?: (number | null) | JobPost;
   updatedAt: string;
   createdAt: string;
 }
@@ -1589,6 +1590,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         file?: T;
         id?: T;
       };
+  jobPost?: T;
   updatedAt?: T;
   createdAt?: T;
 }

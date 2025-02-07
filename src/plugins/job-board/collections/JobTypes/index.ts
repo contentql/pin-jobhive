@@ -1,4 +1,7 @@
-import { revalidateJobTypes } from '../../hooks/revalidateJobTypes'
+import {
+  revalidateJobTypesAfterChange,
+  revalidateJobTypesAfterDelete,
+} from '../../hooks/revalidateJobTypes'
 import { JOBS_GROUP_NAME } from '../../utils/constants'
 import { formatString } from '../../utils/formatString'
 import { CollectionConfig } from 'payload'
@@ -23,7 +26,8 @@ export const JobTypes: CollectionConfig = {
     delete: ({ req: { user } }) => Boolean(user && user.role.includes('admin')), // Only admins can delete
   },
   hooks: {
-    afterChange: [revalidateJobTypes],
+    afterChange: [revalidateJobTypesAfterChange],
+    afterDelete: [revalidateJobTypesAfterDelete],
   },
   fields: [
     {
