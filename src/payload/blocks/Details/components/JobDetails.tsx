@@ -206,6 +206,7 @@ const JobDetails = ({
                   </span>
                 </div>
                 <ApplyJob
+                  jobId={job?.id}
                   formData={job?.application?.internalForm}
                   disableButton={
                     currentDate < startDate || closingDate < currentDate

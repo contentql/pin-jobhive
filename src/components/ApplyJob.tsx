@@ -13,9 +13,11 @@ import {
 const ApplyJob = ({
   formData,
   disableButton,
+  jobId,
 }: {
   formData: any
   disableButton: boolean
+  jobId: number
 }) => {
   return (
     <Dialog>
@@ -32,7 +34,7 @@ const ApplyJob = ({
           </DialogDescription>
         </DialogHeader>
 
-        <Form form={formData} />
+        <Form form={formData} jobId={jobId} />
       </DialogContent>
     </Dialog>
   )

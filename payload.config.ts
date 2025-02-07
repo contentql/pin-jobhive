@@ -206,6 +206,24 @@ export default cqlConfig({
       ],
     },
   }),
+
+  formBuilderPluginOptions: {
+    formSubmissionOverrides: {
+      extraFields: [
+        {
+          name: 'jobPost',
+          type: 'relationship',
+          relationTo: 'jobPosts',
+          label: 'Job Post',
+          admin: {
+            position: 'sidebar',
+            readOnly: true,
+          },
+        },
+      ],
+    },
+  },
+
   plugins: [jobBoard()],
   sharp: sharp,
 })

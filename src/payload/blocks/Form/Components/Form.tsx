@@ -23,9 +23,11 @@ export interface Data {
 const Form = ({
   form,
   className = '',
+  jobId,
 }: {
   form: FormType
   className?: string
+  jobId?: number
 }) => {
   const router = useRouter()
 
@@ -188,6 +190,7 @@ const Form = ({
           body: JSON.stringify({
             form: id,
             submissionData: formattedData,
+            jobPost: jobId,
           }),
           headers: {
             'Content-Type': 'application/json',
