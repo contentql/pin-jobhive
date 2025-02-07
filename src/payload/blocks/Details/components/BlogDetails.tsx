@@ -240,7 +240,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
           <div dangerouslySetInnerHTML={{ __html: purifiedHtml }} />
 
           <div className='not-prose mt-8 flex items-center justify-end gap-6 lg:hidden'>
-            <p className='text-secondary'>Share: </p>
+            <p className='text-muted'>Share: </p>
 
             <ShareList />
           </div>
@@ -284,7 +284,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({ blog }) => {
               })}
 
             <div className='mt-10 flex items-center gap-2'>
-              <p className='text-secondary'>Share: </p>
+              <p className='text-muted'>Share: </p>
 
               <ShareList />
             </div>
