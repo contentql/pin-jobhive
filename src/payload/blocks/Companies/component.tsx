@@ -12,7 +12,7 @@ const Companies: React.FC<CompaniesProps> = ({ params, ...block }) => {
       <div className='absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]'>
         <svg
           aria-hidden='true'
-          className='h-[40rem] w-[80rem] flex-none stroke-gray-200'>
+          className='h-[40rem] w-[80rem] flex-none stroke-border'>
           <defs>
             <pattern
               x='50%'
@@ -25,7 +25,10 @@ const Companies: React.FC<CompaniesProps> = ({ params, ...block }) => {
               <path d='M.5 200V.5H200' fill='none' />
             </pattern>
           </defs>
-          <svg x='50%' y='50%' className='overflow-visible fill-gray-50'>
+          <svg
+            x='50%'
+            y='50%'
+            className='overflow-visible fill-border dark:fill-border/50'>
             <path
               d='M-300 0h201v201h-201Z M300 200h201v201h-201Z'
               strokeWidth={0}
