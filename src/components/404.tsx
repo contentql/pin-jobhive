@@ -19,15 +19,13 @@ const PageNotFound: React.FC = () => {
 
   if (pathname === '/') {
     return (
-      <section className='flex min-h-screen flex-col items-center justify-center'>
-        <h1 className='text-4xl font-semibold text-gray-900'>
-          Welcome to JobHive Theme
-        </h1>
+      <section className='flex min-h-screen flex-col items-center justify-center text-slate-200'>
+        <h1 className='text-4xl font-semibold'>Welcome to JobHive Theme</h1>
 
-        <p className='my-4 p-2 text-center text-gray-600'>
+        <p className='my-4 p-2 text-center'>
           {isPending
             ? '⏰please hold-on this process might take some time'
-            : 'Click below👇 to instantly load demo Jobs, blogs, authors, and pages'}
+            : 'Click below👇 to instantly load demo Jobs, blogs and pages'}
         </p>
 
         <Button
