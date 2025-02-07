@@ -133,7 +133,7 @@ const JobsList = ({
 
   const totalPages = Math.ceil(filteredJobs?.length / jobsPerPage)
   const startIndex = (currentPage - 1) * jobsPerPage
-  const displayedJobs = jobs.slice(startIndex, startIndex + jobsPerPage)
+  const displayedJobs = filteredJobs.slice(startIndex, startIndex + jobsPerPage)
 
   const handleExperienceChange = (experienceLevel: number | null) => {
     setFilters(prev => ({
