@@ -20,7 +20,6 @@ export interface Config {
     jobTypes: JobType;
     jobRoles: JobRole;
     salaryRange: SalaryRange;
-    search: Search;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -38,7 +37,6 @@ export interface Config {
     jobTypes: JobTypesSelect<false> | JobTypesSelect<true>;
     jobRoles: JobRolesSelect<false> | JobRolesSelect<true>;
     salaryRange: SalaryRangeSelect<false> | SalaryRangeSelect<true>;
-    search: SearchSelect<false> | SearchSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -641,10 +639,6 @@ export interface Blog {
    * Contains only lowercase letters, numbers, and dashes.
    */
   slug?: string | null;
-  /**
-   * Save it as draft to schedule.
-   */
-  publishOn?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -662,14 +656,6 @@ export interface Tag {
   title: string;
   description: string;
   color?: ('blue' | 'gray' | 'red' | 'green' | 'yellow' | 'indigo' | 'purple' | 'pink') | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-  };
   /**
    * Contains only lowercase letters, numbers, and dashes.
    */
@@ -795,6 +781,14 @@ export interface JobPost {
    * Mark this job post to appear highlighted or featured in the listings.
    */
   featured?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -847,32 +841,6 @@ export interface SalaryRange {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search".
- */
-export interface Search {
-  id: number;
-  title?: string | null;
-  priority?: number | null;
-  doc:
-    | {
-        relationTo: 'blogs';
-        value: number | Blog;
-      }
-    | {
-        relationTo: 'tags';
-        value: number | Tag;
-      }
-    | {
-        relationTo: 'users';
-        value: number | User;
-      };
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -935,10 +903,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'salaryRange';
         value: number | SalaryRange;
-      } | null)
-    | ({
-        relationTo: 'search';
-        value: number | Search;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1261,7 +1225,6 @@ export interface BlogsSelect<T extends boolean = true> {
         image?: T;
       };
   slug?: T;
-  publishOn?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1275,13 +1238,6 @@ export interface TagsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   color?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1393,6 +1349,13 @@ export interface JobPostsSelect<T extends boolean = true> {
         internalForm?: T;
       };
   featured?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1430,17 +1393,6 @@ export interface SalaryRangeSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search_select".
- */
-export interface SearchSelect<T extends boolean = true> {
-  title?: T;
-  priority?: T;
-  doc?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

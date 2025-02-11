@@ -160,6 +160,19 @@ export default cqlConfig({
     },
   ],
 
+  searchPluginOptions: false,
+
+  seoPluginConfig: {
+    collections: ['pages', 'jobPosts', 'blogs'],
+    uploadsCollection: 'media',
+    tabbedUI: true,
+  },
+
+  schedulePluginOptions: {
+    enabled: false,
+    collections: [],
+  },
+
   editor: slateEditor({
     admin: {
       leaves: [
