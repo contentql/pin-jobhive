@@ -7,7 +7,7 @@ const ValuesConfig: Block = {
     singular: 'Values Block',
     plural: 'Values Blocks',
   },
-  //   imageURL: '/images/blocks/hero-block.png',
+  imageURL: '/images/blocks/values.png',
   fields: [
     {
       name: 'heading',

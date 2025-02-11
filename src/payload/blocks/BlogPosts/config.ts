@@ -7,7 +7,7 @@ const BlogPostsConfig: Block = {
     singular: 'BlogPosts Block',
     plural: 'BlogPosts Blocks',
   },
-  //   imageURL: '/images/blocks/hero-block.png',
+  imageURL: '/images/blocks/blog-posts.png',
   fields: [
     {
       name: 'heading',

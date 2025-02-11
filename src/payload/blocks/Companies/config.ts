@@ -7,7 +7,7 @@ const CompaniesConfig: Block = {
     singular: 'Companies Block',
     plural: 'Companies Blocks',
   },
-  //   imageURL: '/images/blocks/hero-block.png',
+  imageURL: '/images/blocks/companies.png',
   fields: [
     {
       name: 'heading',
