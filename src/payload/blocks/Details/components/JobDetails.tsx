@@ -27,7 +27,6 @@ const JobDetails = ({
   job: JobPost
   siteData: SiteSetting
 }) => {
-  console.log({ job })
   const jobPostedDate = format(
     new Date(job?.dates?.openingDate),
     'MMMM dd, yyyy',
@@ -185,12 +184,12 @@ const JobDetails = ({
                 {/* Job Type */}
                 <div className='mt-4 flex gap-2'>
                   {job?.jobDetails?.type && (
-                    <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                    <div className='rounded bg-primary/10 px-4 py-1 text-sm text-primary'>
                       {(job?.jobDetails?.type as JobType)?.title}
                     </div>
                   )}
                   {job?.jobDetails?.remote && (
-                    <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                    <div className='rounded bg-primary/10 px-4 py-1 text-sm text-primary'>
                       Remote
                     </div>
                   )}
@@ -227,7 +226,7 @@ const JobDetails = ({
         </div>
 
         <div className='flex w-full flex-col gap-8 lg:sticky lg:top-[84px] lg:w-1/2'>
-          <div className='  h-auto  rounded bg-foreground px-8 py-7'>
+          <div className='  h-auto  rounded-md bg-foreground px-8 py-7'>
             <div>
               <div className='mb-4 text-lg font-semibold'>Job Overview</div>
               <div className='flex flex-col gap-6'>
@@ -299,11 +298,11 @@ const JobDetails = ({
               </div>
             </div>
           </div>
-          <div className='  h-auto rounded bg-foreground px-8 py-7'>
+          <div className='  h-auto rounded-md bg-foreground px-8 py-7'>
             <div className='mb-4 text-lg font-semibold'>Job Location</div>
             <div>
               <iframe
-                className='h-64 w-full rounded'
+                className='h-64 w-full rounded-md'
                 loading='lazy'
                 src={`https://maps.google.com/maps?q=${job?.jobDetails?.location}&t=m&z=14&output=embed&iwloc=near`}
                 title='Hyderabad'
@@ -311,7 +310,7 @@ const JobDetails = ({
               />
             </div>
           </div>
-          <div className='  h-auto rounded bg-foreground px-8 py-7'>
+          <div className='  h-auto rounded-md bg-foreground px-8 py-7'>
             <div className='mb-4 text-lg font-semibold'>Job Skills</div>
             <div className='flex flex-wrap gap-2'>
               {job?.requirements?.skills?.map((skill, index) => (
@@ -323,14 +322,14 @@ const JobDetails = ({
               ))}
             </div>
           </div>
-          <div className='  h-auto rounded bg-foreground px-8 py-7'>
+          <div className='  h-auto rounded-md bg-foreground px-8 py-7'>
             <div className='flex flex-col gap-5'>
               <div className='flex items-center gap-5'>
                 <Image
                   alt={(job?.company?.logo as Media)?.alt || 'Company Logo'}
                   height={1000}
                   width={1000}
-                  className='size-20'
+                  className='size-20 rounded'
                   src={(job?.company?.logo as Media)?.url!}
                 />
                 <div>

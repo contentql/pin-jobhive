@@ -108,12 +108,12 @@ const FeaturedJobs: React.FC<FeaturedProps> = async ({ params, ...block }) => {
                   </div>
                   <div className='mt-3 flex gap-4'>
                     {job?.jobDetails?.type && (
-                      <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                      <div className='rounded bg-primary/10 px-4 py-1 text-sm text-primary'>
                         {(job?.jobDetails?.type as JobType)?.title}
                       </div>
                     )}
                     {job?.jobDetails?.remote && (
-                      <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
+                      <div className='rounded bg-primary/10 px-5 py-1 text-sm text-primary'>
                         Remote
                       </div>
                     )}

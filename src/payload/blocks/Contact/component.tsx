@@ -43,7 +43,7 @@ const Contact: React.FC<ContactProps> = ({ params, ...block }) => {
 
         {/* Contact Form */}
         <div className='mt-14 flex w-full justify-center'>
-          <div className='w-full max-w-2xl rounded bg-foreground p-6 shadow-lg sm:p-8'>
+          <div className='w-full max-w-2xl rounded-md bg-foreground p-6 shadow-lg sm:p-8'>
             <Form form={block.contactForm as FormType} />
           </div>
         </div>
