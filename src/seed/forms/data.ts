@@ -38,7 +38,7 @@ export const formsData: FormsDataType[] = [
 
       {
         name: 'resume',
-        label: 'Upload Resume',
+        label: 'Resume',
         size: 5,
         width: 100,
         multiple: true,
@@ -98,7 +98,7 @@ export const formsData: FormsDataType[] = [
 
       {
         name: 'resume',
-        label: 'Upload Resume',
+        label: 'Resume',
         size: 5,
         width: 100,
         multiple: true,
@@ -158,7 +158,7 @@ export const formsData: FormsDataType[] = [
 
       {
         name: 'resume',
-        label: 'Upload Resume',
+        label: 'Resume',
         size: 5,
         width: 100,
         multiple: true,
@@ -218,7 +218,7 @@ export const formsData: FormsDataType[] = [
 
       {
         name: 'resume',
-        label: 'Upload Resume',
+        label: 'Resume',
         size: 5,
         width: 100,
         multiple: true,
