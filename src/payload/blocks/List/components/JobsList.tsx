@@ -218,7 +218,7 @@ const JobsList = ({
         <div className='sticky top-[84px] hidden h-auto w-1/2 rounded bg-foreground px-8 py-7 lg:flex'>
           <div className='w-full'>
             <div className='mb-8'>
-              <h1 className='mb-5 font-semibold'>Job Type</h1>
+              <h1 className='mb-5 font-semibold'>Job Role</h1>
               <div className=' w-full'>
                 <Select
                   value={filters.category}
@@ -418,7 +418,8 @@ const JobsList = ({
                     <label>{filters.category}</label>
                   </div>
                 )}
-                {filters.selectedSalaryRange.min && (
+                {(filters.selectedSalaryRange.min ||
+                  filters.selectedSalaryRange.max) && (
                   <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
                     <label
                       className='mr-1 cursor-pointer text-red-500'
