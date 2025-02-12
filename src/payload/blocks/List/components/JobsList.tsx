@@ -215,10 +215,10 @@ const JobsList = ({
 
       <div className='mx-auto flex max-w-7xl gap-8 px-6 pb-32 pt-20 lg:px-8'>
         {/* Job Filter Section */}
-        <div className='sticky top-[84px] hidden h-auto w-1/2 rounded bg-foreground px-8 py-7 lg:flex'>
+        <div className='sticky top-[84px] hidden h-auto w-1/2 rounded-md bg-foreground px-8 py-7 lg:flex'>
           <div className='w-full'>
             <div className='mb-8'>
-              <h1 className='mb-5 font-semibold'>Job Type</h1>
+              <h1 className='mb-5 font-semibold'>Job Role</h1>
               <div className=' w-full'>
                 <Select
                   value={filters.category}
@@ -418,7 +418,8 @@ const JobsList = ({
                     <label>{filters.category}</label>
                   </div>
                 )}
-                {filters.selectedSalaryRange.min && (
+                {(filters.selectedSalaryRange.min ||
+                  filters.selectedSalaryRange.max) && (
                   <div className='flex items-center rounded bg-background px-4 py-1 text-sm'>
                     <label
                       className='mr-1 cursor-pointer text-red-500'
@@ -545,12 +546,12 @@ const JobsList = ({
                         </div>
                         <div className='mt-3 flex gap-2'>
                           {job?.jobDetails?.type && (
-                            <div className='rounded-full bg-primary/10 px-4 py-1 text-sm text-primary'>
+                            <div className='rounded bg-primary/10 px-4 py-1 text-sm text-primary'>
                               {(job?.jobDetails?.type as JobType)?.title}
                             </div>
                           )}
                           {job?.jobDetails?.remote && (
-                            <div className='rounded-full bg-primary/10 px-5 py-1 text-sm text-primary'>
+                            <div className='rounded bg-primary/10 px-5 py-1 text-sm text-primary'>
                               Remote
                             </div>
                           )}

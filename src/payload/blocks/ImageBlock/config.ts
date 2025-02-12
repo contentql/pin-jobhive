@@ -7,7 +7,7 @@ const ImageBlockConfig: Block = {
     singular: 'ImageBlock Block',
     plural: 'ImageBlock Blocks',
   },
-  //   imageURL: '/images/blocks/hero-block.png',
+  imageURL: '/images/blocks/image-block.png',
   fields: [
     {
       name: 'image',

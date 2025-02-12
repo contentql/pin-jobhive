@@ -151,7 +151,7 @@ const Details: React.FC<DetailsProps> = async ({ params, ...block }) => {
             },
           }),
         ['details', 'jobPosts', slug],
-        { tags: [`details-jobPosts-${slug}`] },
+        { tags: [`details-jobPost-${slug}`] },
       )()
 
       const job = docs.at(0)

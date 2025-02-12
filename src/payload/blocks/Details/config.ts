@@ -2,7 +2,7 @@ import { Block } from 'payload'
 
 const DetailsConfig: Block = {
   slug: 'Details',
-  imageURL: '/images/blocks/details-block.png',
+  imageURL: '/images/blocks/details.png',
   interfaceName: 'DetailsType',
   labels: {
     singular: 'Dynamic Content Block',

@@ -7,7 +7,7 @@ const ContactConfig: Block = {
     singular: 'Contact Block',
     plural: 'Contact Blocks',
   },
-  //   imageURL: '/images/blocks/hero-block.png',
+  imageURL: '/images/blocks/contact.png',
   fields: [
     {
       name: 'address',

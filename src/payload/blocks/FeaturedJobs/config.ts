@@ -7,7 +7,7 @@ const FeaturedJobsConfig: Block = {
     singular: 'FeaturedJobs Block',
     plural: 'FeaturedJobs Blocks',
   },
-  //   imageURL: '/images/blocks/hero-block.png',
+  imageURL: '/images/blocks/featured-jobs.png',
   fields: [
     {
       name: 'heading',

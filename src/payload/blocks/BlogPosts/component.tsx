@@ -28,7 +28,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ params, ...block }) => {
           return (
             <article
               key={index}
-              className='relative isolate flex flex-col justify-end overflow-hidden rounded bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80'>
+              className='relative isolate flex flex-col justify-end overflow-hidden rounded-md bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80'>
               <Image
                 height={1000}
                 width={1000}

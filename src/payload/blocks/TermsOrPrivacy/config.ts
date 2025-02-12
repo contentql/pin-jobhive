@@ -3,6 +3,7 @@ import { Block } from 'payload'
 const TermsOrPrivacyConfig: Block = {
   slug: 'TermsOrPrivacy',
   interfaceName: 'TermsOrPrivacyType',
+  imageURL: '/images/blocks/terms.png',
   labels: {
     plural: 'TermsOrPrivacy Blocks',
     singular: 'TermsOrPrivacy Block',
