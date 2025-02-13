@@ -8,7 +8,6 @@ import { tagRouter } from '@/trpc/routers/tag'
 import { authRouter } from './auth'
 import { formRouter } from './form'
 import { jobPostRouter } from './job-post'
-import { searchRouter } from './search'
 import { seedRouter } from './seed'
 import { userRouter } from './user/user-route'
 
@@ -21,7 +20,6 @@ export const appRouter = router({
   author: authorRouter,
   user: userRouter,
   // this is used for global search
-  search: searchRouter,
   form: formRouter,
   seed: seedRouter,
   jobPost: jobPostRouter,
